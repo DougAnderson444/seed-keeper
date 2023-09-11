@@ -1,6 +1,15 @@
 [package]
+authors = ["Doug Anderson <douganderson444@peerpiper.io>"]
+categories = ["cryptography", "security"]
+description = "Generate and encrypt crypto seeds using Argon2 and AES Key Encryption Keys"
+documentation = "https://docs.rs/seed-keeper-core"
 edition = "2021"
+homepage = "https://github.com/DougAnderson444/seed-keeper"
+license = "MIT OR Apache-2.0"
+license-file = "LICENSE"
 name = "seed-keeper-core"
+readme = "https://github.com/DougAnderson444/seed-keeper/README.md"
+repository = "https://github.com/DougAnderson444/seed-keeper.git"
 version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
