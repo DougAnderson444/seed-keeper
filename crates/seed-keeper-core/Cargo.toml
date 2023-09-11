@@ -8,7 +8,7 @@ homepage = "https://github.com/DougAnderson444/seed-keeper"
 license = "MIT OR Apache-2.0"
 license-file = "LICENSE"
 name = "seed-keeper-core"
-readme = "https://github.com/DougAnderson444/seed-keeper/README.md"
+readme = "README.md"
 repository = "https://github.com/DougAnderson444/seed-keeper.git"
 version = "0.1.0"
 
