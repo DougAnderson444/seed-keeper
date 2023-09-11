@@ -3,7 +3,8 @@ use std::ops::DerefMut;
 
 use argon2::Argon2;
 use argon2::Error;
-use secrecy::{CloneableSecret, DebugSecret, ExposeSecret, Secret, Zeroize};
+use secrecy::{CloneableSecret, DebugSecret, Zeroize};
+pub use secrecy::{ExposeSecret, Secret};
 
 pub mod wrap;
 
@@ -13,10 +14,11 @@ pub struct Input {
 }
 
 impl Input {
-    pub fn new(pwd: &[u8], salt: &[u8]) -> Self {
+    /// Takes any password an salt inputs which derefs into [u8]
+    pub fn new(pwd: impl AsRef<[u8]>, salt: impl AsRef<[u8]>) -> Self {
         Self {
-            passphrase: Secret::new(pwd.to_vec()),
-            salt: Secret::new(salt.to_vec()),
+            passphrase: Secret::new(pwd.as_ref().to_vec()),
+            salt: Secret::new(salt.as_ref().to_vec()),
         }
     }
 
@@ -33,10 +35,10 @@ impl Input {
     }
 }
 
-pub fn generate_seed(pwd: &[u8], salt: &[u8]) -> Result<SecretSeed, Error> {
+pub fn generate_seed(pwd: impl AsRef<[u8]>, salt: impl AsRef<[u8]>) -> Result<SecretSeed, Error> {
     let mut output_key_material = [0u8; 32]; // default size is 32 bytes
 
-    Argon2::default().hash_password_into(pwd, salt, &mut output_key_material)?;
+    Argon2::default().hash_password_into(pwd.as_ref(), salt.as_ref(), &mut output_key_material)?;
 
     Ok(SecretSeed::new(Seed(output_key_material)))
 }
@@ -129,10 +131,10 @@ mod tests {
 
     #[test]
     fn api_works() -> Result<(), Error> {
-        let password = b"some random words that you made up, for sure!";
+        let password = "some random words that you made up, for sure!".to_string();
         let salt = b"some@email.com"; // Salt should be unique per password
 
-        let input = Input::new(password, salt);
+        let input = Input::new(&password, salt);
 
         let seed = input.generate_seed()?;
 
