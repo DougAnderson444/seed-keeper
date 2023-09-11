@@ -1,1 +1,4 @@
 /target
+crates/seed-site/dist/index.html
+crates/seed-site/dist/seed-site-8635b4c8212221_bg.wasm
+crates/seed-site/dist/seed-site-8635b4c8212221.js

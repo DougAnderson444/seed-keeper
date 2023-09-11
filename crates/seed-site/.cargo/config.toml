@@ -1,0 +1,4 @@
+# rebuild the standard library with this same profile rather than the prebuilt standard library that’s distributed with the wasm32-unknown-unknown target
+[unstable]
+build-std = ["alloc", "core", "panic_abort", "std"]
+build-std-features = ["panic_immediate_abort"]
