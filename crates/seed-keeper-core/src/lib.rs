@@ -87,6 +87,12 @@ impl AsRef<[u8]> for Seed {
     }
 }
 
+impl AsRef<[u8; 32]> for Seed {
+    fn as_ref(&self) -> &[u8; 32] {
+        &self.0
+    }
+}
+
 impl PartialEq<Seed> for [u8] {
     fn eq(&self, other: &Seed) -> bool {
         self[..] == other[..]
