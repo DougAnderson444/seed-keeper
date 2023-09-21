@@ -2,7 +2,7 @@
 
 Seed Keeper Core is a small Rust library for managing a seed phrase and deriving keys from it.
 
-## Usage
+## Roundtrip Usage
 
 ```rust
 use seed_keeper_core::{rand_seed, Seed, Secret, ExposeSecret, derive_key};

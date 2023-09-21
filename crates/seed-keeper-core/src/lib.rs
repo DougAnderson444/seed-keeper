@@ -13,6 +13,9 @@ pub use secrecy::{ExposeSecret, Secret, SecretBytesMut};
 
 pub mod wrap;
 
+/// Use [Input] if you want to persist state of the passphrase and salt.
+///
+/// If you are looking for a one-time use, use [derive_key] function instead.
 pub struct Input {
     passphrase: Secret<Vec<u8>>,
     salt: Secret<Vec<u8>>,
@@ -28,7 +31,7 @@ impl Input {
     }
 
     /// Generates and returns a [Seed], wrapped in [Secret]
-    pub fn generate_seed(&self) -> Result<SecretSeed, Error> {
+    pub fn derive_key(&self) -> Result<SecretSeed, Error> {
         let mut output_key_material = [0u8; 32]; // default size is 32 bytes
 
         Argon2::default().hash_password_into(
@@ -37,7 +40,7 @@ impl Input {
             &mut output_key_material,
         )?;
 
-        Ok(SecretSeed::new(Seed(output_key_material)))
+        Ok(SecretSeed::new(Seed(output_key_material.into())))
     }
 }
 
@@ -48,7 +51,7 @@ pub fn derive_key(pwd: impl AsRef<[u8]>, salt: impl AsRef<[u8]>) -> Result<Secre
 
     Argon2::default().hash_password_into(pwd.as_ref(), salt.as_ref(), &mut output_key_material)?;
 
-    Ok(SecretSeed::new(Seed(output_key_material)))
+    Ok(SecretSeed::new(Seed(output_key_material.into())))
 }
 
 /// Generates and returns a random [Seed], wrapped in [Secret]
@@ -69,14 +72,20 @@ pub fn rand_seed() -> Secret<Seed> {
 
     rng.fill_bytes(&mut *output_key_material);
 
-    SecretSeed::new(Seed(*output_key_material))
+    SecretSeed::new(Seed(Zeroizing::new(*output_key_material)))
 }
 
+/// Seed is a wrapper around [u8; 32] to ensure it is always 32 bytes
+///
+/// To ensure users don't expose bytes to vulnerable memory,
+/// we insist they wrap their bytes in [Zeroizing] when they pass
+/// the bytes to [Seed].
 #[derive(Clone, Default, Debug, PartialEq)]
-pub struct Seed([u8; 32]);
+pub struct Seed(Zeroizing<[u8; 32]>);
 
 impl Seed {
-    pub fn new(seed: [u8; 32]) -> Self {
+    /// Creates a new [Seed] from a [u8; 32]
+    pub fn new(seed: Zeroizing<[u8; 32]>) -> Self {
         Self(seed)
     }
 }
@@ -100,19 +109,19 @@ impl Deref for Seed {
     type Target = [u8];
 
     fn deref(&self) -> &Self::Target {
-        &self.0
+        &*self.0
     }
 }
 
 impl DerefMut for Seed {
     fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
+        &mut *self.0
     }
 }
 
 impl AsRef<[u8]> for Seed {
     fn as_ref(&self) -> &[u8] {
-        &self.0
+        &*self.0
     }
 }
 
@@ -166,14 +175,14 @@ mod tests {
 
         let input = Input::new(&password, salt);
 
-        let seed = input.generate_seed()?;
+        let seed = input.derive_key()?;
 
         assert_eq!(
-            seed.expose_secret(),
-            &Seed([
+            **seed.expose_secret(),
+            [
                 164, 103, 254, 113, 126, 241, 57, 240, 100, 56, 243, 125, 155, 224, 40, 242, 178,
                 136, 222, 133, 220, 141, 127, 10, 88, 199, 181, 11, 241, 91, 149, 249
-            ])
+            ]
         );
 
         // print out Seed
@@ -183,11 +192,11 @@ mod tests {
         let seed = derive_key(password, salt)?;
 
         assert_eq!(
-            seed.expose_secret(),
-            &Seed([
+            **seed.expose_secret(),
+            [
                 164, 103, 254, 113, 126, 241, 57, 240, 100, 56, 243, 125, 155, 224, 40, 242, 178,
                 136, 222, 133, 220, 141, 127, 10, 88, 199, 181, 11, 241, 91, 149, 249
-            ])
+            ]
         );
 
         Ok(())
