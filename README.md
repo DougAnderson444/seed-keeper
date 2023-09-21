@@ -1,11 +1,23 @@
 # Seed Manager Workspace
 
--   [seed-keeper-core](crates/seed-keeper-core/README.md): Core functionality for Seed generation & encryption.
--   [seed-keeper-wit](crates/seed-site/README.md): (Coming soon) Wasm Interface Types for using Seed-Keeper-Core in WIT Components.
+- [seed-keeper-core](crates/seed-keeper-core/README.md): Core functionality for Seed generation & encryption.
+- [seed-keeper-wit](crates/seed-site/README.md): (Coming soon) Wasm Interface Types for using Seed-Keeper-Core in WIT Components.
 
 ## Seed Manager
 
 The Seed Manager is a tool for generating, encrypting and managing Seeds. It is used to generate, encrypt, decrypt, and view Seeds.
+
+## Tests
+
+Run all tests:
+
+```bash
+cargo test --workspace --all-targets
+```
+
+<------------------------------------------------------------------------------------------------------------------------>
+
+# FUTURE PLANS:
 
 ## Plugins
 

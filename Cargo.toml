@@ -1,6 +1,18 @@
 [workspace]
-members = ["crates/*"]
+members = [".", "crates/*"]
 resolver = "2"
+
+[workspace.dependencies]
+seed-keeper-core = { path = "crates/seed-keeper-core" }
+
+[package]
+name = "keeper"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[dependencies]
+seed-keeper-core = { workspace = true }
 
 # Optimize for small code size for release builds
 [profile.release]

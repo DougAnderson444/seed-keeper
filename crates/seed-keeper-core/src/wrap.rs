@@ -3,6 +3,7 @@
 //! See: https://docs.rs/aes-kw/0.2.1/aes_kw/
 use aes_kw::Kek;
 
+/// Encrypt data with a key that derefs to a slice of 32 bytes
 pub fn encrypt(key: [u8; 32], data: &[u8]) -> Vec<u8> {
     let kek = Kek::from(key);
     kek.wrap_vec(data).unwrap()

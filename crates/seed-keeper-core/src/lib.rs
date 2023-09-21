@@ -1,10 +1,15 @@
+// include readme
+#![doc = include_str!("../README.md")]
+
 use std::ops::Deref;
 use std::ops::DerefMut;
 
 use argon2::Argon2;
 use argon2::Error;
+use rand::prelude::*;
+use secrecy::zeroize::Zeroizing;
 use secrecy::{CloneableSecret, DebugSecret, Zeroize};
-pub use secrecy::{ExposeSecret, Secret};
+pub use secrecy::{ExposeSecret, Secret, SecretBytesMut};
 
 pub mod wrap;
 
@@ -22,6 +27,7 @@ impl Input {
         }
     }
 
+    /// Generates and returns a [Seed], wrapped in [Secret]
     pub fn generate_seed(&self) -> Result<SecretSeed, Error> {
         let mut output_key_material = [0u8; 32]; // default size is 32 bytes
 
@@ -35,12 +41,35 @@ impl Input {
     }
 }
 
-pub fn generate_seed(pwd: impl AsRef<[u8]>, salt: impl AsRef<[u8]>) -> Result<SecretSeed, Error> {
+/// Generate output key material using Argon2 passwrod hashing
+/// Function generates a [Seed] directly from a password and salt
+pub fn derive_key(pwd: impl AsRef<[u8]>, salt: impl AsRef<[u8]>) -> Result<SecretSeed, Error> {
     let mut output_key_material = [0u8; 32]; // default size is 32 bytes
 
     Argon2::default().hash_password_into(pwd.as_ref(), salt.as_ref(), &mut output_key_material)?;
 
     Ok(SecretSeed::new(Seed(output_key_material)))
+}
+
+/// Generates and returns a random [Seed], wrapped in [Secret]
+///
+/// Uses [rand::thread_rng] to generate a random [Seed]
+///
+/// # Example
+///
+/// ```rust
+/// use seed_keeper_core::{rand_seed, Seed, Secret, ExposeSecret};
+///
+/// let seed: Secret<Seed> = rand_seed();
+/// assert_eq!(seed.expose_secret().len(), 32);
+/// ````
+pub fn rand_seed() -> Secret<Seed> {
+    let mut rng = rand::thread_rng();
+    let mut output_key_material = Zeroizing::new([0u8; 32]); // default size is 32 bytes
+
+    rng.fill_bytes(&mut *output_key_material);
+
+    SecretSeed::new(Seed(*output_key_material))
 }
 
 #[derive(Clone, Default, Debug, PartialEq)]
@@ -118,11 +147,6 @@ mod tests {
         let mut output_key_material_2 = Seed::default(); // default size is 32 bytes
         let mut output_key_material_3: Vec<u8> = vec![0; 48]; // non-zero length vectors are ok too
 
-        let input = Input {
-            passphrase: Secret::new(password.to_vec()),
-            salt: Secret::new(salt.to_vec()),
-        };
-
         Argon2::default().hash_password_into(password, salt, &mut output_key_material_1)?;
         Argon2::default().hash_password_into(password, salt, &mut output_key_material_2)?;
         Argon2::default().hash_password_into(password, salt, &mut output_key_material_3)?;
@@ -156,7 +180,7 @@ mod tests {
         println!("Seed {:?}", seed);
 
         // also for direct fn
-        let seed = generate_seed(password, salt)?;
+        let seed = derive_key(password, salt)?;
 
         assert_eq!(
             seed.expose_secret(),
@@ -165,6 +189,16 @@ mod tests {
                 136, 222, 133, 220, 141, 127, 10, 88, 199, 181, 11, 241, 91, 149, 249
             ])
         );
+
+        Ok(())
+    }
+
+    // using rand_seed works too
+    #[test]
+    fn rand_seed_works() -> Result<(), Error> {
+        let seed = rand_seed();
+
+        assert_eq!(seed.expose_secret().len(), 32);
 
         Ok(())
     }
