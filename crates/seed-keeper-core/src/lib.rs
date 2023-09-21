@@ -1,17 +1,17 @@
 // include readme
 #![doc = include_str!("../README.md")]
 
-use std::ops::Deref;
-use std::ops::DerefMut;
+pub mod wrap;
 
-use argon2::Argon2;
-use argon2::Error;
-use rand::prelude::*;
-use secrecy::zeroize::Zeroizing;
-use secrecy::{CloneableSecret, DebugSecret, Zeroize};
+pub use argon2::Error;
+pub use secrecy::zeroize::Zeroizing;
 pub use secrecy::{ExposeSecret, Secret, SecretBytesMut};
 
-pub mod wrap;
+use argon2::Argon2;
+use rand::prelude::*;
+use secrecy::{CloneableSecret, DebugSecret, Zeroize};
+use std::ops::Deref;
+use std::ops::DerefMut;
 
 /// Use [Input] if you want to persist state of the passphrase and salt.
 ///
@@ -31,6 +31,13 @@ impl Input {
     }
 
     /// Generates and returns a [Seed], wrapped in [Secret]
+    /// Generate output key material using Argon2 passwrod hashing
+    /// Function generates a [Seed] directly from a password and salt
+    ///
+    /// Password must be a minimum of 8 bytes
+    /// Salt ust be a minimum of 4 bytes long
+    ///
+    /// Otherwise, an Argon2 [Error] is returned
     pub fn derive_key(&self) -> Result<SecretSeed, Error> {
         let mut output_key_material = [0u8; 32]; // default size is 32 bytes
 
@@ -46,6 +53,11 @@ impl Input {
 
 /// Generate output key material using Argon2 passwrod hashing
 /// Function generates a [Seed] directly from a password and salt
+///
+/// Password must be a minimum of 8 bytes
+/// Salt ust be a minimum of 4 bytes long
+///
+/// Otherwise, an Argon2 [Error] is returned
 pub fn derive_key(pwd: impl AsRef<[u8]>, salt: impl AsRef<[u8]>) -> Result<SecretSeed, Error> {
     let mut output_key_material = [0u8; 32]; // default size is 32 bytes
 
