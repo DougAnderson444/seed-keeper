@@ -1,6 +1,7 @@
 // include readme
 #![doc = include_str!("../README.md")]
 
+pub mod seed;
 pub mod wrap;
 
 pub use argon2::Error;
@@ -8,10 +9,7 @@ pub use secrecy::zeroize::Zeroizing;
 pub use secrecy::{ExposeSecret, Secret, SecretBytesMut};
 
 use argon2::Argon2;
-use rand::prelude::*;
-use secrecy::{CloneableSecret, DebugSecret, Zeroize};
-use std::ops::Deref;
-use std::ops::DerefMut;
+use seed::Seed;
 
 /// Use [Input] if you want to persist state of the passphrase and salt.
 ///
@@ -38,16 +36,15 @@ impl Input {
     /// Salt ust be a minimum of 4 bytes long
     ///
     /// Otherwise, an Argon2 [Error] is returned
-    pub fn derive_key(&self) -> Result<SecretSeed, Error> {
-        let mut output_key_material = [0u8; 32]; // default size is 32 bytes
-
+    pub fn derive_key(&self) -> Result<Secret<Seed>, Error> {
+        let mut output_key_material = Zeroizing::new([0u8; 32]);
         Argon2::default().hash_password_into(
             self.passphrase.expose_secret(),
             self.salt.expose_secret(),
-            &mut output_key_material,
+            &mut *output_key_material,
         )?;
 
-        Ok(SecretSeed::new(Seed(output_key_material.into())))
+        Ok(Secret::new(Seed::new(output_key_material)))
     }
 }
 
@@ -58,113 +55,29 @@ impl Input {
 /// Salt ust be a minimum of 4 bytes long
 ///
 /// Otherwise, an Argon2 [Error] is returned
-pub fn derive_key(pwd: impl AsRef<[u8]>, salt: impl AsRef<[u8]>) -> Result<SecretSeed, Error> {
-    let mut output_key_material = [0u8; 32]; // default size is 32 bytes
-
-    Argon2::default().hash_password_into(pwd.as_ref(), salt.as_ref(), &mut output_key_material)?;
-
-    Ok(SecretSeed::new(Seed(output_key_material.into())))
-}
-
-/// Generates and returns a random [Seed], wrapped in [Secret]
-///
-/// Uses [rand::thread_rng] to generate a random [Seed]
-///
-/// # Example
-///
-/// ```rust
-/// use seed_keeper_core::{rand_seed, Seed, Secret, ExposeSecret};
-///
-/// let seed: Secret<Seed> = rand_seed();
-/// assert_eq!(seed.expose_secret().len(), 32);
-/// ````
-pub fn rand_seed() -> Secret<Seed> {
-    let mut rng = rand::thread_rng();
+pub fn derive_key(pwd: impl AsRef<[u8]>, salt: impl AsRef<[u8]>) -> Result<Secret<Seed>, Error> {
     let mut output_key_material = Zeroizing::new([0u8; 32]); // default size is 32 bytes
 
-    rng.fill_bytes(&mut *output_key_material);
+    Argon2::default().hash_password_into(pwd.as_ref(), salt.as_ref(), &mut *output_key_material)?;
 
-    SecretSeed::new(Seed(Zeroizing::new(*output_key_material)))
-}
-
-/// Seed is a wrapper around [u8; 32] to ensure it is always 32 bytes
-///
-/// To ensure users don't expose bytes to vulnerable memory,
-/// we insist they wrap their bytes in [Zeroizing] when they pass
-/// the bytes to [Seed].
-#[derive(Clone, Default, Debug, PartialEq)]
-pub struct Seed(Zeroizing<[u8; 32]>);
-
-impl Seed {
-    /// Creates a new [Seed] from a [u8; 32]
-    pub fn new(seed: Zeroizing<[u8; 32]>) -> Self {
-        Self(seed)
-    }
-}
-
-impl Zeroize for Seed {
-    fn zeroize(&mut self) {
-        self.0.zeroize();
-    }
-}
-
-/// Permits cloning
-impl CloneableSecret for Seed {}
-
-/// Provides a `Debug` impl (by default `[[REDACTED]]`)
-impl DebugSecret for Seed {}
-
-/// Use this alias when storing secret values
-pub type SecretSeed = Secret<Seed>;
-
-impl Deref for Seed {
-    type Target = [u8];
-
-    fn deref(&self) -> &Self::Target {
-        &*self.0
-    }
-}
-
-impl DerefMut for Seed {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut *self.0
-    }
-}
-
-impl AsRef<[u8]> for Seed {
-    fn as_ref(&self) -> &[u8] {
-        &*self.0
-    }
-}
-
-impl AsRef<[u8; 32]> for Seed {
-    fn as_ref(&self) -> &[u8; 32] {
-        &self.0
-    }
-}
-
-impl PartialEq<Seed> for [u8] {
-    fn eq(&self, other: &Seed) -> bool {
-        self[..] == other[..]
-    }
-}
-
-impl PartialEq<Seed> for [u8; 32] {
-    fn eq(&self, other: &Seed) -> bool {
-        self[..] == other[..]
-    }
+    Ok(Secret::new(Seed::new(output_key_material)))
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
+    use secrecy::DebugSecret;
+
+    /// Debug Secret Seed
+    impl DebugSecret for Seed {}
+
     #[test]
     fn it_works() -> Result<(), Error> {
         let salt = b"some@email.com"; // Salt should be unique per password
         let password = b"some random words that you made up, for sure!";
 
-        let mut output_key_material_1 = [0u8; 32]; // Can be any desired size
+        let mut output_key_material_1 = Seed::new(Zeroizing::new([0u8; 32]));
         let mut output_key_material_2 = Seed::default(); // default size is 32 bytes
         let mut output_key_material_3: Vec<u8> = vec![0; 48]; // non-zero length vectors are ok too
 
@@ -174,8 +87,9 @@ mod tests {
 
         assert_eq!(output_key_material_1, output_key_material_2);
 
-        output_key_material_1.zeroize();
-        output_key_material_2.zeroize();
+        drop(output_key_material_1);
+        drop(output_key_material_2);
+        drop(output_key_material_3);
 
         Ok(())
     }
@@ -210,16 +124,6 @@ mod tests {
                 136, 222, 133, 220, 141, 127, 10, 88, 199, 181, 11, 241, 91, 149, 249
             ]
         );
-
-        Ok(())
-    }
-
-    // using rand_seed works too
-    #[test]
-    fn rand_seed_works() -> Result<(), Error> {
-        let seed = rand_seed();
-
-        assert_eq!(seed.expose_secret().len(), 32);
 
         Ok(())
     }

@@ -1,19 +1,20 @@
+use seed_keeper_core::seed::{rand_seed, Seed};
 use seed_keeper_core::wrap::{decrypt, encrypt};
-use seed_keeper_core::{derive_key, rand_seed, ExposeSecret, Secret, Seed};
+use seed_keeper_core::{derive_key, ExposeSecret, Secret};
 
 #[test]
 pub fn integration_tests() {
     // Generate a secure random seed of 32 bytes:
 
-    let seed: Secret<Seed> = rand_seed();
-    assert_eq!(seed.expose_secret().len(), 32);
+    let seed: Seed = rand_seed();
+    assert_eq!(seed.len(), 32);
 
     // Generate output key material from a username and password:
 
     let password = "some random words that you made up, for sure!".to_string();
     let salt = b"some@email.com"; // Salt should be unique per password
 
-    let key = derive_key(password, salt).unwrap();
+    let key: Secret<Seed> = derive_key(password, salt).unwrap();
 
     assert_eq!(
         **key.expose_secret(),
@@ -24,11 +25,7 @@ pub fn integration_tests() {
     );
 
     // Protect your new seed by encrypting it with the password and salt key:
-
-    let encrypted = encrypt(
-        (**key.expose_secret()).try_into().unwrap(),
-        seed.expose_secret(),
-    );
+    let encrypted = encrypt((**key.expose_secret()).try_into().unwrap(), &seed);
     let decrypted = decrypt((**key.expose_secret()).try_into().unwrap(), &encrypted);
-    assert_eq!(**seed.expose_secret(), *decrypted.as_slice());
+    assert_eq!(*seed, *decrypted.as_slice());
 }
