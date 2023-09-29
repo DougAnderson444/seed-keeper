@@ -17,7 +17,6 @@ use seed_keeper_core::wrap::{encrypt, decrypt}; // utils to encrypt and decrypt 
 use seed_keeper_core::seed::{Seed, rand_seed}; // utils to generate a random seed
 
 // Generate a secure random seed of 32 bytes:
-
 let seed: Seed = rand_seed();
 assert_eq!(seed.len(), 32);
 

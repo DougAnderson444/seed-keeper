@@ -1595,7 +1595,7 @@ dependencies = [
 
 [[package]]
 name = "seed-keeper-core"
-version = "0.3.1"
+version = "0.3.2"
 dependencies = [
  "aes-kw",
  "argon2",
