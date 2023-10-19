@@ -34,11 +34,11 @@ jobs:
       - name: Install Trunk
         uses: mbround18/trunk-rs@v0.0.1
       - name: Build and Deploy Leptos Directory
-        run: cd crates/ && cd delano-leptos-site/ && trunk build --release --all-features
+        run: cd crates/ && cd seed-site/ && trunk build --release --all-features
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./crates/delano-leptos-site/dist
+          source: ./crates/seed-site/dist
           destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
