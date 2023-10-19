@@ -5,5 +5,5 @@ use leptos::*;
 // use components::App;
 
 fn main() {
-    mount_to_body(|cx| view! { cx,  <p>"Hello there, world!"</p> })
+    mount_to_body(|| view! {  <p>"Hello there, world!"</p> })
 }

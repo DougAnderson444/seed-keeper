@@ -6,7 +6,7 @@ resolver = "2"
 seed-keeper-core = { path = "crates/seed-keeper-core" }
 
 [package]
-name = "keeper"
+name = "seed-keeper"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"

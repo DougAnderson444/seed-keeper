@@ -1,6 +1,7 @@
 # Seed Keeper Workspace
 
-- [seed-keeper-core](crates/seed-keeper-core/README.md): Core functionality for Seed generation & encryption.
+- [seed-keeper-core](crates/seed-keeper-core/): Core functionality for Seed generation & encryption.
+- [seed-site](crates/seed-site/): Seed Keeper Demo Website.
 - (Coming soon) Wasm Interface Types for using Seed-Keeper-Core in WIT Components.
 
 ## Seed Keeper
