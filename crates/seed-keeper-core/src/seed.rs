@@ -47,6 +47,15 @@ impl Zeroize for Seed {
     }
 }
 
+impl From<Vec<u8>> for Seed {
+    fn from(seed: Vec<u8>) -> Self {
+        let mut bytes = [0u8; 32];
+        bytes.copy_from_slice(&seed[..32]);
+
+        Self::new(Zeroizing::new(bytes))
+    }
+}
+
 /// Zeroizes on drop
 impl ZeroizeOnDrop for Seed {}
 
