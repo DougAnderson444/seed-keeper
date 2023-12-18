@@ -23,16 +23,8 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Exit if not on master branch
-        if: endsWith(github.ref, 'master') == false
+        if: endsWith(github.ref, 'main') == false
         run: exit -1
-
-      # Use binstall
-      - name: Install binstall
-        uses: taiki-e/install-action@cargo-binstall
-      - name: Install cargo component
-        run: echo yes | cargo binstall cargo-component
-      - name: Cargo component build
-        run: cargo component build && cd crates/seed-keeper-wit &&  cargo component build --release
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@nightly
@@ -40,5 +32,15 @@ jobs:
           targets: wasm32-unknown-unknown, wasm32-wasi
           toolchain: nightly-x86_64-unknown-linux-gnu
           components: rust-src
+
+      # run `cargo component build` in the crates/delano-wit folder first
+      - name: Install binstall
+        uses: taiki-e/install-action@cargo-binstall
+      - name: Install cargo component
+        run: echo yes | cargo binstall cargo-component
+      - name: Cargo component build
+        run: cd crates/seed-keeper-wit && cargo component build --release
+
+      # run the tests
       - name: Run workspace tests
-        run: cargo component build && cargo test --workspace --verbose
+        run: cargo test --workspace --verbose
