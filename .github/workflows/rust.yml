@@ -42,4 +42,4 @@ jobs:
           components: rust-src
       - uses: actions/checkout@v3
       - name: Run workspace tests
-        run: cargo test --workspace --verbose
+        run: cargo component build && cargo test --workspace --verbose
