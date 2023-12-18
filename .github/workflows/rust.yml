@@ -20,10 +20,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Use binstall
+      - name: Install binstall
+        uses: taiki-e/install-action@cargo-binstall
+      - name: Install cargo component
+        run: echo yes | cargo binstall cargo-component
+      - name: Cargo component build
+        run: cd crates/seed-keeper-wit && cargo component build --release
+
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@nightly
         with:
-          targets: wasm32-unknown-unknown
+          targets: wasm32-unknown-unknown, wasm32-wasi
           toolchain: nightly-x86_64-unknown-linux-gnu
           components: rust-src
       - uses: actions/checkout@v3
