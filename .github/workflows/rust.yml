@@ -32,7 +32,7 @@ jobs:
       - name: Install cargo component
         run: echo yes | cargo binstall cargo-component
       - name: Cargo component build
-        run: cd crates/seed-keeper-wit && cargo component build --release
+        run: cd crates/seed-keeper-wit && cargo component build && cargo component build --release
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@nightly
@@ -42,4 +42,4 @@ jobs:
           components: rust-src
       - uses: actions/checkout@v3
       - name: Run workspace tests
-        run: cargo component build && cargo test --workspace --verbose
+        run: cargo test --workspace --verbose
