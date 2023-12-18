@@ -32,7 +32,7 @@ jobs:
       - name: Install cargo component
         run: echo yes | cargo binstall cargo-component
       - name: Cargo component build
-        run: ls && cd ./crates/seed-keeper-wit && cargo component build --release
+        run: cd crates/seed-keeper-wit && cargo component build --release
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@nightly
