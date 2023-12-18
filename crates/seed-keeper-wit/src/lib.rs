@@ -1,5 +1,3 @@
-#![feature(lazy_cell)]
-
 cargo_component_bindings::generate!();
 
 use crate::bindings::exports::seed_keeper::wallet::{
