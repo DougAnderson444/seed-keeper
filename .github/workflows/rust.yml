@@ -20,6 +20,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
+
+      - name: Exit if not on master branch
+        if: endsWith(github.ref, 'main') == false
+        run: exit -1
+
       # Use binstall
       - name: Install binstall
         uses: taiki-e/install-action@cargo-binstall
