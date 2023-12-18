@@ -120,6 +120,8 @@ mod wit_tests {
         let wasm_path = format!("target/wasm32-wasi/debug/{}.wasm", pkg_name);
         let wasm_path = workspace.join(wasm_path);
 
+        eprintln!("wasm_path: {:?}", wasm_path);
+
         let mut config = Config::new();
         config.cache_config_load_default()?;
         config.wasm_backtrace_details(wasmtime::WasmBacktraceDetails::Enable);
@@ -183,6 +185,8 @@ mod wit_tests {
         let workspace = workspace_dir();
         let wasm_path = format!("target/wasm32-wasi/debug/{}.wasm", pkg_name);
         let wasm_path = workspace.join(wasm_path);
+
+        eprintln!("wasm_path: {:?}", wasm_path);
 
         let mut config = Config::new();
         config.cache_config_load_default().unwrap();
