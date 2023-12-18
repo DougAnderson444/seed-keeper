@@ -32,7 +32,7 @@ jobs:
       - name: Install cargo component
         run: echo yes | cargo binstall cargo-component
       - name: Cargo component build
-        run: cd crates/seed-keeper-wit && cargo component build && cargo component build --release
+        run: cd crates/seed-keeper-wit && cargo component build --release
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@nightly
@@ -42,29 +42,4 @@ jobs:
           components: rust-src
       - uses: actions/checkout@v3
       - name: Run workspace tests
-        run: cargo test --workspace --verbose
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Install Trunk
-        uses: mbround18/trunk-rs@v0.0.1
-      - name: Build and Deploy Leptos Directory
-        run: cd crates/ && cd seed-site/ && trunk build --release --all-features
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./crates/seed-site/dist
-          destination: ./_site
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+        run: cargo component build && cargo test --workspace --verbose
