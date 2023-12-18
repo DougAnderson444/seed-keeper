@@ -133,7 +133,9 @@ fn test_seed_wit() -> wasmtime::Result<(), TestError> {
     // seed should be 32 bytes
     assert_eq!(seed.len(), 32);
     // those bytes should be not be all zeros
-    assert!(seed.iter().all(|&x| x != 0));
+    assert!(!seed.iter().all(|&x| x == 0));
+
+    // Now get the encrypted seed
 
     Ok(())
 }
