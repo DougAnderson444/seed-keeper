@@ -2,6 +2,7 @@
 
 - [seed-keeper-core](crates/seed-keeper-core/): Core functionality for Seed generation & encryption.
 - [seed-keeper-wit](crates/seed-keeper-wit/): Wasm Interface Type (WIT) Component for using Seed-Keeper-Core in Apps.
+- [seed-keeper-wit-ui](crates/seed-keeper-wit-ui/): A User Interface built on top of Wasm Component Model for the Seed Keeper.
 
 ## Seed Keeper
 
