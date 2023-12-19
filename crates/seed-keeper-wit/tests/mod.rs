@@ -42,24 +42,20 @@ static ENCRYPTED_KEY: OnceLock<Vec<u8>> = OnceLock::new();
 /// Implementing this trait gives us th ability to add_to_linker using SeedKeeper::add_to_linker
 impl bindgen::seed_keeper::wallet::types::Host for MyCtx {}
 
-impl bindgen::seed_keeper::wallet::seed_imports::Host for MyCtx {
+impl bindgen::seed_keeper::wallet::config::Host for MyCtx {
     /// Implement config function to return a username, password and optional encrypted key.
     fn get_config(
         &mut self,
-    ) -> Result<
-        Result<bindgen::seed_keeper::wallet::seed_imports::Credentials, String>,
-        wasmtime::Error,
-    > {
+    ) -> Result<Result<bindgen::seed_keeper::wallet::config::Credentials, String>, wasmtime::Error>
+    {
         let username = b"username for testing".to_vec();
         let password = b"password for testing".to_vec();
         let encrypted = ENCRYPTED_KEY.get();
-        Ok(Ok(
-            bindgen::seed_keeper::wallet::seed_imports::Credentials {
-                username,
-                password,
-                encrypted: encrypted.cloned(),
-            },
-        ))
+        Ok(Ok(bindgen::seed_keeper::wallet::config::Credentials {
+            username,
+            password,
+            encrypted: encrypted.cloned(),
+        }))
     }
 }
 
@@ -119,8 +115,6 @@ mod wit_tests {
         let workspace = workspace_dir();
         let wasm_path = format!("target/wasm32-wasi/debug/{}.wasm", pkg_name);
         let wasm_path = workspace.join(wasm_path);
-
-        eprintln!("wasm_path: {:?}", wasm_path);
 
         let mut config = Config::new();
         config.cache_config_load_default()?;
@@ -185,8 +179,6 @@ mod wit_tests {
         let workspace = workspace_dir();
         let wasm_path = format!("target/wasm32-wasi/debug/{}.wasm", pkg_name);
         let wasm_path = workspace.join(wasm_path);
-
-        eprintln!("wasm_path: {:?}", wasm_path);
 
         let mut config = Config::new();
         config.cache_config_load_default().unwrap();

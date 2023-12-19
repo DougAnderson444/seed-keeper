@@ -3,7 +3,7 @@ cargo_component_bindings::generate!();
 use crate::bindings::exports::seed_keeper::wallet::{
     encrypted::Guest as SaverGuest, seed_getter::Guest as KeeperGuest,
 };
-use bindings::seed_keeper::wallet::seed_imports::get_config;
+use bindings::seed_keeper::wallet::config::get_config;
 
 // use std::collections::HashMap;
 // use std::sync::LazyLock;

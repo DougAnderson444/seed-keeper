@@ -14,7 +14,7 @@ interface types {
     }
 }
 
-interface seed-imports {
+interface config {
     /// Import the types interface
     use types.{credentials};
 
@@ -38,7 +38,7 @@ interface seed-getter {
 /// An example world for the component to target.
 world keeper {
     /// Import the seed interface
-    import seed-imports;
+    import config;
 
     /// Export the seed interface
     export seed-getter;

@@ -36,7 +36,7 @@
 		let all_importables = [
 			{ 'seed-keeper:wit-ui/wurbo-in': importables.buildCodeString(listener.namespace) },
 			{
-				'seed-keeper:wallet/seed-imports': importables.buildConfigString({
+				'seed-keeper:wallet/config': importables.buildConfigString({
 					username: 'DougAnderson444',
 					password: 'password12345678'
 				})
