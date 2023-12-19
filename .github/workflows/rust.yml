@@ -1,4 +1,4 @@
-name: Build Rust & Deploy Leptos Page
+name: Build Rust
 
 on:
   push:
