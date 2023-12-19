@@ -148,7 +148,7 @@ mod wit_tests {
         // Now let's call the functions!
         // First, generate the seed by keeping the Credentials encrypted field as None
         let seed = bindings
-            .seed_keeper_wallet_seed_keeper()
+            .seed_keeper_wallet_seed_getter()
             .call_get_seed(&mut store)?
             .unwrap();
 
@@ -212,7 +212,7 @@ mod wit_tests {
         let (bindings, _) = bindgen::Keeper::instantiate(&mut store, &component, &linker).unwrap();
 
         let seed = bindings
-            .seed_keeper_wallet_seed_keeper()
+            .seed_keeper_wallet_seed_getter()
             .call_get_seed(&mut store)?
             .unwrap();
 
