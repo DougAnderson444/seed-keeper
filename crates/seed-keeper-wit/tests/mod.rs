@@ -159,7 +159,7 @@ mod wit_tests {
 
         // Now get the encrypted seed
         let encrypted = bindings
-            .seed_keeper_wallet_seed_saver()
+            .seed_keeper_wallet_encrypted()
             .call_get_encrypted(&mut store)?
             .unwrap();
 
@@ -222,7 +222,7 @@ mod wit_tests {
         // Now let's call the functions!
         // First, generate the seed by keeping the Credentials encrypted field as None
         let encrypted = bindings
-            .seed_keeper_wallet_seed_saver()
+            .seed_keeper_wallet_encrypted()
             .call_get_encrypted(&mut store)?
             .unwrap();
 

@@ -1,7 +1,7 @@
 cargo_component_bindings::generate!();
 
 use crate::bindings::exports::seed_keeper::wallet::{
-    seed_keeper::Guest as KeeperGuest, seed_saver::Guest as SaverGuest,
+    encrypted::Guest as SaverGuest, seed_getter::Guest as KeeperGuest,
 };
 use bindings::seed_keeper::wallet::seed_imports::get_config;
 

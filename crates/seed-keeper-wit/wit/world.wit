@@ -23,14 +23,14 @@ interface seed-imports {
     get-config: func() -> result<credentials, string>;
 }
 
-interface seed-saver {
+interface encrypted {
     /// Returns the encrypted seed or None if it doesn't exist
     get-encrypted: func() -> result<list<u8>, string>;
 }
 
 /// Exported interfaces of dependencies like seed keeper are not exported by the primary component
 /// This keeps out seed safely out of the public API
-interface seed-keeper {
+interface seed-getter {
     /// Get the plaintext seed
     get-seed: func() -> result<list<u8>, string>;
 }
@@ -41,6 +41,6 @@ world keeper {
     import seed-imports;
 
     /// Export the seed interface
-    export seed-keeper;
-    export seed-saver;
+    export seed-getter;
+    export encrypted;
 }
