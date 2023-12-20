@@ -1,4 +1,4 @@
-package component:edwards-wit;
+package component:edwards-wit@0.1.0;
 
 /// WIT interface exported by yourworld 
 interface operations {
