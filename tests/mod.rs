@@ -25,7 +25,7 @@ pub fn integration_tests() {
     );
 
     // Protect your new seed by encrypting it with the password and salt key:
-    let encrypted = encrypt((**key.expose_secret()).try_into().unwrap(), &seed);
-    let decrypted = decrypt((**key.expose_secret()).try_into().unwrap(), &encrypted);
+    let encrypted = encrypt((**key.expose_secret()).try_into().unwrap(), &seed).unwrap();
+    let decrypted = decrypt((**key.expose_secret()).try_into().unwrap(), &encrypted).unwrap();
     assert_eq!(*seed, *decrypted.as_slice());
 }
