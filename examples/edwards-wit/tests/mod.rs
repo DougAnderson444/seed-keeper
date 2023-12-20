@@ -71,7 +71,6 @@ pub enum TestError {
     SerdeJson(#[from] serde_json::Error),
 }
 
-/// Impl From<String> for TestError
 impl From<String> for TestError {
     fn from(s: String) -> Self {
         TestError::Stringified(s)
