@@ -2420,9 +2420,9 @@ dependencies = [
 
 [[package]]
 name = "wurbo"
-version = "0.1.1"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fd8d0adf15bbaa5ac2fac39044ec3b500823023dc48bac55a3d2db7fecc48903"
+checksum = "0315f660e411ef59939d2d61fa5205faaf6dfed26b308806f63676e371f8616f"
 dependencies = [
  "lazy_static",
  "minijinja",
