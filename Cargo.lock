@@ -610,6 +610,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "edwards-ui"
+version = "0.1.0"
+dependencies = [
+ "cargo-component-bindings",
+]
+
+[[package]]
 name = "edwards-wit"
 version = "0.1.0"
 dependencies = [
