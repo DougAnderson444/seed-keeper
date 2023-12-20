@@ -1,3 +1,7 @@
+//! A module to test the edwards-wit component in Rust.
+//!
+//! Note: In order for this to run, we need to include the WIT dependencies in ./wit/deps/*,
+//! which is copy and paste from the source directory.
 mod bindgen {
     wasmtime::component::bindgen!("example"); // name of the world in the .wit file
 }

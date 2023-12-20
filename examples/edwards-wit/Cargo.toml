@@ -23,4 +23,4 @@ package = "component:edwards-wit"
 [package.metadata.component.dependencies]
 
 [package.metadata.component.target.dependencies]
-"seed-keeper:wallet" = { path = "../../crates/seed-keeper-wit/wit" }  # directory containing the WIT package
+"seed-keeper:wallet" = { path = "../../crates/seed-keeper-wit/wit" }  # deps directory containing the WIT package
