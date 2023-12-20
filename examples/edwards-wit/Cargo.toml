@@ -1,0 +1,26 @@
+[package]
+name = "edwards-wit"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+cargo-component-bindings = "0.5.0"
+ed25519-dalek = "2.1"
+
+[dev-dependencies]
+wasmtime = { version = "15", features = ['component-model'] }
+wasmtime-wasi = "15.0.0"
+thiserror = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[package.metadata.component]
+package = "component:edwards-wit"
+
+[package.metadata.component.dependencies]
+
+[package.metadata.component.target.dependencies]
+"seed-keeper:wallet" = { path = "../../crates/seed-keeper-wit/wit" }  # directory containing the WIT package
