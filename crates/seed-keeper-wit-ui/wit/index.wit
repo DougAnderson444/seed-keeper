@@ -3,6 +3,7 @@ package seed-keeper:wit-ui@0.1.0;
 /// An example world for the component to target.
 world seedworld {
   import seed-keeper:wallet/encrypted@0.1.0;
+  import seed-keeper:wallet/config@0.1.0;
 
   import wurbo-in;
   export wurbo-out;

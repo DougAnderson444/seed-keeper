@@ -29,7 +29,29 @@ impl Output {
         )
     }
 
+    /// Load the given username and password into the config and then
+    /// get the encrypted seed back
     fn seed(&self) -> Value {
+        let config = Credentials {
+            username: self
+                .username
+                .as_ref()
+                .map(|v| v.value.clone())
+                .unwrap_or_default()
+                .into(),
+            password: self
+                .password
+                .as_ref()
+                .map(|v| v.value.clone())
+                .unwrap_or_default()
+                .into(),
+            encrypted: None,
+        };
+
+        if let Err(e) = set_config(&config) {
+            return Value::from(format!("Error in Output setting config: {:?}", e));
+        }
+
         Value::from(get_encrypted().map_err(|e| format!("{:?}", e)).unwrap())
     }
 }

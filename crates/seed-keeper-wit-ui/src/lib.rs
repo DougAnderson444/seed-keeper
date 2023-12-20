@@ -12,7 +12,11 @@ use page::Page;
 
 use std::ops::Deref;
 
-use bindings::seed_keeper::wallet::encrypted::get_encrypted;
+use bindings::seed_keeper::wallet::{
+    config::{set_config, Credentials},
+    encrypted::get_encrypted,
+};
+
 use bindings::seed_keeper::wit_ui::wurbo_in;
 
 // We will likely have other guests, so let's alias this one to WurboGuest
