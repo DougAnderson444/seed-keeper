@@ -1,0 +1,23 @@
+[package]
+name = "edwards-ui"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+cargo-component-bindings = "0.5.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[package.metadata.component]
+package = "component:edwards-ui"
+
+[package.metadata.component.dependencies]
+
+# used to specify a world the component is intended to target
+# defines the WIT package dependencies that may be referenced in the local WIT document
+[package.metadata.component.target.dependencies]
+# "component:edwards-wit" = { path = "wit/deps/edwards-wit" }
+"component:edwards-wit" = { path = "../edwards-wit/wit/deps/edwards-wit" }
