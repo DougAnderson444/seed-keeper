@@ -38,8 +38,8 @@ jobs:
         uses: taiki-e/install-action@cargo-binstall
       - name: Install cargo component
         run: echo yes | cargo binstall cargo-component
-      - name: Cargo component build
-        run: cd crates/seed-keeper-wit && cargo component build
+      - name: Cargo component build workspace
+        run: cargo component build --workspace
 
       # run the tests
       - name: Run workspace tests
