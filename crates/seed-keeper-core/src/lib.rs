@@ -1,6 +1,7 @@
 // include readme
 #![doc = include_str!("../README.md")]
 
+pub mod error;
 pub mod seed;
 pub mod wrap;
 

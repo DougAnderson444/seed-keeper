@@ -40,7 +40,7 @@ assert_eq!(
 let encrypted = encrypt(
         (**key.expose_secret()).try_into().unwrap(), // Deref &Seed to [u8; 32]
         &seed,
-    );
-let decrypted = decrypt((**key.expose_secret()).try_into().unwrap(), &encrypted);
+    ).unwrap();
+let decrypted = decrypt((**key.expose_secret()).try_into().unwrap(), &encrypted).unwrap();
 assert_eq!(*seed, *decrypted.as_slice());
 ```
