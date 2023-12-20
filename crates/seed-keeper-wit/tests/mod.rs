@@ -2,6 +2,8 @@ mod bindgen {
     wasmtime::component::bindgen!("keeper"); // name of the world in the .wit file
 }
 
+use bindgen::exports::seed_keeper::wallet::config;
+
 use serde::{Deserialize, Serialize};
 use std::sync::OnceLock;
 use std::{
@@ -41,23 +43,6 @@ static ENCRYPTED_KEY: OnceLock<Vec<u8>> = OnceLock::new();
 
 /// Implementing this trait gives us th ability to add_to_linker using SeedKeeper::add_to_linker
 impl bindgen::seed_keeper::wallet::types::Host for MyCtx {}
-
-impl bindgen::seed_keeper::wallet::config::Host for MyCtx {
-    /// Implement config function to return a username, password and optional encrypted key.
-    fn get_config(
-        &mut self,
-    ) -> Result<Result<bindgen::seed_keeper::wallet::config::Credentials, String>, wasmtime::Error>
-    {
-        let username = b"username for testing".to_vec();
-        let password = b"password for testing".to_vec();
-        let encrypted = ENCRYPTED_KEY.get();
-        Ok(Ok(bindgen::seed_keeper::wallet::config::Credentials {
-            username,
-            password,
-            encrypted: encrypted.cloned(),
-        }))
-    }
-}
 
 #[derive(Error, Debug)]
 pub enum TestError {
@@ -139,6 +124,18 @@ mod wit_tests {
 
         let (bindings, _) = bindgen::Keeper::instantiate(&mut store, &component, &linker)?;
 
+        // First, call set_config with Credentials with username and password of 8 bytes each
+        let config = config::Credentials {
+            username: b"username1".to_vec(),
+            password: b"password1".to_vec(),
+            encrypted: None,
+        };
+
+        bindings
+            .seed_keeper_wallet_config()
+            .call_set_config(&mut store, &config)?
+            .unwrap();
+
         // Now let's call the functions!
         // First, generate the seed by keeping the Credentials encrypted field as None
         let seed = bindings
@@ -202,6 +199,18 @@ mod wit_tests {
         let mut store = Store::new(&engine, state);
 
         let (bindings, _) = bindgen::Keeper::instantiate(&mut store, &component, &linker).unwrap();
+
+        // First, call set_config with encr as the encrypted seed
+        let config = config::Credentials {
+            username: fixtures.username,
+            password: fixtures.password,
+            encrypted: Some(encr.clone()),
+        };
+
+        bindings
+            .seed_keeper_wallet_config()
+            .call_set_config(&mut store, &config)?
+            .unwrap();
 
         let seed = bindings
             .seed_keeper_wallet_seed_getter()

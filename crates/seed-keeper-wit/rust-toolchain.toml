@@ -1,0 +1,3 @@
+# use nightly channel in rust-toolchain so we can use LazyLock
+[toolchain]
+channel = "nightly"

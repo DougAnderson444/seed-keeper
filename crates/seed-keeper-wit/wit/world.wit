@@ -20,7 +20,7 @@ interface config {
 
     /// Load into the component from an encrypted seed, password, and salt (username)
     /// Returns the encrypted seed or an error
-    get-config: func() -> result<credentials, string>;
+    set-config: func(config: credentials) -> result<_, string>;
 }
 
 interface encrypted {
@@ -37,8 +37,8 @@ interface seed-getter {
 
 /// An example world for the component to target.
 world keeper {
-    /// Import the seed interface
-    import config;
+    /// Export the ability for users to set the config of the seed keeper
+    export config;
 
     /// Export the seed interface
     export seed-getter;
