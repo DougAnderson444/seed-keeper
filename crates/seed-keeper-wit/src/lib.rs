@@ -2,10 +2,10 @@
 
 cargo_component_bindings::generate!();
 
-use crate::bindings::exports::seed_keeper::wallet::{
+use crate::bindings::exports::component::wallet::{
     config::Guest as ConfigGuest, encrypted::Guest as SaverGuest, seed_getter::Guest as KeeperGuest,
 };
-use bindings::seed_keeper::wallet::types::Credentials;
+use bindings::component::wallet::types::Credentials;
 
 use seed_keeper_core::seed::rand_seed;
 use seed_keeper_core::wrap::{decrypt, encrypt};

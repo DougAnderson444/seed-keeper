@@ -16,8 +16,5 @@ package = "component:edwards-ui"
 
 [package.metadata.component.dependencies]
 
-# used to specify a world the component is intended to target
-# defines the WIT package dependencies that may be referenced in the local WIT document
 [package.metadata.component.target.dependencies]
-# "component:edwards-wit" = { path = "wit/deps/edwards-wit" }
-"component:edwards-wit" = { path = "../edwards-wit/wit/deps/edwards-wit" }
+"component:edwards" = { path = "../edwards-wit/wit/deps/edwards" }

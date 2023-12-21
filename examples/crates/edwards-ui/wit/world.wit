@@ -2,7 +2,7 @@ package component:edwards-ui;
 
 /// An example world for the component to target.
 world example {
-    import component:edwards-wit/operations@0.1.0;
+    import component:edwards/operations@0.1.0;
 
     export hello-world: func() -> string;
 }

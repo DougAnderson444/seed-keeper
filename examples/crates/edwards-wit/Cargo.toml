@@ -18,14 +18,11 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 
 [package.metadata.component]
-package = "component:edwards-wit"
+package = "seed-keeper:edwards-wit"
 
 [package.metadata.component.dependencies]
 
-[package.metadata.component.target]
-path = "wit"
-
 # used to specify a world the component is intended to target
 [package.metadata.component.target.dependencies]
-"seed-keeper:wallet" = { path = "../../../crates/seed-keeper-wit/wit" }  # deps directory containing the WIT package
-
+"component:wallet" = { path = "../../../crates/seed-keeper-wit/wit/deps/wallet" } 
+"component:edwards" = { path = "wit/deps/edwards" }

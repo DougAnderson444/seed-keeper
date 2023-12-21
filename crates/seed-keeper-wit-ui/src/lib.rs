@@ -12,7 +12,7 @@ use page::Page;
 
 use std::ops::Deref;
 
-use bindings::seed_keeper::wallet::{
+use bindings::component::wallet::{
     config::{set_config, Credentials},
     encrypted::get_encrypted,
 };

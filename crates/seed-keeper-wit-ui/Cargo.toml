@@ -18,4 +18,4 @@ package = "seed-keeper:wit-ui"
 [package.metadata.component.dependencies]
 
 [package.metadata.component.target.dependencies]
-"seed-keeper:wallet" = { path = "../seed-keeper-wit/wit" }  # directory containing the WIT package
+"component:wallet" = { path = "../seed-keeper-wit/wit/deps/wallet" } 

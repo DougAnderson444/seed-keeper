@@ -1,7 +1,7 @@
 cargo_component_bindings::generate!();
 
-use bindings::exports::component::edwards_wit::operations::Guest;
-// use bindings::seed_keeper::wallet::seed_getter::get_seed;
+use bindings::component::wallet::seed_getter::get_seed;
+use bindings::exports::component::edwards::operations::Guest;
 
 use ed25519_dalek::SECRET_KEY_LENGTH;
 use ed25519_dalek::{Signature, Signer, SigningKey};
@@ -12,7 +12,7 @@ impl Guest for Component {
     /// Say hello!
     /// sign: func(message: list<u8>) -> list<u8>;
     fn sign(message: Vec<u8>) -> Result<Vec<u8>, String> {
-        let seed = [1u8; 32]; // get_seed()?;
+        let seed = get_seed()?;
         let seed: [u8; SECRET_KEY_LENGTH] = seed
             .clone()
             .try_into()
@@ -25,7 +25,7 @@ impl Guest for Component {
     /// Verify
     /// verify: func(message: list<u8>, signature: list<u8>) -> bool;
     fn verify(message: Vec<u8>, signature: Vec<u8>) -> Result<bool, String> {
-        let seed = [1u8; 32]; //  get_seed()?;
+        let seed = get_seed()?;
         let seed: [u8; SECRET_KEY_LENGTH] = seed
             .clone()
             .try_into()

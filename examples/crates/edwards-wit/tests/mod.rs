@@ -45,7 +45,7 @@ impl WasiView for MyCtx {
 ///
 /// Normally this would be implemented by another WIT component that is composed with this
 /// component, but for testing we mock it up below.
-impl bindgen::seed_keeper::wallet::seed_getter::Host for MyCtx {
+impl bindgen::component::wallet::seed_getter::Host for MyCtx {
     fn get_seed(&mut self) -> Result<Result<Vec<u8>, String>, wasmtime::Error> {
         let seed = vec![1u8; 32];
         Ok(Ok(seed))
@@ -141,12 +141,12 @@ mod edwards_example_wit_tests {
         // use bindings to sign a message
         let message = b"hello world";
         let signature = bindings
-            .component_edwards_wit_operations()
+            .component_edwards_operations()
             .call_sign(&mut store, message)??;
 
         // use bindings to verify the signature
         let is_valid = bindings
-            .component_edwards_wit_operations()
+            .component_edwards_operations()
             .call_verify(&mut store, message, &signature)??;
 
         assert!(is_valid);
