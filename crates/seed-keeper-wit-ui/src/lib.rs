@@ -17,10 +17,8 @@ use bindings::component::wallet::{
     encrypted::get_encrypted,
 };
 
-use bindings::seed_keeper::wit_ui::wurbo_in;
-
-// We will likely have other guests, so let's alias this one to WurboGuest
 use bindings::exports::seed_keeper::wit_ui::wurbo_out::Guest as WurboGuest;
+use bindings::seed_keeper::wit_ui::wurbo_in;
 use bindings::seed_keeper::wit_ui::wurbo_types::{self, Context};
 use wurbo::jinja::{Entry, Index, Rest, Templates};
 use wurbo::prelude_bindgen;
