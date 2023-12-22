@@ -1,0 +1,12 @@
+package component:wurbo@0.1.2;
+
+interface wurbo-out {
+
+  use wurbo-types.{context};
+
+  // renders the initial Web component with the given data
+  render: func(ctx: context) -> result<string, string>;
+
+  // activate listening 
+  activate: func();
+}

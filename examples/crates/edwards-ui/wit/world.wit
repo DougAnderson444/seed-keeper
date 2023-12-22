@@ -4,5 +4,6 @@ package component:edwards-ui;
 world example {
     import component:edwards/operations@0.1.0;
 
-    export hello-world: func() -> string;
+    import component:wurbo/wurbo-in@0.1.2;
+    export component:wurbo/wurbo-out@0.1.2;
 }

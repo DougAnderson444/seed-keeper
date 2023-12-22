@@ -1,0 +1,31 @@
+<div>
+  <div class="italic font-semibold">
+    The data you enter can't be seen by anyone else, since it's in a WebAssembly
+    sandbox. =)
+  </div>
+  <!-- when keyup fires, send this target.value to the template as a prop for rendering -->
+  <div class="flex">
+    <div class="flex-1">
+      <div class="flex-1">Message to Sign:</div>
+      <div class="flex-1">
+        <input
+          id="{{ input.message_input|on('keyup') }}"
+          name="message"
+          class="rounded border border-blue-400 bg-blue-100 text-neutral-700 p-2 m-2 placeholder:Enter"
+          placeholder="{{input.placeholder}}"
+        />
+      </div>
+    </div>
+    <div class="flex-1">
+      <div class="flex-1">
+        <button
+          id="{{ input.sign_button|on('click') }}"
+          class="rounded border border-blue-400 bg-red-100 text-neutral-700 p-2 m-2 placeholder:Enter"
+          name="submit"
+        >
+          Sign
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
