@@ -22,6 +22,41 @@ Compose the `seed-keeper-wit`, `seed-keeper-wit-ui`, and the seed consumers of y
 wasm-tools compose ./target/wasm32-wasi/release/seed_keeper_wit_ui.wasm -d ./target/wasm32-wasi/release/seed_keeper_wit.wasm -o examples/composed-wallet.wasm
 ```
 
+## Examples
+
+We can compose together an Edwards25519 Signer and an Edwards25519 User Interface (UI) to create a mini wallet that can sign messages. If we start without the `seed-keeper` we would need to provide the import to get the seed each time (which we can do with JavaScript).
+
+First we need to composed the Edwards Signer backend with the Edwards "input message & display signature" UI:
+
+```bash
+cargo component build --workspace --release
+wasm-tools compose ./target/wasm32-wasi/release/edwards_ui.wasm -d ./target/wasm32-wasi/release/edwards_wit.wasm -o examples/edwards-only.wasm
+```
+
+Then we can load this edwards only composed component into our Svelte app, using a simple seed provider import.
+
+We can see the interface for our new composed component by running:
+
+```bash
+wasm-tools component wit examples/edwards-only.wasm
+```
+
+Which shows our interfaces:
+
+```bash
+package root:component;
+
+world root {
+  import component:wurbo/wurbo-types;
+  import component:wurbo/wurbo-in;  
+  import component:wallet/seed-getter@0.1.0;
+
+  export component:edwards-ui/wurbo-out;
+}
+
+```
+
+
 ## Tests
 
 Run all tests:
