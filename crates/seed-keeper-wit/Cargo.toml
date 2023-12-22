@@ -10,8 +10,8 @@ cargo-component-bindings = { workspace = true }
 seed-keeper-core = { workspace = true }
 
 [dev-dependencies]
-wasmtime = { version = "15", features = ['component-model'] }
-wasmtime-wasi = "15.0.0"
+wasmtime = { version = "16", features = ['component-model'] }
+wasmtime-wasi = "16.0"
 thiserror = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
