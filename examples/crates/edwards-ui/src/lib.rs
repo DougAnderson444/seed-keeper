@@ -66,9 +66,8 @@ impl From<&wurbo_types::Context> for PageContext {
         match context {
             wurbo_types::Context::AllContent(c) => PageContext::from(c.clone()),
             wurbo_types::Context::Message(u) => PageContext::from(output::Message::from(u)),
-            // Submit doesn't provide any context (just an action), so we can go ahead and render
-            // the Output directly
-            wurbo_types::Context::Submit(_) => PageContext::from(output::Output::default()),
+            // Submit doesn't provide any context (just an action), we use the output.message STATE value
+            wurbo_types::Context::Submit(_) => PageContext::from(output::Signature::default()),
         }
     }
 }
@@ -97,6 +96,21 @@ impl From<output::Message> for PageContext {
                 .expect("AllContent should be rendered first before updates via Message happen")
         };
         state.output.message = message;
+        state
+    }
+}
+
+impl From<output::Signature> for PageContext {
+    fn from(mut sig: output::Signature) -> Self {
+        let mut state = {
+            LAST_STATE
+                .lock()
+                .unwrap()
+                .clone()
+                .expect("AllContent should be rendered first before this happens")
+        };
+        sig.sign(&state.output.message);
+        state.output.signature = sig;
         state
     }
 }

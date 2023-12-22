@@ -5,29 +5,7 @@ use super::*;
 pub(super) struct Output {
     id: Option<String>,
     pub(crate) message: Message,
-}
-
-impl Output {
-    /// Load the given message and button into the config and then
-    /// get the encrypted seed back
-    fn signature(&self) -> Value {
-        // sign mesage and return Value as signature only if message is not empty
-        // if message is empty, return Value as empty string
-        Value::from(
-            self.message
-                .as_ref()
-                .map(|v| match v.value.as_str() {
-                    "" => "".to_string(),
-                    msg => format!(
-                        "{:#x?}",
-                        sign(msg.as_bytes())
-                            .map_err(|e| format!("{:?}", e))
-                            .expect("error to be string")
-                    ),
-                })
-                .unwrap_or_default(),
-        )
-    }
+    pub(crate) signature: Signature,
 }
 
 /// Impleent StructObject for Output so we can use minijina to automagically calculate the length
@@ -36,7 +14,7 @@ impl StructObject for Output {
     fn get_field(&self, name: &str) -> Option<Value> {
         match name {
             "message" => Some(Value::from_struct_object(self.message.clone())),
-            "signature" => Some(self.signature()),
+            "signature" => Some(Value::from_struct_object(self.signature.clone())),
             // if self.id.is_some, use it, otherwise generate a new one
             "id" => Some(Value::from(self.id.clone().unwrap_or(utils::rand_id()))),
             _ => None,
@@ -45,7 +23,7 @@ impl StructObject for Output {
 
     /// So that debug will show the values
     fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["id", "message", "signature"])
+        Some(&["id", "message"])
     }
 }
 
@@ -84,6 +62,49 @@ impl From<Option<wurbo_types::Outrecord>> for Message {
 
 impl Deref for Message {
     type Target = Option<wurbo_types::Outrecord>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+/// Submit triggers the message input value to be signed
+#[derive(Debug, Default, Clone)]
+pub(crate) struct Signature(Vec<u8>);
+
+impl Signature {
+    /// Load the given message and button into the config and then
+    /// get the encrypted seed back
+    pub(crate) fn sign(&mut self, msg: &Message) {
+        let v = msg
+            .as_ref()
+            .map(|v| v.value.clone())
+            .unwrap_or_default()
+            .into_bytes();
+        if !v.is_empty() {
+            if let Ok(s) = sign(&v) {
+                self.0 = s;
+            }
+        }
+    }
+}
+
+impl StructObject for Signature {
+    fn get_field(&self, name: &str) -> Option<Value> {
+        match name {
+            "value" => Some(Value::from(self.0.clone())),
+            _ => None,
+        }
+    }
+
+    /// So that debug will show the values
+    fn static_fields(&self) -> Option<&'static [&'static str]> {
+        Some(&["value"])
+    }
+}
+
+impl Deref for Signature {
+    type Target = Vec<u8>;
 
     fn deref(&self) -> &Self::Target {
         &self.0

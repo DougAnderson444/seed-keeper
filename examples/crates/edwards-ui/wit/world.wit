@@ -1,4 +1,4 @@
-package component:edwards-ui;
+package seekee:edwards-ui@0.1.0;
 
 /// An example world for the component to target.
 world example {
