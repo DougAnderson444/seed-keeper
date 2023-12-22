@@ -22,7 +22,8 @@ package = "seed-keeper:edwards-wit"
 
 [package.metadata.component.dependencies]
 
-# used to specify a world the component is intended to target
 [package.metadata.component.target.dependencies]
-"component:wallet" = { path = "../../../crates/seed-keeper-wit/wit/deps/wallet" } 
 "component:edwards" = { path = "wit/deps/edwards" }
+# For some reason, the link below doesn't work fully, so we still need to copy the deps to
+# ./wit/deps/wallet in ADDITION to the link below. 
+"component:wallet" = { path = "../../../crates/seed-keeper-wit/wit/deps/wallet" } 
