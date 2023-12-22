@@ -1,0 +1,10 @@
+package example:calculator;
+
+interface calculate {
+    evaluate: func(expr: string) -> s32;
+}
+
+world calculator {
+    export calculate;
+    import component:math/addition@0.1.0;
+}

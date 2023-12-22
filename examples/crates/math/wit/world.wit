@@ -1,0 +1,5 @@
+package example:math@0.1.0;
+
+world example {
+    export component:math/addition@0.1.0;
+}
