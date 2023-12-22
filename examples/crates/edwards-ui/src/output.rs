@@ -93,6 +93,12 @@ impl StructObject for Signature {
     fn get_field(&self, name: &str) -> Option<Value> {
         match name {
             "value" => Some(Value::from(self.0.clone())),
+            "hex" => {
+                let literal = format!("{:X?}", self.0.clone());
+                // remove the [], the delimiter "," and the spaces
+                let literal = literal.replace("[", "").replace("]", "").replace(", ", "");
+                Some(Value::from(literal))
+            }
             _ => None,
         }
     }
