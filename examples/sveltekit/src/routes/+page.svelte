@@ -20,7 +20,7 @@
 	<!-- For each Svelte file in examples, display it -->
 	{#if load}
 		{#each examples as example}
-			<div>
+			<div class="border-2 border-dashed p-2 m-2">
 				<svelte:component this={example} {load} {importables} />
 			</div>
 		{/each}

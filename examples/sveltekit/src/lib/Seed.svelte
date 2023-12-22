@@ -50,7 +50,7 @@
 		let data = {
 			tag: 'all-content',
 			val: {
-				page: { title: "Let's generate a key and encrypt it with a username and password." },
+				page: { title: "Let's generate a seed, and encrypt it with a username and password." },
 				input: { placeholder: 'Enter a Username here' }
 			}
 		};
@@ -73,6 +73,7 @@
 <svelte:head>
 	<title>Seed Keeper</title>
 	<!-- The CSS is embedded in the HTML templates which is embedded in the wasm right now -->
+	<!-- TODO: instead of embedding the HTML, takes them as props so we can run them through Tailwindcss first -->
 	<!-- TODO: instead of embedding the HTML, takes them as props so we can run them through Tailwindcss first -->
 	<!-- TODO: instead of embedding the HTML, takes them as props so we can run them through Tailwindcss first -->
 	<script src="https://cdn.tailwindcss.com"></script>

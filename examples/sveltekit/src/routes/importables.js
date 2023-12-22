@@ -41,3 +41,17 @@ export function buildConfigString({ username, password, encrypted }) {
     }
   `;
 }
+
+// build a Uint8Array seed from a given string
+export function buildGetSeedFunc(str) {
+	// start off with a 32 bytes long Uint8Array
+	let bytes = new Uint8Array(32);
+
+	// fill 32 bytes of random bytes
+	window.crypto.getRandomValues(bytes);
+
+	// return a string of JavaScript that is the getSeed() function which returns a Uint8Array seed
+	return `export function getSeed() {
+      return new Uint8Array([${bytes.toString()}])
+  }`;
+}
