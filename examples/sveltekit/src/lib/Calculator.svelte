@@ -22,14 +22,13 @@
 	let mod;
 
 	let sum = 'Calculating...';
+	let sig = 'Calculating sig...';
 
 	onMount(async () => {
 		// ensure you are in the Browser environment to rollup your WIT Component
 		// const { load } = await import('rollup-plugin-wit-component');
 
 		let listener = new wurbo.Listener();
-
-		console.log({ listener });
 
 		// get your wasm bytes from your storage source
 		let wasmBytes = await fetch(wasmURL).then((res) => res.arrayBuffer());
@@ -39,8 +38,6 @@
 
 		// load the import handles into the Wasm component and get the ES module returned
 		mod = await load(wasmBytes, all_importables);
-
-		console.log({ mod });
 
 		sum = mod.calculate.evaluate('2+2');
 	});
@@ -53,6 +50,6 @@
 <div>
 	<h1 class="text-2xl font-semibold">Composed Calculator</h1>
 	<div>
-		Sum: {sum}
+		Sum: {sum} <br />
 	</div>
 </div>
