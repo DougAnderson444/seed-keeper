@@ -27,15 +27,14 @@ struct Component;
 
 /// We need to provide the templates for the macro to pull in
 fn get_templates() -> Templates {
-    let templates = Templates::new(
+    Templates::new(
         Index::new("page.html", include_str!("templates/page.html")),
         Entry::new("output.html", include_str!("templates/output.html")),
         Rest::new(vec![Entry::new(
             "input.html",
             include_str!("templates/input.html"),
         )]),
-    );
-    templates
+    )
 }
 
 // Macro builds the Component struct and implements the Guest trait for us, saving copy-and-paste
@@ -65,7 +64,7 @@ impl StructObject for PageContext {
     }
 }
 
-/// We received Context from the WIT ABO and need to convert it to PageContext
+/// We received Context from the WIT ABI and need to convert it to PageContext
 impl From<&wurbo_types::Context> for PageContext {
     fn from(context: &wurbo_types::Context) -> Self {
         // Output is not a type of context, because it is calculated from the other values
