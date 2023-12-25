@@ -4,7 +4,6 @@
 
 	// Import wasm component bytes as a url
 	import wasmURL from '../../../edwards-only.wasm?url';
-	// import wasmURL from '../../../../target/wasm32-wasi/release/edwards_ui.wasm?url';
 
 	// get imports from +page.svelte
 	export let importables;
