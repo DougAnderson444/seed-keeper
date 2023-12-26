@@ -1,0 +1,33 @@
+# https://github.com/bytecodealliance/wasm-tools/blob/main/crates/wasm-compose/CONFIG.md
+search-paths:
+  - ../../../target/wasm32-wasi/release
+
+dependencies:
+  seed-keeper:wit-ui/wurbo-out@0.1.0: ../../../target/wasm32-wasi/release/seed_keeper_wit_ui.wasm
+  seed-keeper:wallet@0.1.0: ../../../target/wasm32-wasi/release/seed_keeper_wit.wasm
+  example:edwards-ui/wurbo-out@0.1.0: ../../../target/wasm32-wasi/release/edwards_ui.wasm
+  component:wallet/encrypted@0.1.0: ../../../target/wasm32-wasi/release/seed_keeper_wit.wasm
+  component:wallet/config@0.1.0: ../../../target/wasm32-wasi/release/seed_keeper_wit.wasm
+  component:edwards/operations@0.1.0: ../../../target/wasm32-wasi/release/edwards_wit.wasm
+  component:wallet/seed-getter@0.1.0: ../../../target/wasm32-wasi/release/seed_keeper_wit.wasm
+
+instantiations:
+  root:
+    arguments:
+      seed-keeper:wit-ui/wurbo-out@0.1.0: seed-ui
+      example:edwards-ui/wurbo-out@0.1.0: edwards-ui
+  seed-ui:
+    dependency: seed-keeper:wit-ui@0.1.0
+    arguments:
+      component:wallet/encrypted@0.1.0: seed
+      component:wallet/config@0.1.0: seed
+  edwards-ui:
+    dependency: example:edwards-ui@0.1.0
+    arguments:
+      component:edwards/operations@0.1.0: edwards
+  edwards:
+    dependency: seed-keeper:edwards-wit@0.1.0
+    arguments:
+      component:wallet/seed-getter@0.1.0: seed
+  seed:
+    dependency: seed-keeper:wallet@0.1.0
