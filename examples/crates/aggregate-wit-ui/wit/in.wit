@@ -1,0 +1,10 @@
+package wallet:aggregate-wit-ui@0.1.0;
+
+interface wurbo-in {
+
+  use wurbo-types.{listen-details};
+
+  // Add an event listener to the given element
+  addeventlistener: func(details: listen-details);
+
+}

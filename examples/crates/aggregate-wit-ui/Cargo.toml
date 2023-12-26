@@ -1,0 +1,25 @@
+[package]
+name = "aggregate-wit-ui"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+cargo-component-bindings = { workspace = true }
+wurbo = "0.1.2"
+
+[lib]
+crate-type = ["cdylib"]
+
+[package.metadata.component]
+package = "wallet:aggregate-wit-ui"
+
+[package.metadata.component.dependencies]
+
+[package.metadata.component.target.dependencies]
+"seed-keeper:wit-ui" = { path = "../../../crates/seed-keeper-wit-ui/wit" }
+"ex:edwards-ui" = { path = "../edwards-ui/wit" }
+
+"component:edwards" = { path = "../edwards-wit/wit/deps/edwards" }
+"component:wallet" = { path = "../../../crates/seed-keeper-wit/wit/deps/wallet" } 

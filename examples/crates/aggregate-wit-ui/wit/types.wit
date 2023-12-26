@@ -1,0 +1,39 @@
+package wallet:aggregate-wit-ui@0.1.0;
+
+use example:edwards-ui/wurbo-out@0.1.0 as edwards-out;
+use seed-keeper:wit-ui/wurbo-out@0.1.0 as seed-out;
+
+interface wurbo-types {
+
+  use edwards-out.{context as edwards-context};
+  use seed-out.{context as seed-context};
+
+  // Details required in order to add an event listener to an element
+  record listen-details {
+    selector: string,
+    ty: string,
+  }
+
+  // Context for the minijinja rendering
+  record app {
+    title: string
+  }
+
+  // Content record for the initial content of the entire app
+  record content {
+    // pass in props like title, etc.
+    app: app,
+    // optionally pass in an encrypted seed to load
+    seed-ui: option<seed-context>,
+    // optionally pass in a message to sign or verify
+    edwards-ui: option<edwards-context>
+  }
+
+  // Context variants
+  variant context {
+    all-content(content),
+    seed(seed-context),
+    edwards(edwards-context)
+  }
+
+}
