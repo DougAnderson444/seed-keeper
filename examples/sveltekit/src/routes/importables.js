@@ -10,6 +10,15 @@ export function buildCodeString(namespace) {
               value: e.target.value,
             }
           };
+          // Build nested Contexts, recursively find all ancestor elements with data-slot attributes, wrap child context as value. 
+          // ie) {tag: slotNameGrandParent, value: {tag: slotNameParent, value: {tag: 'input', val: {value: 'foo'}}}}
+          let el = e.target.closest('[data-slot]');
+          while (el) {
+            ctx = { tag: el.dataset.slot, val: ctx };
+            el = el.closest('[data-slot]');
+          }
+          console.log(ctx);
+
           bc.postMessage(window.${namespace}.render(ctx));
         });
       }`;
