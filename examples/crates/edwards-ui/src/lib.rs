@@ -9,9 +9,9 @@ use output::Output;
 use page::Page;
 
 use bindings::component::edwards::operations::sign;
-use bindings::component::wurbo::wurbo_in;
-use bindings::component::wurbo::wurbo_types::{self, Context};
-use bindings::exports::component::wurbo::wurbo_out::Guest as WurboGuest;
+use bindings::example::edwards_ui::wurbo_in;
+use bindings::example::edwards_ui::wurbo_types::{self, Context};
+use bindings::exports::example::edwards_ui::wurbo_out::Guest as WurboGuest;
 
 use wurbo::jinja::{Entry, Index, Rest, Templates};
 use wurbo::prelude_bindgen;

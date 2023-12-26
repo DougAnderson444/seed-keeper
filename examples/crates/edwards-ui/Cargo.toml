@@ -13,11 +13,9 @@ wurbo = "0.1.2"
 crate-type = ["cdylib"]
 
 [package.metadata.component]
-package = "seekee:edwards-ui"
+package = "example:edwards-ui"
 
 [package.metadata.component.dependencies]
 
 [package.metadata.component.target.dependencies]
 "component:edwards" = { path = "../edwards-wit/wit/deps/edwards" }
-"component:math" = { path = "../math/wit/deps/math" }
-"component:wurbo" = { path = "wit/deps/wurbo" }

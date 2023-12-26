@@ -1,4 +1,4 @@
-package component:wurbo@0.1.2;
+package example:edwards-ui@0.1.0;
 
 interface wurbo-out {
 

@@ -1,9 +1,9 @@
-package seekee:edwards-ui@0.1.0;
+package example:edwards-ui@0.1.0;
 
 /// An example world for the component to target.
 world example {
     import component:edwards/operations@0.1.0;
 
-    import component:wurbo/wurbo-in@0.1.2;
-    export component:wurbo/wurbo-out@0.1.2;
+    import wurbo-in;
+    export wurbo-out;
 }
