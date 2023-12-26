@@ -32,12 +32,7 @@
 
 		// define the import handles you are giving to your component
 		let all_importables = [
-			{ 'component:wurbo/wurbo-in': importables.buildCodeString(listener.namespace) },
-			{
-				'component:wallet/seed-getter@0.1.0': importables.buildGetSeedFunc(
-					'build a test seed from this string'
-				)
-			}
+			{ 'component:wurbo/wurbo-in': importables.buildCodeString(listener.namespace) }
 		];
 
 		// load the import handles into the Wasm component and get the ES module returned
@@ -47,8 +42,7 @@
 		let data = {
 			tag: 'all-content',
 			val: {
-				page: { title: 'Use that seed to sign something.' },
-				input: { placeholder: 'Enter a Signable Message here.' }
+				app: { title: 'User Interface that Aggregates Seed and Algo together.' }
 			}
 		};
 		renderedHTML = mod.wurboOut.render(data);
