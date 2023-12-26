@@ -1,0 +1,12 @@
+search-paths:
+  - ../../../target/wasm32-wasi/release
+
+dependencies:
+  component:math/addition@0.1.0: ../../../target/wasm32-wasi/release/math.wasm
+
+instantiations:
+  root:
+    arguments:
+      component:math/addition@0.1.0:
+        instance: math
+        export: component:math/addition@0.1.0
