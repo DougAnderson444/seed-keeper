@@ -32,7 +32,10 @@
 
 		// define the import handles you are giving to your component
 		let all_importables = [
-			{ 'component:wurbo/wurbo-in': importables.buildCodeString(listener.namespace) }
+			{ 'component:wurbo/wurbo-in': importables.buildCodeString(listener.namespace) },
+			{ 'seed-keeper:wit-ui/wurbo-in': importables.buildCodeString(listener.namespace) },
+			{ 'example:edwards-ui/wurbo-in': importables.buildCodeString(listener.namespace) },
+			{ 'wallet:aggregate-wit-ui/wurbo-in': importables.buildCodeString(listener.namespace) }
 		];
 
 		// load the import handles into the Wasm component and get the ES module returned
