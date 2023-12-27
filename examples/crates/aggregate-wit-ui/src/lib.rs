@@ -48,16 +48,16 @@ prelude_bindgen! {WurboGuest, Component, AppContext, Context, LAST_STATE}
 #[derive(Debug, Clone)]
 struct AppContext {
     app: App,
-    seed_keeper: SeedKeeper,
-    edwards: Edwards,
+    seed_ui: SeedUI,
+    edwards_ui: Edwards,
 }
 
 impl StructObject for AppContext {
     fn get_field(&self, name: &str) -> Option<Value> {
         match name {
             "app" => Some(Value::from_struct_object(self.app.clone())),
-            "seed_ui" => Some(Value::from_struct_object(self.seed_keeper.clone())),
-            "edwards_ui" => Some(Value::from_struct_object(self.edwards.clone())),
+            "seed_ui" => Some(Value::from_struct_object(self.seed_ui.clone())),
+            "edwards_ui" => Some(Value::from_struct_object(self.edwards_ui.clone())),
             _ => None,
         }
     }
@@ -72,7 +72,7 @@ impl From<&wurbo_types::Context> for AppContext {
     fn from(context: &wurbo_types::Context) -> Self {
         match context {
             wurbo_types::Context::AllContent(c) => AppContext::from(c.clone()),
-            wurbo_types::Context::Seed(s) => AppContext::from(SeedKeeper::from(s)),
+            wurbo_types::Context::Seed(s) => AppContext::from(SeedUI::from(s)),
             wurbo_types::Context::Edwards(ed) => AppContext::from(Edwards::from(ed)),
         }
     }
@@ -84,17 +84,17 @@ impl From<wurbo_types::Content> for AppContext {
         AppContext {
             app: App::from(context.app),
             // We pass props since initial content could have the encrypted seed for the seed keeper
-            seed_keeper: SeedKeeper::from(context.seed_ui),
+            seed_ui: SeedUI::from(context.seed_ui),
             // We could have an initial message to sign or verify too...
-            edwards: Edwards::from(context.edwards_ui),
+            edwards_ui: Edwards::from(context.edwards_ui),
         }
     }
 }
 
-impl From<SeedKeeper> for AppContext {
-    fn from(context: SeedKeeper) -> Self {
+impl From<SeedUI> for AppContext {
+    fn from(context: SeedUI) -> Self {
         let mut state = { LAST_STATE.lock().unwrap().clone().unwrap() };
-        state.seed_keeper = context;
+        state.seed_ui = context;
         state
     }
 }
@@ -102,7 +102,7 @@ impl From<SeedKeeper> for AppContext {
 impl From<Edwards> for AppContext {
     fn from(context: Edwards) -> Self {
         let mut state = { LAST_STATE.lock().unwrap().clone().unwrap() };
-        state.edwards = context;
+        state.edwards_ui = context;
         state
     }
 }
@@ -138,60 +138,65 @@ impl Deref for App {
         &self.0
     }
 }
+
+/// Wrapper around the seed keeper context so we can implement StructObject on top of it
 #[derive(Debug, Clone)]
-struct SeedKeeper(Option<wurbo_types::SeedContext>);
+struct SeedUI(Option<wurbo_types::SeedContext>);
 
 /// Implement StructObject for SeedKeeper so that we can use it in the template
 /// The main point of this impl is to call render(ctx) on the SeedKeeperUIContext
 /// and return the HTML string as the Value
-impl StructObject for SeedKeeper {
+impl StructObject for SeedUI {
+    /// Simply passes through the seed context to the component for rendering
+    /// outputs to .html
     fn get_field(&self, name: &str) -> Option<Value> {
         match (name, wit_ui::wurbo_out::render(&self.into())) {
             ("html", Ok(html)) => Some(Value::from(html)),
             _ => None,
         }
     }
+
     /// So that debug will show the values
     fn static_fields(&self) -> Option<&'static [&'static str]> {
         Some(&["html"])
     }
 }
 
-impl From<Option<wurbo_types::SeedContext>> for SeedKeeper {
+impl From<Option<wurbo_types::SeedContext>> for SeedUI {
     fn from(context: Option<wurbo_types::SeedContext>) -> Self {
-        SeedKeeper(context)
+        SeedUI(context)
     }
 }
 
-impl From<wurbo_types::SeedContext> for SeedKeeper {
+impl From<wurbo_types::SeedContext> for SeedUI {
     fn from(context: wurbo_types::SeedContext) -> Self {
-        SeedKeeper(Some(context))
+        SeedUI(Some(context))
     }
 }
 
-impl From<&wit_ui::wurbo_types::Context> for SeedKeeper {
+impl From<&wit_ui::wurbo_types::Context> for SeedUI {
     fn from(context: &wit_ui::wurbo_types::Context) -> Self {
-        SeedKeeper::from(context.clone())
+        SeedUI::from(context.clone())
     }
 }
 
-impl From<SeedKeeper> for wit_ui::wurbo_types::Context {
-    fn from(context: SeedKeeper) -> Self {
-        context.0.unwrap().into()
+impl From<SeedUI> for wit_ui::wurbo_types::Context {
+    fn from(context: SeedUI) -> Self {
+        context.into()
     }
 }
 
-impl From<&SeedKeeper> for wit_ui::wurbo_types::Context {
-    fn from(context: &SeedKeeper) -> Self {
-        context.0.clone().unwrap().into()
+impl From<&SeedUI> for wit_ui::wurbo_types::Context {
+    fn from(context: &SeedUI) -> Self {
+        context.into()
     }
 }
 
-impl Deref for SeedKeeper {
-    type Target = wurbo_types::SeedContext;
+impl Deref for SeedUI {
+    type Target = Option<wurbo_types::SeedContext>;
 
     fn deref(&self) -> &Self::Target {
-        self.0.as_ref().unwrap()
+        &self.0
     }
 }
 
@@ -234,20 +239,20 @@ impl From<edwards_ui::wurbo_types::Context> for Edwards {
 
 impl From<Edwards> for edwards_ui::wurbo_types::Context {
     fn from(context: Edwards) -> Self {
-        context.0.unwrap().into()
+        context.into()
     }
 }
 
 impl From<&Edwards> for edwards_ui::wurbo_types::Context {
     fn from(context: &Edwards) -> Self {
-        context.0.clone().unwrap().into()
+        context.into()
     }
 }
 
 impl Deref for Edwards {
-    type Target = wurbo_types::EdwardsContext;
+    type Target = Option<wurbo_types::EdwardsContext>;
 
     fn deref(&self) -> &Self::Target {
-        self.0.as_ref().unwrap()
+        &self.0
     }
 }
