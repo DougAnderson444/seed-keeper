@@ -1,0 +1,8 @@
+package component:edwards@0.1.0;
+
+/// WIT interface exported by yourworld 
+interface operations {
+    sign: func(message: list<u8>) -> result<list<u8>, string>;
+    verify: func(message: list<u8>, signature: list<u8>) -> result<bool, string>;
+}
+

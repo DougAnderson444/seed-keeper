@@ -1,0 +1,7 @@
+package component:wallet@0.1.0;
+
+interface encrypted {
+    /// Returns the encrypted seed or None if it doesn't exist
+    get-encrypted: func() -> result<list<u8>, string>;
+}
+
