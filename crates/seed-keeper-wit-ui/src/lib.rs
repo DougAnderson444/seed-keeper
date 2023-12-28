@@ -38,18 +38,18 @@ fn get_templates() -> Templates {
 }
 
 // Macro builds the Component struct and implements the Guest trait for us, saving copy-and-paste
-prelude_bindgen! {WurboGuest, Component, PageContext, Context, LAST_STATE}
+prelude_bindgen! {WurboGuest, Component, SeedUIContext, Context, LAST_STATE}
 
 /// PageContext is a struct of other structs that implement [StructObject],
 /// which is why it is not a Newtype wrapper like the others are.
 #[derive(Debug, Clone)]
-pub struct PageContext {
+pub struct SeedUIContext {
     page: Page,
     input: Input,
     pub(crate) output: Output,
 }
 
-impl StructObject for PageContext {
+impl StructObject for SeedUIContext {
     fn get_field(&self, name: &str) -> Option<Value> {
         match name {
             "page" => Some(Value::from_struct_object(self.page.clone())),
@@ -65,21 +65,21 @@ impl StructObject for PageContext {
 }
 
 /// We received Context from the WIT ABI and need to convert it to PageContext
-impl From<&wurbo_types::Context> for PageContext {
+impl From<&wurbo_types::Context> for SeedUIContext {
     fn from(context: &wurbo_types::Context) -> Self {
         // Output is not a type of context, because it is calculated from the other values
         match context {
-            wurbo_types::Context::AllContent(c) => PageContext::from(c.clone()),
-            wurbo_types::Context::Username(u) => PageContext::from(output::Username::from(u)),
-            wurbo_types::Context::Password(p) => PageContext::from(output::Password::from(p)),
+            wurbo_types::Context::AllContent(c) => SeedUIContext::from(c.clone()),
+            wurbo_types::Context::Username(u) => SeedUIContext::from(output::Username::from(u)),
+            wurbo_types::Context::Password(p) => SeedUIContext::from(output::Password::from(p)),
         }
     }
 }
 
 /// We have all the content, convert it to PageContext
-impl From<wurbo_types::Content> for PageContext {
+impl From<wurbo_types::Content> for SeedUIContext {
     fn from(context: wurbo_types::Content) -> Self {
-        PageContext {
+        SeedUIContext {
             page: Page::from(context.page),
             input: Input::from(context.input),
             // We can use default for Output because the minijinja StructObject impl will
@@ -89,7 +89,7 @@ impl From<wurbo_types::Content> for PageContext {
     }
 }
 
-impl From<output::Username> for PageContext {
+impl From<output::Username> for SeedUIContext {
     fn from(username: output::Username) -> Self {
         // Safe to unwrap here because render on all page content will always be called first
         let mut state = { LAST_STATE.lock().unwrap().clone().unwrap() };
@@ -98,7 +98,7 @@ impl From<output::Username> for PageContext {
     }
 }
 
-impl From<output::Password> for PageContext {
+impl From<output::Password> for SeedUIContext {
     fn from(password: output::Password) -> Self {
         // Safe to unwrap here because render on all page content will always be called first
         let mut state = { LAST_STATE.lock().unwrap().clone().unwrap() };
