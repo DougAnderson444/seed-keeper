@@ -14,7 +14,7 @@ The seed keeper and edwards UIs are passed in as dependencies.
 
 ```bash
 # from root dir
-wasm-tools compose --config config.yml -o examples/aggregate.wasm ../../../target/wasm32-wasi/release/aggregate_wit_ui.wasm
+wasm-tools compose --config examples/crates/aggregate-wit-ui/config.yml -o examples/aggregate.wasm target/wasm32-wasi/release/aggregate_wit_ui.wasm
 
 # from this dir
 wasm-tools compose -c config.yml -o ../../aggregate.wasm ../../../target/wasm32-wasi/release/aggregate_wit_ui.wasm 
