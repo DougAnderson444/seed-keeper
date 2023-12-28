@@ -49,16 +49,16 @@
 			tag: 'all-content',
 			val: {
 				app: {
-					title: 'a title for the app'
+					title: 'Aggregated Wasm User Interfaces'
 				},
 				seedUi: {
 					tag: 'all-content',
 					val: {
 						page: {
-							title: 'a title for the page'
+							title: 'UI #1: A Seed Keeper'
 						},
 						input: {
-							placeholder: 'a placeholder'
+							placeholder: 'Your Username (pick any 8+ chars)'
 						},
 						output: null
 					}
@@ -67,10 +67,10 @@
 					tag: 'all-content',
 					val: {
 						page: {
-							title: 'a title for the page'
+							title: 'UI #2: An Edwards25519 Signer'
 						},
 						input: {
-							placeholder: 'a placeholder'
+							placeholder: 'a message to sign'
 						},
 						output: null
 					}
