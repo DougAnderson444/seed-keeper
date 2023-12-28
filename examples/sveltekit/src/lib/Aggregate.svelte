@@ -42,10 +42,39 @@
 		mod = await load(wasmBytes, all_importables);
 
 		// call `render` with your inputs for the component
+		// JSON equivalent of the following:
+		// Context::AllContent(Content { app: App { title: "a title for the app" }, seed-ui: Context::AllContent(Content { page: Page { title: "a title for the page" }, input: Input { placeholder: "a placeholder" }, output: None }), edwards-ui: Context::AllContent(Content { page: Page { title: "a title for the page" }, input: Input { placeholder: "a placeholder" }, output: None }) })
+
 		let data = {
 			tag: 'all-content',
 			val: {
-				app: { title: 'User Interface that Aggregates Seed and Algo together.' }
+				app: {
+					title: 'a title for the app'
+				},
+				seedUi: {
+					tag: 'all-content',
+					val: {
+						page: {
+							title: 'a title for the page'
+						},
+						input: {
+							placeholder: 'a placeholder'
+						},
+						output: null
+					}
+				},
+				edwardsUi: {
+					tag: 'all-content',
+					val: {
+						page: {
+							title: 'a title for the page'
+						},
+						input: {
+							placeholder: 'a placeholder'
+						},
+						output: null
+					}
+				}
 			}
 		};
 		renderedHTML = mod.wurboOut.render(data);
