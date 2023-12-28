@@ -26,10 +26,10 @@ interface wurbo-types {
     value: option<string>,
     // optional id string: None is intial render, Some for update value
     id: option<string>,
-    // the output dest for the username changes
-    username: option<outrecord>,
-    // the output dest for the password changes
-    password: option<outrecord>
+    // the output dest for the message changes
+    message: option<outrecord>,
+    // the output dest for the signature changes
+    signature: option<outrecord>
   }
 
   // COntent for the entire page
