@@ -24,9 +24,9 @@ interface wurbo-types {
     // pass in props like title, etc.
     app: app,
     // optionally pass in an encrypted seed to load
-    seed-ui: option<seed-context>,
+    seed-ui: seed-context,
     // optionally pass in a message to sign or verify
-    edwards-ui: option<edwards-context>
+    edwards-ui: edwards-context
   }
 
   // Context variants

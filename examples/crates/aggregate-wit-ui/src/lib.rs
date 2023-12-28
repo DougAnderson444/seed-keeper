@@ -46,7 +46,7 @@ prelude_bindgen! {WurboGuest, Component, AppContext, Context, LAST_STATE}
 /// AppContent is all the content for the entire app. It's comprised of the content of all the
 /// components.
 #[derive(Debug, Clone)]
-struct AppContext {
+pub(crate) struct AppContext {
     app: App,
     seed_ui: SeedUI,
     edwards_ui: Edwards,
@@ -141,7 +141,7 @@ impl Deref for App {
 
 /// Wrapper around the seed keeper context so we can implement StructObject on top of it
 #[derive(Debug, Clone)]
-struct SeedUI(Option<wurbo_types::SeedContext>);
+struct SeedUI(wurbo_types::SeedContext);
 
 /// Implement StructObject for SeedKeeper so that we can use it in the template
 /// The main point of this impl is to call render(ctx) on the SeedKeeperUIContext
@@ -150,10 +150,15 @@ impl StructObject for SeedUI {
     /// Simply passes through the seed context to the component for rendering
     /// outputs to .html
     fn get_field(&self, name: &str) -> Option<Value> {
-        match (name, wit_ui::wurbo_out::render(&self.into())) {
+        let render_result = wit_ui::wurbo_out::render(&self.into());
+        match (name, render_result) {
             ("html", Ok(html)) => Some(Value::from(html)),
             _ => None,
         }
+        // match (name, wit_ui::wurbo_out::render(&self.into())) {
+        //     ("html", Ok(html)) => Some(Value::from(html)),
+        //     _ => None,
+        // }
     }
 
     /// So that debug will show the values
@@ -162,38 +167,26 @@ impl StructObject for SeedUI {
     }
 }
 
-impl From<Option<wurbo_types::SeedContext>> for SeedUI {
-    fn from(context: Option<wurbo_types::SeedContext>) -> Self {
+impl From<wit_ui::wurbo_types::Context> for SeedUI {
+    fn from(context: wit_ui::wurbo_types::Context) -> Self {
         SeedUI(context)
-    }
-}
-
-impl From<wurbo_types::SeedContext> for SeedUI {
-    fn from(context: wurbo_types::SeedContext) -> Self {
-        SeedUI(Some(context))
     }
 }
 
 impl From<&wit_ui::wurbo_types::Context> for SeedUI {
     fn from(context: &wit_ui::wurbo_types::Context) -> Self {
-        SeedUI::from(context.clone())
-    }
-}
-
-impl From<SeedUI> for wit_ui::wurbo_types::Context {
-    fn from(context: SeedUI) -> Self {
-        context.into()
+        Self(context.clone())
     }
 }
 
 impl From<&SeedUI> for wit_ui::wurbo_types::Context {
     fn from(context: &SeedUI) -> Self {
-        context.into()
+        context.0.clone()
     }
 }
 
 impl Deref for SeedUI {
-    type Target = Option<wurbo_types::SeedContext>;
+    type Target = wurbo_types::SeedContext;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -201,17 +194,22 @@ impl Deref for SeedUI {
 }
 
 #[derive(Debug, Clone)]
-struct Edwards(Option<wurbo_types::EdwardsContext>);
+struct Edwards(wurbo_types::EdwardsContext);
 
 /// Implement StructObject for Edwards so that we can use it in the template
 /// The main point of this impl is to call render(ctx) on the EdwardsUIContext
 /// and return the HTML string as the Value
 impl StructObject for Edwards {
     fn get_field(&self, name: &str) -> Option<Value> {
-        match (name, edwards_ui::wurbo_out::render(&self.into())) {
+        let render_result = edwards_ui::wurbo_out::render(&self.into());
+        match (name, render_result) {
             ("html", Ok(html)) => Some(Value::from(html)),
             _ => None,
         }
+        // match (name, edwards_ui::wurbo_out::render(&self.into())) {
+        //     ("html", Ok(html)) => Some(Value::from(html)),
+        //     _ => None,
+        // }
     }
     /// So that debug will show the values
     fn static_fields(&self) -> Option<&'static [&'static str]> {
@@ -219,38 +217,26 @@ impl StructObject for Edwards {
     }
 }
 
-impl From<Option<wurbo_types::EdwardsContext>> for Edwards {
-    fn from(context: Option<wurbo_types::EdwardsContext>) -> Self {
-        Edwards(context)
+impl From<edwards_ui::wurbo_types::Context> for Edwards {
+    fn from(context: edwards_ui::wurbo_types::Context) -> Self {
+        Self(context)
     }
 }
 
 impl From<&edwards_ui::wurbo_types::Context> for Edwards {
     fn from(context: &edwards_ui::wurbo_types::Context) -> Self {
-        Edwards::from(context.clone())
-    }
-}
-
-impl From<edwards_ui::wurbo_types::Context> for Edwards {
-    fn from(context: edwards_ui::wurbo_types::Context) -> Self {
-        Edwards(Some(context.into()))
-    }
-}
-
-impl From<Edwards> for edwards_ui::wurbo_types::Context {
-    fn from(context: Edwards) -> Self {
-        context.into()
+        Self(context.clone())
     }
 }
 
 impl From<&Edwards> for edwards_ui::wurbo_types::Context {
     fn from(context: &Edwards) -> Self {
-        context.into()
+        context.0.clone()
     }
 }
 
 impl Deref for Edwards {
-    type Target = Option<wurbo_types::EdwardsContext>;
+    type Target = wurbo_types::EdwardsContext;
 
     fn deref(&self) -> &Self::Target {
         &self.0

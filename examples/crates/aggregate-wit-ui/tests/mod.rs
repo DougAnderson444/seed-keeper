@@ -16,6 +16,9 @@ use wasmtime::component::{Component, Linker};
 use wasmtime::{Config, Engine, Store};
 use wasmtime_wasi::preview2::{Table, WasiCtx, WasiCtxBuilder, WasiView};
 
+use bindgen::exports::wallet::aggregate_wit_ui::wurbo_out::Context as AggregateWitUiContext;
+use bindgen::wallet::aggregate_wit_ui;
+
 struct MyCtx {
     wasi_ctx: Context,
 }
@@ -39,20 +42,12 @@ impl WasiView for MyCtx {
     }
 }
 
-// /// Implementing this trait gives us
-// /// - the ability to add_to_linker using SeedKeeper::add_to_linker
-// /// - call get_seed from inside out component
-// ///
-// /// Normally this would be implemented by another WIT component that is composed with this
-// /// component, but for testing we mock it up below.
-// impl bindgen::component::wallet::seed_getter::Host for MyCtx {
-//     fn get_seed(&mut self) -> Result<Result<Vec<u8>, String>, wasmtime::Error> {
-//         let seed = vec![1u8; 32];
-//         Ok(Ok(seed))
-//     }
-// }
-//
-
+/// Implementing this trait gives us
+/// - the ability to add_to_linker using SeedKeeper::add_to_linker
+/// - call get_seed from inside out component
+///
+/// Normally this would be implemented by another WIT component that is composed with this
+/// component, but for testing we mock it up below.
 impl bindgen::example::edwards_ui::wurbo_types::Host for MyCtx {}
 
 impl bindgen::example::edwards_ui::wurbo_out::Host for MyCtx {
@@ -60,11 +55,12 @@ impl bindgen::example::edwards_ui::wurbo_out::Host for MyCtx {
         &mut self,
         ctx: bindgen::example::edwards_ui::wurbo_out::Context,
     ) -> wasmtime::Result<Result<String, String>> {
-        todo!()
+        // return some html as string
+        Ok(Ok("edwards ui for testing".to_string()))
     }
 
     fn activate(&mut self) -> wasmtime::Result<()> {
-        todo!()
+        Ok(())
     }
 }
 
@@ -75,11 +71,12 @@ impl bindgen::seed_keeper::wit_ui::wurbo_out::Host for MyCtx {
         &mut self,
         ctx: bindgen::seed_keeper::wit_ui::wurbo_out::Context,
     ) -> wasmtime::Result<Result<String, String>> {
-        todo!()
+        // return some html as string
+        Ok(Ok("seed keeper ui for testing".to_string()))
     }
 
     fn activate(&mut self) -> wasmtime::Result<()> {
-        todo!()
+        Ok(())
     }
 }
 
@@ -90,7 +87,7 @@ impl bindgen::wallet::aggregate_wit_ui::wurbo_in::Host for MyCtx {
         &mut self,
         details: bindgen::wallet::aggregate_wit_ui::wurbo_in::ListenDetails,
     ) -> wasmtime::Result<()> {
-        todo!()
+        Ok(())
     }
 }
 
@@ -147,6 +144,11 @@ pub fn workspace_dir() -> PathBuf {
 #[cfg(test)]
 mod aggregate_example_tests {
 
+    use crate::bindgen::{
+        seed_keeper::wit_ui::wurbo_types::Page,
+        wallet::aggregate_wit_ui::wurbo_types::{EdwardsContext, SeedContext},
+    };
+
     use super::*;
 
     #[test]
@@ -180,7 +182,48 @@ mod aggregate_example_tests {
 
         let (bindings, _) = bindgen::Example::instantiate(&mut store, &component, &linker)?;
 
-        // TODO: use bindings
+        // Use bindings
+        // Call render with initial data, should return all HTML
+        // Initial data is WIT variant represented in JSON:
+        // { tag: "allContent", val: { app: { title: "a title for the app"}  } }
+        // Now we should be able to pass this content as context to render()
+
+        let all_context =
+            AggregateWitUiContext::AllContent(aggregate_wit_ui::wurbo_types::Content {
+                app: aggregate_wit_ui::wurbo_types::App {
+                    title: "a title for the app".to_string(),
+                },
+                seed_ui: SeedContext::AllContent(
+                    bindgen::seed_keeper::wit_ui::wurbo_types::Content {
+                        page: Page {
+                            title: "a title for the page".to_string(),
+                        },
+                        input: bindgen::seed_keeper::wit_ui::wurbo_types::Input {
+                            placeholder: "a placeholder".to_string(),
+                        },
+                        output: None,
+                    },
+                ),
+                edwards_ui: EdwardsContext::AllContent(
+                    bindgen::example::edwards_ui::wurbo_types::Content {
+                        page: bindgen::example::edwards_ui::wurbo_types::Page {
+                            title: "a title for the page".to_string(),
+                        },
+                        input: bindgen::example::edwards_ui::wurbo_types::Input {
+                            placeholder: "a placeholder".to_string(),
+                        },
+                        output: None,
+                    },
+                ),
+            });
+
+        let result = bindings
+            .wallet_aggregate_wit_ui_wurbo_out()
+            .call_render(store, &all_context)?
+            .expect("render should work in success tests");
+
+        // The result should be a string of HTML
+        eprintln!("result: {}", result);
 
         Ok(())
     }
