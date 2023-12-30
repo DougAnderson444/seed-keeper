@@ -1,7 +1,7 @@
 cargo_component_bindings::generate!();
 
-use bindings::component::wallet::seed_getter::get_seed;
 use bindings::exports::component::edwards::operations::Guest;
+use bindings::seed_keeper::wallet::config::get_seed;
 
 use ed25519_dalek::SECRET_KEY_LENGTH;
 use ed25519_dalek::{Signature, Signer, SigningKey};

@@ -34,7 +34,7 @@
 		let all_importables = [
 			{ 'component:wurbo/wurbo-in': importables.buildCodeString(listener.namespace) },
 			{
-				'component:wallet/seed-getter@0.1.0': importables.buildGetSeedFunc(
+				'seed-keeper:wallet/config@0.1.0': importables.buildGetSeedFunc(
 					'build a test seed from this string'
 				)
 			}

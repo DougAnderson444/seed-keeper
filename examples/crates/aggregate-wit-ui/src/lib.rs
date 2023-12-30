@@ -19,13 +19,14 @@
 cargo_component_bindings::generate!();
 
 use crate::bindings::exports::wallet::aggregate_wit_ui::wurbo_out::Guest as WurboGuest;
-use crate::bindings::wallet::aggregate_wit_ui::wurbo_in;
 use crate::bindings::wallet::aggregate_wit_ui::wurbo_types::{self, Context};
 use bindings::example::edwards_ui;
+use bindings::exports::wallet::aggregate_wit_ui::aggregation::Guest as AggregationGuest;
 use bindings::seed_keeper::wit_ui;
 
-use wurbo::jinja::{Entry, Index, Rest, Templates};
-use wurbo::prelude_bindgen;
+use minijinja::Environment;
+use wurbo::jinja::{error::RenderError, Entry, Index, Rest, Templates};
+use wurbo::prelude::*;
 
 use std::ops::Deref;
 
@@ -40,8 +41,61 @@ fn get_templates() -> Templates {
     )
 }
 
-// Macro builds the Component struct and implements the Guest trait for us, saving copy-and-paste
-prelude_bindgen! {WurboGuest, Component, AppContext, Context, LAST_STATE}
+impl WurboGuest for Component {
+    /// Render needs to use the Aggregate Template for the initial load, but after that simply call
+    /// render on the child component and pass through the HTML
+    fn render(context: Context) -> Result<String, String> {
+        let html = match context {
+            Context::AllContent(ctx) => {
+                let templates = get_templates();
+                let entry = templates.entry.name;
+                let mut env = Environment::new();
+
+                for (name, template) in templates.into_iter() {
+                    env.add_template(name, template)
+                        .expect("template should be added");
+                }
+
+                let struct_ctx = Value::from_struct_object(AppContext::from(ctx.clone()));
+
+                let tmpl = env.get_template(entry).map_err(|e| {
+                    println!("Could not get template: {:#}", e);
+                    let mut err = &e as &dyn std::error::Error;
+                    while let Some(next_err) = err.source() {
+                        println!("caused by: {:#}", next_err);
+                        err = next_err;
+                    }
+                    RenderError::from(e)
+                })?;
+
+                let rendered = tmpl.render(&struct_ctx).map_err(|e| {
+                    println!("Could not render template: {:#}", e);
+                    let mut err = &e as &dyn std::error::Error;
+                    while let Some(next_err) = err.source() {
+                        println!("caused by: {:#}", next_err);
+                        err = next_err;
+                    }
+                    RenderError::from(e)
+                })?;
+                rendered
+            }
+            Context::Seed(ctx) => wit_ui::wurbo_out::render(&ctx.into())?,
+            Context::Edwards(ctx) => edwards_ui::wurbo_out::render(&ctx.into())?,
+        };
+        Ok(html)
+    }
+
+    /// No-op for activate()
+    fn activate() {}
+}
+
+impl AggregationGuest for Component {
+    fn activates() {
+        // iterate over each of the child components' wurbo_out's and call activate
+        edwards_ui::wurbo_out::activate();
+        wit_ui::wurbo_out::activate();
+    }
+}
 
 /// AppContent is all the content for the entire app. It's comprised of the content of all the
 /// components.
@@ -67,17 +121,6 @@ impl StructObject for AppContext {
     }
 }
 
-/// Route the recieve Context into the appropriate AppContext
-impl From<&wurbo_types::Context> for AppContext {
-    fn from(context: &wurbo_types::Context) -> Self {
-        match context {
-            wurbo_types::Context::AllContent(c) => AppContext::from(c.clone()),
-            wurbo_types::Context::Seed(s) => AppContext::from(SeedUI::from(s)),
-            wurbo_types::Context::Edwards(ed) => AppContext::from(Edwards::from(ed)),
-        }
-    }
-}
-
 /// We have all the content, convert it to AppContext
 impl From<wurbo_types::Content> for AppContext {
     fn from(context: wurbo_types::Content) -> Self {
@@ -88,22 +131,6 @@ impl From<wurbo_types::Content> for AppContext {
             // We could have an initial message to sign or verify too...
             edwards_ui: Edwards::from(context.edwards_ui),
         }
-    }
-}
-
-impl From<SeedUI> for AppContext {
-    fn from(context: SeedUI) -> Self {
-        let mut state = { LAST_STATE.lock().unwrap().clone().unwrap() };
-        state.seed_ui = context;
-        state
-    }
-}
-
-impl From<Edwards> for AppContext {
-    fn from(context: Edwards) -> Self {
-        let mut state = { LAST_STATE.lock().unwrap().clone().unwrap() };
-        state.edwards_ui = context;
-        state
     }
 }
 
@@ -150,15 +177,11 @@ impl StructObject for SeedUI {
     /// Simply passes through the seed context to the component for rendering
     /// outputs to .html
     fn get_field(&self, name: &str) -> Option<Value> {
-        let render_result = wit_ui::wurbo_out::render(&self.into());
+        let render_result = wit_ui::wurbo_out::render(&self);
         match (name, render_result) {
             ("html", Ok(html)) => Some(Value::from(html)),
             _ => None,
         }
-        // match (name, wit_ui::wurbo_out::render(&self.into())) {
-        //     ("html", Ok(html)) => Some(Value::from(html)),
-        //     _ => None,
-        // }
     }
 
     /// So that debug will show the values
@@ -170,18 +193,6 @@ impl StructObject for SeedUI {
 impl From<wit_ui::wurbo_types::Context> for SeedUI {
     fn from(context: wit_ui::wurbo_types::Context) -> Self {
         SeedUI(context)
-    }
-}
-
-impl From<&wit_ui::wurbo_types::Context> for SeedUI {
-    fn from(context: &wit_ui::wurbo_types::Context) -> Self {
-        Self(context.clone())
-    }
-}
-
-impl From<&SeedUI> for wit_ui::wurbo_types::Context {
-    fn from(context: &SeedUI) -> Self {
-        context.0.clone()
     }
 }
 
@@ -201,15 +212,11 @@ struct Edwards(wurbo_types::EdwardsContext);
 /// and return the HTML string as the Value
 impl StructObject for Edwards {
     fn get_field(&self, name: &str) -> Option<Value> {
-        let render_result = edwards_ui::wurbo_out::render(&self.into());
+        let render_result = edwards_ui::wurbo_out::render(&self);
         match (name, render_result) {
             ("html", Ok(html)) => Some(Value::from(html)),
             _ => None,
         }
-        // match (name, edwards_ui::wurbo_out::render(&self.into())) {
-        //     ("html", Ok(html)) => Some(Value::from(html)),
-        //     _ => None,
-        // }
     }
     /// So that debug will show the values
     fn static_fields(&self) -> Option<&'static [&'static str]> {
@@ -220,18 +227,6 @@ impl StructObject for Edwards {
 impl From<edwards_ui::wurbo_types::Context> for Edwards {
     fn from(context: edwards_ui::wurbo_types::Context) -> Self {
         Self(context)
-    }
-}
-
-impl From<&edwards_ui::wurbo_types::Context> for Edwards {
-    fn from(context: &edwards_ui::wurbo_types::Context) -> Self {
-        Self(context.clone())
-    }
-}
-
-impl From<&Edwards> for edwards_ui::wurbo_types::Context {
-    fn from(context: &Edwards) -> Self {
-        context.0.clone()
     }
 }
 

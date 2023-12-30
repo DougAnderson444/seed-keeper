@@ -1,7 +1,7 @@
-<div id="myoutput">
+<div id="app-outputs">
   <!-- Autoescape off so our html props get rendered -->
   {% autoescape false %}
-  <h2 data-slot="seedUi">{{seed_ui.html}}</h2>
-  <h2 data-slot="edwardsUi">{{edwards_ui.html}}</h2>
+  <h2 data-slot="seed">{{seed_ui.html}}</h2>
+  <h2 data-slot="edwards">{{edwards_ui.html}}</h2>
   {% endautoescape %}
 </div>

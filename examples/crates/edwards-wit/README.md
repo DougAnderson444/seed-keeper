@@ -15,7 +15,7 @@ cargo component new --reactor <name>
 ```wit
 world yourworld {
 
-    import seed-keeper:wallet/seed-getter@0.1.0;
+    import seed-keeper:wallet/config@0.1.0;
 
     // the rest of your WIT world
     export operations;

@@ -42,9 +42,6 @@
 		mod = await load(wasmBytes, all_importables);
 
 		// call `render` with your inputs for the component
-		// JSON equivalent of the following:
-		// Context::AllContent(Content { app: App { title: "a title for the app" }, seed-ui: Context::AllContent(Content { page: Page { title: "a title for the page" }, input: Input { placeholder: "a placeholder" }, output: None }), edwards-ui: Context::AllContent(Content { page: Page { title: "a title for the page" }, input: Input { placeholder: "a placeholder" }, output: None }) })
-
 		let data = {
 			tag: 'all-content',
 			val: {
@@ -89,7 +86,10 @@
 			// wait for the DOM to reflect the updates first
 			await tick();
 			// once the DOM has our elements loaded, we can activate the event emitters
-			mod.wurboOut.activate();
+			// mod.wurboOut.activate();
+			console.log({ mod });
+			mod.aggregation.activates();
+			console.log('events activated');
 		})();
 </script>
 

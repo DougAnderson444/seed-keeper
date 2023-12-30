@@ -49,7 +49,7 @@ package root:component;
 world root {
   import component:wurbo/wurbo-types;
   import component:wurbo/wurbo-in;  
-  import component:wallet/seed-getter@0.1.0;
+  import component:wallet/config@0.1.0;
 
   export component:edwards-ui/wurbo-out;
 }

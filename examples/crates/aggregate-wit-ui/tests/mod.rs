@@ -53,7 +53,7 @@ impl bindgen::example::edwards_ui::wurbo_types::Host for MyCtx {}
 impl bindgen::example::edwards_ui::wurbo_out::Host for MyCtx {
     fn render(
         &mut self,
-        ctx: bindgen::example::edwards_ui::wurbo_out::Context,
+        _ctx: bindgen::example::edwards_ui::wurbo_out::Context,
     ) -> wasmtime::Result<Result<String, String>> {
         // return some html as string
         Ok(Ok("edwards ui for testing".to_string()))
@@ -69,7 +69,7 @@ impl bindgen::seed_keeper::wit_ui::wurbo_types::Host for MyCtx {}
 impl bindgen::seed_keeper::wit_ui::wurbo_out::Host for MyCtx {
     fn render(
         &mut self,
-        ctx: bindgen::seed_keeper::wit_ui::wurbo_out::Context,
+        _ctx: bindgen::seed_keeper::wit_ui::wurbo_out::Context,
     ) -> wasmtime::Result<Result<String, String>> {
         // return some html as string
         Ok(Ok("seed keeper ui for testing".to_string()))
@@ -85,7 +85,7 @@ impl bindgen::wallet::aggregate_wit_ui::wurbo_types::Host for MyCtx {}
 impl bindgen::wallet::aggregate_wit_ui::wurbo_in::Host for MyCtx {
     fn addeventlistener(
         &mut self,
-        details: bindgen::wallet::aggregate_wit_ui::wurbo_in::ListenDetails,
+        _details: bindgen::wallet::aggregate_wit_ui::wurbo_in::ListenDetails,
     ) -> wasmtime::Result<()> {
         Ok(())
     }
@@ -185,7 +185,6 @@ mod aggregate_example_tests {
         // Use bindings
         // Call render with initial data, should return all HTML
         // Initial data is WIT variant represented in JSON:
-        // { tag: "allContent", val: { app: { title: "a title for the app"}  } }
         // Now we should be able to pass this content as context to render()
 
         let seed_ui = SeedContext::AllContent(bindgen::seed_keeper::wit_ui::wurbo_types::Content {
@@ -238,6 +237,14 @@ mod aggregate_example_tests {
             .expect("render should work in success tests");
 
         eprintln!("seed_ui result: {}", result);
+
+        // same with edwards
+        let result = bindings
+            .wallet_aggregate_wit_ui_wurbo_out()
+            .call_render(&mut store, &AggregateWitUiContext::Edwards(edwards_ui))?
+            .expect("render should work in success tests");
+
+        eprintln!("edwards_ui result: {}", result);
 
         Ok(())
     }

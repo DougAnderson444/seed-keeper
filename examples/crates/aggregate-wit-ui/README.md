@@ -13,6 +13,8 @@ Use this component as the primary component when composing the Wallet.
 The seed keeper and edwards UIs are passed in as dependencies.
 
 ```bash
+cargo component build --workspace --release
+
 # from root dir
 wasm-tools compose --config examples/crates/aggregate-wit-ui/config.yml -o examples/aggregate.wasm target/wasm32-wasi/release/aggregate_wit_ui.wasm
 

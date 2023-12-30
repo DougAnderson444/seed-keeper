@@ -8,7 +8,7 @@ use input::Input;
 use output::Output;
 use page::Page;
 
-use bindings::component::edwards::operations::sign;
+use bindings::component::edwards::operations;
 use bindings::example::edwards_ui::wurbo_in;
 use bindings::example::edwards_ui::wurbo_types::{self, Context};
 use bindings::exports::example::edwards_ui::wurbo_out::Guest as WurboGuest;

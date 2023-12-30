@@ -1,8 +1,0 @@
-package component:wallet@0.1.0;
-
-/// Exported interfaces of dependencies like seed keeper are not exported by the primary component
-/// This keeps out seed safely out of the public API
-interface seed-getter {
-    /// Get the plaintext seed
-    get-seed: func() -> result<list<u8>, string>;
-}

@@ -1,7 +1,7 @@
 package seed-keeper:edwards-wit@0.1.0;
 
 world example {
-    import component:wallet/seed-getter@0.1.0;
+    import seed-keeper:wallet/config@0.1.0;
 
     export component:edwards/operations@0.1.0;
 }

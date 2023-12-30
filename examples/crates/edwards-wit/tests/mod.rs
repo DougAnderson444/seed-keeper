@@ -45,12 +45,24 @@ impl WasiView for MyCtx {
 ///
 /// Normally this would be implemented by another WIT component that is composed with this
 /// component, but for testing we mock it up below.
-impl bindgen::component::wallet::seed_getter::Host for MyCtx {
+impl bindgen::seed_keeper::wallet::config::Host for MyCtx {
     fn get_seed(&mut self) -> Result<Result<Vec<u8>, String>, wasmtime::Error> {
         let seed = vec![1u8; 32];
         Ok(Ok(seed))
     }
+    fn set_config(
+        &mut self,
+        _config: bindgen::seed_keeper::wallet::config::Credentials,
+    ) -> wasmtime::Result<Result<(), String>> {
+        Ok(Ok(()))
+    }
+    fn get_encrypted(&mut self) -> wasmtime::Result<Result<Vec<u8>, String>> {
+        let encrypted = vec![1u8; 32];
+        Ok(Ok(encrypted))
+    }
 }
+
+impl bindgen::seed_keeper::wallet::types::Host for MyCtx {}
 
 #[derive(Error, Debug)]
 pub enum TestError {

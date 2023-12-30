@@ -6,6 +6,7 @@ pub(super) struct Output {
     id: Option<String>,
     pub(crate) message: Message,
     pub(crate) signature: Signature,
+    pub(crate) log: String,
 }
 
 /// Impleent StructObject for Output so we can use minijina to automagically calculate the length
@@ -15,6 +16,7 @@ impl StructObject for Output {
         match name {
             "message" => Some(Value::from_struct_object(self.message.clone())),
             "signature" => Some(Value::from_struct_object(self.signature.clone())),
+            "log" => Some(Value::from(self.log.clone())),
             // if self.id.is_some, use it, otherwise generate a new one
             "id" => Some(Value::from(self.id.clone().unwrap_or(utils::rand_id()))),
             _ => None,
@@ -23,7 +25,7 @@ impl StructObject for Output {
 
     /// So that debug will show the values
     fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["id", "message"])
+        Some(&["id", "message", "signature", "log"])
     }
 }
 
@@ -82,8 +84,10 @@ impl Signature {
             .unwrap_or_default()
             .into_bytes();
         if !v.is_empty() {
-            if let Ok(s) = sign(&v) {
+            if let Ok(s) = operations::sign(&v) {
                 self.0 = s;
+            } else {
+                self.0 = vec![69, 69, 69];
             }
         }
     }
