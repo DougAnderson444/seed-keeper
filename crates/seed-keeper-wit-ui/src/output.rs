@@ -52,7 +52,10 @@ impl Output {
             return Value::from(format!("Error in Output setting config: {:?}", e));
         }
 
-        Value::from(get_encrypted().map_err(|e| format!("{:?}", e)).unwrap())
+        match get_encrypted() {
+            Ok(encrypted) => Value::from(encrypted),
+            Err(e) => Value::from(format!("Error in Output getting encrypted: {:?}", e)),
+        }
     }
 }
 
