@@ -188,42 +188,56 @@ mod aggregate_example_tests {
         // { tag: "allContent", val: { app: { title: "a title for the app"}  } }
         // Now we should be able to pass this content as context to render()
 
+        let seed_ui = SeedContext::AllContent(bindgen::seed_keeper::wit_ui::wurbo_types::Content {
+            page: Page {
+                title: "a title for the page".to_string(),
+            },
+            input: bindgen::seed_keeper::wit_ui::wurbo_types::Input {
+                placeholder: "a placeholder".to_string(),
+            },
+            output: None,
+        });
+
+        let edwards_ui =
+            EdwardsContext::AllContent(bindgen::example::edwards_ui::wurbo_types::Content {
+                page: bindgen::example::edwards_ui::wurbo_types::Page {
+                    title: "a title for the page".to_string(),
+                },
+                input: bindgen::example::edwards_ui::wurbo_types::Input {
+                    placeholder: "a placeholder".to_string(),
+                },
+                output: None,
+            });
         let all_context =
             AggregateWitUiContext::AllContent(aggregate_wit_ui::wurbo_types::Content {
                 app: aggregate_wit_ui::wurbo_types::App {
                     title: "a title for the app".to_string(),
                 },
-                seed_ui: SeedContext::AllContent(
-                    bindgen::seed_keeper::wit_ui::wurbo_types::Content {
-                        page: Page {
-                            title: "a title for the page".to_string(),
-                        },
-                        input: bindgen::seed_keeper::wit_ui::wurbo_types::Input {
-                            placeholder: "a placeholder".to_string(),
-                        },
-                        output: None,
-                    },
-                ),
-                edwards_ui: EdwardsContext::AllContent(
-                    bindgen::example::edwards_ui::wurbo_types::Content {
-                        page: bindgen::example::edwards_ui::wurbo_types::Page {
-                            title: "a title for the page".to_string(),
-                        },
-                        input: bindgen::example::edwards_ui::wurbo_types::Input {
-                            placeholder: "a placeholder".to_string(),
-                        },
-                        output: None,
-                    },
-                ),
+                seed_ui: seed_ui.clone(),
+                edwards_ui: edwards_ui.clone(),
             });
 
         let result = bindings
             .wallet_aggregate_wit_ui_wurbo_out()
-            .call_render(store, &all_context)?
+            .call_render(&mut store, &all_context)?
             .expect("render should work in success tests");
 
         // The result should be a string of HTML
         eprintln!("result: {}", result);
+
+        // should be able to also call aggregation_activate()
+        bindings
+            .wallet_aggregate_wit_ui_aggregation()
+            .call_activates(&mut store)?;
+
+        // now pass
+        // only seed_ui as context for render, should get only seed UI HTML
+        let result = bindings
+            .wallet_aggregate_wit_ui_wurbo_out()
+            .call_render(&mut store, &AggregateWitUiContext::Seed(seed_ui))?
+            .expect("render should work in success tests");
+
+        eprintln!("seed_ui result: {}", result);
 
         Ok(())
     }
