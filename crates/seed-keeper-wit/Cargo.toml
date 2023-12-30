@@ -23,6 +23,3 @@ crate-type = ["cdylib"]
 package = "component:seed-keeper-wit"
 
 [package.metadata.component.dependencies]
-
-[package.metadata.component.target.dependencies]
-"component:wallet" = { path = "wit/deps/wallet" } 

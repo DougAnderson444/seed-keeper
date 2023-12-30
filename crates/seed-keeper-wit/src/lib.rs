@@ -2,10 +2,8 @@
 
 cargo_component_bindings::generate!();
 
-use crate::bindings::exports::component::wallet::{
-    config::Guest as ConfigGuest, encrypted::Guest as SaverGuest, seed_getter::Guest as KeeperGuest,
-};
-use bindings::component::wallet::types::Credentials;
+use crate::bindings::exports::seed_keeper::wallet::config::Guest as ConfigGuest;
+use bindings::seed_keeper::wallet::types::Credentials;
 
 use seed_keeper_core::seed::rand_seed;
 use seed_keeper_core::wrap::{decrypt, encrypt};
@@ -20,25 +18,6 @@ static STORED_SEED: OnceLock<Vec<u8>> = OnceLock::new();
 static CONFIG: LazyLock<Mutex<Option<Credentials>>> = LazyLock::new(|| Mutex::new(None));
 
 struct Component;
-
-impl KeeperGuest for Component {
-    /// Returns the decryted seed.
-    /// The STORED_SEED is not set, it randdomly generate sit, uses the username and password from the config function to store it encrypted, and returns the plaintext.
-    /// If the STORED_SEED is set, it uses the username and password from the config function to decrypt it and returns the plaintext.
-    fn get_seed() -> Result<Vec<u8>, String> {
-        let (key, encrypted) = keys_from_config()?;
-        let decrypted = decrypt(key, &encrypted).map_err(|e| e.to_string())?;
-        Ok(decrypted)
-    }
-}
-
-impl SaverGuest for Component {
-    /// Returns the encrypted seed. Stores it in STORED_SEED if it is not already set.
-    fn get_encrypted() -> Result<Vec<u8>, String> {
-        let (_, encrypted) = keys_from_config()?;
-        Ok(encrypted)
-    }
-}
 
 /// Sets the Config of the Seed-Keeper (username, password, and optionally encrypted seed)
 impl ConfigGuest for Component {
@@ -62,6 +41,19 @@ impl ConfigGuest for Component {
 
         Ok(())
     }
+    /// Returns the encrypted seed. Stores it in STORED_SEED if it is not already set.
+    fn get_encrypted() -> Result<Vec<u8>, String> {
+        let (_, encrypted) = keys_from_config()?;
+        Ok(encrypted)
+    }
+    /// Returns the decryted seed.
+    /// The STORED_SEED is not set, it randdomly generate sit, uses the username and password from the config function to store it encrypted, and returns the plaintext.
+    /// If the STORED_SEED is set, it uses the username and password from the config function to decrypt it and returns the plaintext.
+    fn get_seed() -> Result<Vec<u8>, String> {
+        let (key, encrypted) = keys_from_config()?;
+        let decrypted = decrypt(key, &encrypted).map_err(|e| e.to_string())?;
+        Ok(decrypted)
+    }
 }
 
 /// Gets the config from CONFIG, if it is set
@@ -73,7 +65,7 @@ fn get_config() -> Result<Credentials, String> {
         Some(config) => Ok(config.clone()),
         // If the config is not set, return an error
         None => {
-            Err("Set a config with username and password at least 8 bytes long first, using set_config()".to_string())
+            Err("No config set. Set a config with username and password at least 8 bytes long first, using set_config()".to_string())
         }
     }
 }
@@ -81,12 +73,7 @@ fn get_config() -> Result<Credentials, String> {
 /// Gets and sets the key from config
 fn keys_from_config() -> Result<([u8; 32], Vec<u8>), String> {
     // get username and password from config
-    let config = get_config().map_err(|e| {
-        format!(
-            "Set a config with username and password at least 8 bytes long first {:?}",
-            e
-        )
-    })?;
+    let config = get_config()?;
     let username = config.username;
     let pwd = config.password;
     let maybe_encrypted: Option<Vec<u8>> = config.encrypted;

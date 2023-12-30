@@ -2,7 +2,5 @@ package seed-keeper:wallet@0.1.0;
 
 world keeper {
     /// Export the ability for users to set the config of the seed keeper
-    export component:wallet/config@0.1.0;
-    export component:wallet/seed-getter@0.1.0;
-    export component:wallet/encrypted@0.1.0;
+    export config;
 }

@@ -2,7 +2,7 @@ mod bindgen {
     wasmtime::component::bindgen!("keeper"); // name of the world in the .wit file
 }
 
-use bindgen::exports::component::wallet::config;
+use bindgen::exports::seed_keeper::wallet::config;
 
 use serde::{Deserialize, Serialize};
 use std::sync::OnceLock;
@@ -42,7 +42,7 @@ impl WasiView for MyCtx {
 static ENCRYPTED_KEY: OnceLock<Vec<u8>> = OnceLock::new();
 
 /// Implementing this trait gives us th ability to add_to_linker using SeedKeeper::add_to_linker
-impl bindgen::component::wallet::types::Host for MyCtx {}
+impl bindgen::seed_keeper::wallet::types::Host for MyCtx {}
 
 #[derive(Error, Debug)]
 pub enum TestError {
@@ -132,14 +132,14 @@ mod wit_tests {
         };
 
         bindings
-            .component_wallet_config()
+            .seed_keeper_wallet_config()
             .call_set_config(&mut store, &config)?
             .unwrap();
 
         // Now let's call the functions!
         // First, generate the seed by keeping the Credentials encrypted field as None
         let seed = bindings
-            .component_wallet_seed_getter()
+            .seed_keeper_wallet_config()
             .call_get_seed(&mut store)?
             .unwrap();
 
@@ -150,7 +150,7 @@ mod wit_tests {
 
         // Now get the encrypted seed
         let encrypted = bindings
-            .component_wallet_encrypted()
+            .seed_keeper_wallet_config()
             .call_get_encrypted(&mut store)?
             .unwrap();
 
@@ -208,12 +208,12 @@ mod wit_tests {
         };
 
         bindings
-            .component_wallet_config()
+            .seed_keeper_wallet_config()
             .call_set_config(&mut store, &config)?
             .unwrap();
 
         let seed = bindings
-            .component_wallet_seed_getter()
+            .seed_keeper_wallet_config()
             .call_get_seed(&mut store)?
             .unwrap();
 
@@ -223,7 +223,7 @@ mod wit_tests {
         // Now let's call the functions!
         // First, generate the seed by keeping the Credentials encrypted field as None
         let encrypted = bindings
-            .component_wallet_encrypted()
+            .seed_keeper_wallet_config()
             .call_get_encrypted(&mut store)?
             .unwrap();
 
