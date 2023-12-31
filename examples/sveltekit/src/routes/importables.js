@@ -1,7 +1,6 @@
 export function buildCodeString(namespace) {
 	return `
-      const CHANNEL_NAME = 'listener_updates';
-      const bc = new BroadcastChannel(CHANNEL_NAME);
+      const bc = new BroadcastChannel('${namespace}');
       export function addeventlistener({ selector, ty }) {
         document.querySelector(selector).addEventListener(ty, (e) => {
           let ctx = {
