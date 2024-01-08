@@ -58,17 +58,7 @@ impl WurboGuest for Component {
 
                 let struct_ctx = Value::from_struct_object(AppContext::from(ctx.clone()));
 
-                let tmpl = env.get_template(entry).map_err(|e| {
-                    println!("Could not get template: {:#}", e);
-                    let mut err = &e as &dyn std::error::Error;
-                    while let Some(next_err) = err.source() {
-                        println!("caused by: {:#}", next_err);
-                        err = next_err;
-                    }
-                    RenderError::from(e)
-                })?;
-
-                let rendered = tmpl.render(&struct_ctx).map_err(|e| {
+                let prnt_err = |e| {
                     println!("Could not render template: {:#}", e);
                     let mut err = &e as &dyn std::error::Error;
                     while let Some(next_err) = err.source() {
@@ -76,7 +66,10 @@ impl WurboGuest for Component {
                         err = next_err;
                     }
                     RenderError::from(e)
-                })?;
+                };
+
+                let tmpl = env.get_template(entry).map_err(prnt_err)?;
+                let rendered = tmpl.render(&struct_ctx).map_err(prnt_err)?;
                 rendered
             }
             Context::Seed(ctx) => wit_ui::wurbo_out::render(&ctx.into())?,
