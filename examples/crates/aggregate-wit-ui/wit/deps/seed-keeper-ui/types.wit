@@ -21,6 +21,8 @@ interface wurbo-types {
     value: string,
   }
 
+  type encrypted = list<u8>;
+
   record output {
     // the resulting value of the total outputs combined
     value: option<string>,
@@ -29,13 +31,15 @@ interface wurbo-types {
     // the output dest for the username changes
     username: option<outrecord>,
     // the output dest for the password changes
-    password: option<outrecord>
+    password: option<outrecord>,
+    // the output dest for the encrypted changes
+    encrypted: option<encrypted>,
   }
 
-  // COntent for the entire page
+  // Content for the entire page
   record content {
-    page: page,
-    input: input,
+    page: option<page>,
+    input: option<input>,
     output: option<output>
   }
 
@@ -44,6 +48,8 @@ interface wurbo-types {
     all-content(content),
     username(outrecord),
     password(outrecord),
+    encrypted(encrypted),
+    submit
   }
 
 }

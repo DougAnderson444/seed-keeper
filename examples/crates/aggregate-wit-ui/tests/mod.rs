@@ -188,12 +188,12 @@ mod aggregate_example_tests {
         // Now we should be able to pass this content as context to render()
 
         let seed_ui = SeedContext::AllContent(bindgen::seed_keeper::wit_ui::wurbo_types::Content {
-            page: Page {
+            page: Some(Page {
                 title: "a title for the page".to_string(),
-            },
-            input: bindgen::seed_keeper::wit_ui::wurbo_types::Input {
+            }),
+            input: Some(bindgen::seed_keeper::wit_ui::wurbo_types::Input {
                 placeholder: "a placeholder".to_string(),
-            },
+            }),
             output: None,
         });
 
