@@ -39,7 +39,7 @@ prelude_bindgen! {WurboGuest, Component, SeedUIContext, Context, LAST_STATE}
 
 /// PageContext is a struct of other structs that implement [StructObject],
 /// which is why it is not a Newtype wrapper like the others are.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct SeedUIContext {
     page: Page,
     input: Input,
@@ -64,11 +64,26 @@ impl StructObject for SeedUIContext {
 /// We received Context from the WIT ABI and need to convert it to PageContext
 impl From<&wurbo_types::Context> for SeedUIContext {
     fn from(context: &wurbo_types::Context) -> Self {
-        // Output is not a type of context, because it is calculated from the other values
+        let mut state = { LAST_STATE.lock().unwrap().clone().unwrap_or_default() };
+
         match context {
             wurbo_types::Context::AllContent(c) => SeedUIContext::from(c.clone()),
-            wurbo_types::Context::Username(u) => SeedUIContext::from(output::Username::from(u)),
-            wurbo_types::Context::Password(p) => SeedUIContext::from(output::Password::from(p)),
+            wurbo_types::Context::Username(u) => {
+                state.output.username = u.into();
+                state
+            }
+            wurbo_types::Context::Password(p) => {
+                state.output.password = p.into();
+                state
+            }
+            wurbo_types::Context::Encrypted(e) => {
+                state.output.encrypted = e.into();
+                state
+            }
+            wurbo_types::Context::Submit => {
+                state.output.seed = output::Seed::from(state.clone());
+                state
+            }
         }
     }
 }
@@ -83,23 +98,5 @@ impl From<wurbo_types::Content> for SeedUIContext {
             // calculate the values from the above inouts for us
             output: Output::default(),
         }
-    }
-}
-
-impl From<output::Username> for SeedUIContext {
-    fn from(username: output::Username) -> Self {
-        // Safe to unwrap here because render on all page content will always be called first
-        let mut state = { LAST_STATE.lock().unwrap().clone().unwrap() };
-        state.output.username = username;
-        state
-    }
-}
-
-impl From<output::Password> for SeedUIContext {
-    fn from(password: output::Password) -> Self {
-        // Safe to unwrap here because render on all page content will always be called first
-        let mut state = { LAST_STATE.lock().unwrap().clone().unwrap() };
-        state.output.password = password;
-        state
     }
 }

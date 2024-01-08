@@ -3,6 +3,12 @@ export function buildCodeString(namespace) {
       const bc = new BroadcastChannel('${namespace}');
       export function addeventlistener({ selector, ty }) {
         document.querySelector(selector).addEventListener(ty, (e) => {
+
+          // detect if form event
+          if(e.target.closest('form')) {
+            e.preventDefault();
+          }
+
           let ctx = {
             tag: e.target.name,
             val: {
