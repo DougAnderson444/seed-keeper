@@ -81,7 +81,7 @@ impl From<&wurbo_types::Context> for SeedUIContext {
                 state
             }
             wurbo_types::Context::Submit => {
-                state.output.seed = Some(output::Seed::from(state.clone()));
+                state.output.seed = Some(output::Output::from(state.output.clone()).seed());
                 state
             }
         }

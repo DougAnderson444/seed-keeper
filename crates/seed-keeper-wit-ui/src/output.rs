@@ -7,10 +7,41 @@ pub(super) struct Output {
     pub(crate) username: Username,
     pub(crate) password: Password,
     pub(crate) encrypted: Encrypted,
-    pub(crate) seed: Option<Seed>,
+    pub(crate) seed: Option<Value>,
 }
 
 impl Output {
+    /// Load the given username and password into the config and then
+    /// get the encrypted seed back
+    pub(crate) fn seed(&self) -> Value {
+        let config = Credentials {
+            username: self
+                .username
+                .as_ref()
+                .map(|v| v.value.clone())
+                .unwrap_or_default()
+                .into(),
+            password: self
+                .password
+                .as_ref()
+                .map(|v| v.value.clone())
+                .unwrap_or_default()
+                .into(),
+            encrypted: self.encrypted.clone().into(),
+        };
+
+        println!("config: {:?}", config);
+
+        if let Err(e) = set_config(&config) {
+            return Value::from(format!("Error in Output setting config: {:?}", e));
+        }
+
+        match get_encrypted() {
+            Ok(encrypted) => Value::from(encrypted),
+            Err(e) => Value::from(format!("Error in Output getting encrypted: {:?}", e)),
+        }
+    }
+
     /// Calculate the length of the username and password concatenated
     fn calculate(&self) -> Value {
         Value::from(*&self.concat().len())
@@ -43,8 +74,8 @@ impl StructObject for Output {
             // self.username.value
             "count" => Some(Value::from(self.calculate())),
             "seed" => match &self.seed {
-                Some(seed) => Some(Value::from_struct_object(seed.clone())),
-                None => Some(Value::from("")),
+                Some(seed) => Some(Value::from(seed.clone())),
+                None => Some(Value::from("Enter username and password to create a seed.")),
             },
             // if self.id.is_some, use it, otherwise generate a new one
             "id" => Some(Value::from(self.id.clone().unwrap_or(utils::rand_id()))),
@@ -164,79 +195,5 @@ impl Deref for Encrypted {
 
     fn deref(&self) -> &Self::Target {
         &self.0
-    }
-}
-
-#[derive(Debug, Clone, Default)]
-pub(super) struct Seed {
-    username: Username,
-    password: Password,
-    encrypted: Encrypted,
-}
-
-impl Seed {
-    /// New seed
-    pub(crate) fn new(username: Username, password: Password, encrypted: Encrypted) -> Self {
-        Self {
-            username,
-            password,
-            encrypted,
-        }
-    }
-
-    /// Load the given username and password into the config and then
-    /// get the encrypted seed back
-    fn seed(&self) -> Value {
-        let config = Credentials {
-            username: self
-                .username
-                .as_ref()
-                .map(|v| v.value.clone())
-                .unwrap_or_default()
-                .into(),
-            password: self
-                .password
-                .as_ref()
-                .map(|v| v.value.clone())
-                .unwrap_or_default()
-                .into(),
-            encrypted: self.encrypted.clone().into(),
-        };
-
-        println!("config: {:?}", config);
-
-        if let Err(e) = set_config(&config) {
-            return Value::from(format!("Error in Output setting config: {:?}", e));
-        }
-
-        match get_encrypted() {
-            Ok(encrypted) => Value::from(encrypted),
-            Err(e) => Value::from(format!("Error in Output getting encrypted: {:?}", e)),
-        }
-    }
-}
-
-impl From<SeedUIContext> for Seed {
-    fn from(context: SeedUIContext) -> Self {
-        Self::new(
-            context.output.username,
-            context.output.password,
-            context.output.encrypted,
-        )
-    }
-}
-
-impl StructObject for Seed {
-    fn get_field(&self, name: &str) -> Option<Value> {
-        match name {
-            "value" => Some(self.seed()),
-            "id" => Some(Value::from(utils::rand_id())),
-            _ => None,
-        }
-    }
-
-    /// So that debug will show the values
-    fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["value", "id"])
     }
 }
