@@ -7,7 +7,7 @@ pub(super) struct Output {
     pub(crate) username: Username,
     pub(crate) password: Password,
     pub(crate) encrypted: Encrypted,
-    pub(crate) seed: Seed,
+    pub(crate) seed: Option<Seed>,
 }
 
 impl Output {
@@ -42,7 +42,10 @@ impl StructObject for Output {
             "value" => Some(Value::from(self.concat())),
             // self.username.value
             "count" => Some(Value::from(self.calculate())),
-            "seed" => Some(Value::from_struct_object(self.seed.clone())),
+            "seed" => match &self.seed {
+                Some(seed) => Some(Value::from_struct_object(seed.clone())),
+                None => Some(Value::from("")),
+            },
             // if self.id.is_some, use it, otherwise generate a new one
             "id" => Some(Value::from(self.id.clone().unwrap_or(utils::rand_id()))),
             _ => None,
