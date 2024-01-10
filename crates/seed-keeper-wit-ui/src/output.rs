@@ -37,7 +37,23 @@ impl Output {
         }
 
         match get_encrypted() {
-            Ok(encrypted) => Value::from(encrypted),
+            Ok(encrypted) => {
+                // if serde feature, emit the serialized encrypted seed as an event
+                #[cfg(feature = "serde")]
+                {
+                    use crate::wurbo_in::emit;
+                    // set seed in events::Events::Encrypted to emit it
+                    let encr_evt =
+                        events::Contexts::Events(events::Event::Encrypted(encrypted.clone()));
+                    // serialize the event
+                    let serialized = serde_json::to_string(&encr_evt).unwrap();
+                    println!("serialized Encrypted Event: {}", serialized);
+                    // emit the event
+                    emit(&serialized);
+                }
+
+                Value::from(encrypted)
+            }
             Err(e) => Value::from(format!("Error in Output getting encrypted: {:?}", e)),
         }
     }
