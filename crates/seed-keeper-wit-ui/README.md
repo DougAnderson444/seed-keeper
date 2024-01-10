@@ -18,4 +18,4 @@ cargo component build --release
 
 # Use
 
-To be useful, you compose the User Interface with the seed-keeper-wit component using `wasm-tools`
+To be useful, you compose the User Interface with the seed-keeper-wallet component using `wasm-tools`

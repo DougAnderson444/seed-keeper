@@ -26,7 +26,7 @@ world yourworld {
 
 ```toml
 [package.metadata.component.target.dependencies]
-"seed-keeper:wallet" = { path = "../path/to/seed-keeper-wit/wit" }  # directory containing the WIT package
+"seed-keeper:wallet" = { path = "../path/to/seed-keeper-wallet/wit" }  # directory containing the WIT package
 ```
 
 4. Export an interface which defines a `sign` func which takes a message and returns a signature.
@@ -41,4 +41,4 @@ interface operations {
 
 ## Compose
 
-Compose this plugin together with the `seed-keeper-wit` and the `seed-keeper-wit-ui` components.
+Compose this plugin together with the `seed-keeper-wallet` and the `seed-keeper-wit-ui` components.

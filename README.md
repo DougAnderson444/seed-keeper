@@ -1,7 +1,7 @@
 # Seed Keeper Workspace
 
 - [seed-keeper-core](crates/seed-keeper-core/): Core functionality for Seed generation & encryption.
-- [seed-keeper-wit](crates/seed-keeper-wit/): Wasm Interface Type (WIT) Component for using Seed-Keeper-Core in Apps.
+- [seed-keeper-wallet](crates/seed-keeper-wallet/): Wasm Interface Type (WIT) Component for using Seed-Keeper-Core in Apps.
 - [seed-keeper-wit-ui](crates/seed-keeper-wit-ui/): A User Interface built on top of Wasm Component Model for the Seed Keeper.
 
 ## Seed Keeper
@@ -16,7 +16,7 @@ cargo component build --workspace --release
 
 ## Compose
 
-Compose the `seed-keeper-wit`, `seed-keeper-wit-ui`, and the seed consumers of your choice into a single Wasm component for use in an App using [`wasm-tools compose`](https://component-model.bytecodealliance.org/creating-and-consuming/composing.html):
+Compose the `seed-keeper-wallet`, `seed-keeper-wit-ui`, and the seed consumers of your choice into a single Wasm component for use in an App using [`wasm-tools compose`](https://component-model.bytecodealliance.org/creating-and-consuming/composing.html):
 
 ```bash
 wasm-tools compose ./target/wasm32-wasi/release/seed_keeper_wit_ui.wasm -d ./target/wasm32-wasi/release/seed_keeper_wit.wasm -o examples/composed-wallet.wasm

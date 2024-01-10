@@ -1,6 +1,7 @@
 export function buildCodeString(namespace) {
 	return `
       const bc = new BroadcastChannel('${namespace}');
+
       export function addeventlistener({ selector, ty }) {
         document.querySelector(selector).addEventListener(ty, (e) => {
 
@@ -27,7 +28,13 @@ export function buildCodeString(namespace) {
           // console.log({ctx}, {rendered});
           bc.postMessage(rendered);
         });
-      }`;
+      }
+
+      // Enables the guest components to emit a broadcast message to all peers on the same domain origin browsing context
+      export function emit(message) {
+        bc.postMessage(message);
+      }
+`;
 }
 
 /**

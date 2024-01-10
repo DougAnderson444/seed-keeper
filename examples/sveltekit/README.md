@@ -43,7 +43,7 @@ export function buildCodeString(namespace) {
 }
 ```
 
-5. Wire up the exports of `seed-keeper-wit` to the imports of `seed-keeper-wit-ui` usign [`wasm-tools`](https://github.com/bytecodealliance/wasm-tools):
+5. Wire up the exports of `seed-keeper-wallet` to the imports of `seed-keeper-wit-ui` usign [`wasm-tools`](https://github.com/bytecodealliance/wasm-tools):
 
 ```bash
 cargo install wasm-tools

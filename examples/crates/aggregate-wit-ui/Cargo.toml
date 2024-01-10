@@ -30,4 +30,4 @@ package = "wallet:aggregate-wit-ui"
 "example:edwards-ui" = { path = "../edwards-ui/wit" }
 
 "component:edwards" = { path = "../edwards-wit/wit/deps/edwards" }
-"seed-keeper:wallet" = { path = "../../../crates/seed-keeper-wit/wit" } 
+"seed-keeper:wallet" = { path = "../../../crates/seed-keeper-wallet/wit" } 

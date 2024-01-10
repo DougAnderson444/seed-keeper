@@ -1,5 +1,5 @@
 [package]
-name = "seed-keeper-wit"
+name = "seed-keeper-wallet"
 version = "0.1.0"
 edition = "2021"
 
@@ -20,6 +20,6 @@ serde_json = "1.0"
 crate-type = ["cdylib"]
 
 [package.metadata.component]
-package = "component:seed-keeper-wit"
+package = "seed-keeper:wallet"
 
 [package.metadata.component.dependencies]

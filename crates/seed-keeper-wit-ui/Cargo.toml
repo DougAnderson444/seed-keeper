@@ -24,4 +24,4 @@ package = "seed-keeper:wit-ui"
 [package.metadata.component.dependencies]
 
 [package.metadata.component.target.dependencies]
-"seed-keeper:wallet" = { path = "../seed-keeper-wit/wit" } 
+"seed-keeper:wallet" = { path = "../seed-keeper-wallet/wit" } 

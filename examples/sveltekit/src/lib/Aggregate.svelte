@@ -78,6 +78,14 @@
 
 		// lisen for events from the component
 		listener.listen(mod);
+
+		// Set up a broadcast channel to listen for updates from the Blob URLs
+		const bc = new BroadcastChannel(listener.namespace);
+
+		// Listen for messages from the Blob URLs
+		bc.onmessage = (event) => {
+			// console.log('Svelte BroadcastChannel evt', { event });
+		};
 	});
 
 	// Once the HTML is rendered and the module is loaded, we can activate the event emitters
