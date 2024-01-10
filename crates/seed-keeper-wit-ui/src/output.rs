@@ -30,8 +30,6 @@ impl Output {
             encrypted: self.encrypted.clone().into(),
         };
 
-        println!("config: {:?}", config);
-
         if let Err(e) = set_config(&config) {
             return Value::from(format!("Error in Output setting config: {:?}", e));
         }
@@ -47,7 +45,6 @@ impl Output {
                         events::Contexts::Events(events::Event::Encrypted(encrypted.clone()));
                     // serialize the event
                     let serialized = serde_json::to_string(&encr_evt).unwrap();
-                    println!("serialized Encrypted Event: {}", serialized);
                     // emit the event
                     emit(&serialized);
                 }
