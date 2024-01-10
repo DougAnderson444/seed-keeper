@@ -2,6 +2,8 @@
 //!
 cargo_component_bindings::generate!();
 
+/// Event types which can can emitted from this UI
+pub mod events;
 mod input;
 mod output;
 mod page;
