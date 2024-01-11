@@ -17,10 +17,6 @@ interface wurbo-types {
     placeholder: string
   }
 
-  record outrecord {
-    value: string,
-  }
-
   type encrypted = list<u8>;
 
   record output {
@@ -29,9 +25,9 @@ interface wurbo-types {
     // optional id string: None is intial render, Some for update value
     id: option<string>,
     // the output dest for the username changes
-    username: option<outrecord>,
+    username: option<string>,
     // the output dest for the password changes
-    password: option<outrecord>,
+    password: option<string>,
     // the output dest for the encrypted changes
     encrypted: option<encrypted>,
   }
@@ -46,8 +42,8 @@ interface wurbo-types {
   // Context variants
   variant context {
     all-content(content),
-    username(outrecord),
-    password(outrecord),
+    username(string),
+    password(string),
     encrypted(encrypted),
     submit
   }

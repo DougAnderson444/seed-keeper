@@ -10,12 +10,11 @@ export function buildCodeString(namespace) {
             e.preventDefault();
           }
 
-          let ctx = {
-            tag: e.target.name,
-            val: {
-              value: e.target.value,
-            }
-          };
+          let val = (e.target.dataset.contextValue && e.target.value)
+             ? { ctx: JSON.parse(e.target.dataset.contextValue), value: e.target.value }
+             : e.target.dataset.contextValue || e.target.value;
+          
+          let ctx = { tag: e.target.dataset.contextName || e.target.name, val };
 
           let el = e.target.closest('[data-slot]');
           if(el) {

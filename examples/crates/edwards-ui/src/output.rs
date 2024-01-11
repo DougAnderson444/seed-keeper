@@ -31,14 +31,14 @@ impl StructObject for Output {
 
 /// Message captures is the message input value.
 #[derive(Debug, Default, Clone)]
-pub(crate) struct Message(Option<wurbo_types::Outrecord>);
+pub(crate) struct Message(Option<String>);
 
 impl StructObject for Message {
     fn get_field(&self, name: &str) -> Option<Value> {
         match name {
             "value" => Some(Value::from(
                 // Deref self and use value if is_Some, otherwise use ""
-                self.as_ref().map(|v| v.value.clone()).unwrap_or_default(),
+                self.as_ref().map(|v| v.clone()).unwrap_or_default(),
             )),
             _ => None,
         }
@@ -50,20 +50,20 @@ impl StructObject for Message {
     }
 }
 
-impl From<&wurbo_types::Outrecord> for Message {
-    fn from(context: &wurbo_types::Outrecord) -> Self {
+impl From<&String> for Message {
+    fn from(context: &String) -> Self {
         Message(Some(context.clone()))
     }
 }
 
-impl From<Option<wurbo_types::Outrecord>> for Message {
-    fn from(context: Option<wurbo_types::Outrecord>) -> Self {
+impl From<Option<String>> for Message {
+    fn from(context: Option<String>) -> Self {
         Message(context)
     }
 }
 
 impl Deref for Message {
-    type Target = Option<wurbo_types::Outrecord>;
+    type Target = Option<String>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -80,7 +80,7 @@ impl Signature {
     pub(crate) fn sign(&mut self, msg: &Message) {
         let v = msg
             .as_ref()
-            .map(|v| v.value.clone())
+            .map(|v| v.clone())
             .unwrap_or_default()
             .into_bytes();
         if !v.is_empty() {

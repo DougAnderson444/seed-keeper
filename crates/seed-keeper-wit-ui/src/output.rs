@@ -18,13 +18,13 @@ impl Output {
             username: self
                 .username
                 .as_ref()
-                .map(|v| v.value.clone())
+                .map(|v| v.clone())
                 .unwrap_or_default()
                 .into(),
             password: self
                 .password
                 .as_ref()
-                .map(|v| v.value.clone())
+                .map(|v| v.clone())
                 .unwrap_or_default()
                 .into(),
             encrypted: self.encrypted.clone().into(),
@@ -66,11 +66,11 @@ impl Output {
             "{}{}",
             self.username
                 .as_ref()
-                .map(|v| v.value.clone())
+                .map(|v| v.clone())
                 .unwrap_or_default(),
             self.password
                 .as_ref()
-                .map(|v| v.value.clone())
+                .map(|v| v.clone())
                 .unwrap_or_default()
         )
     }
@@ -84,7 +84,7 @@ impl StructObject for Output {
             "username" => Some(Value::from_struct_object(self.username.clone())),
             "password" => Some(Value::from_struct_object(self.password.clone())),
             "value" => Some(Value::from(self.concat())),
-            // self.username.value
+            // self.username
             "count" => Some(Value::from(self.calculate())),
             "seed" => match &self.seed {
                 Some(seed) => Some(Value::from(seed.clone())),
@@ -104,14 +104,14 @@ impl StructObject for Output {
 
 /// Username captures is the username input value.
 #[derive(Debug, Default, Clone)]
-pub(crate) struct Username(Option<wurbo_types::Outrecord>);
+pub(crate) struct Username(Option<String>);
 
 impl StructObject for Username {
     fn get_field(&self, name: &str) -> Option<Value> {
         match name {
             "value" => Some(Value::from(
                 // Deref self and use value if is_Some, otherwise use ""
-                self.as_ref().map(|v| v.value.clone()).unwrap_or_default(),
+                self.as_ref().map(|v| v.clone()).unwrap_or_default(),
             )),
             _ => None,
         }
@@ -123,20 +123,20 @@ impl StructObject for Username {
     }
 }
 
-impl From<&wurbo_types::Outrecord> for Username {
-    fn from(context: &wurbo_types::Outrecord) -> Self {
+impl From<&String> for Username {
+    fn from(context: &String) -> Self {
         Username(Some(context.clone()))
     }
 }
 
-impl From<Option<wurbo_types::Outrecord>> for Username {
-    fn from(context: Option<wurbo_types::Outrecord>) -> Self {
+impl From<Option<String>> for Username {
+    fn from(context: Option<String>) -> Self {
         Username(context)
     }
 }
 
 impl Deref for Username {
-    type Target = Option<wurbo_types::Outrecord>;
+    type Target = Option<String>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -147,15 +147,14 @@ impl Deref for Username {
 /// We wrap it as a newtype so that we can impl [StructObject] for it
 /// We impl [Deref] so we can access the inner of the Rust smart pointer
 #[derive(Debug, Default, Clone)]
-pub(crate) struct Password(Option<wurbo_types::Outrecord>);
+pub(crate) struct Password(Option<String>);
 
 impl StructObject for Password {
-    // If you add fields to the Outrecord, you'd add them also here below:
     fn get_field(&self, name: &str) -> Option<Value> {
         match name {
             "value" => Some(Value::from(
                 // Deref self and use value if is_Some, otherwise use ""
-                self.as_ref().map(|v| v.value.clone()).unwrap_or_default(),
+                self.as_ref().map(|v| v.clone()).unwrap_or_default(),
             )),
             _ => None,
         }
@@ -167,20 +166,20 @@ impl StructObject for Password {
     }
 }
 
-impl From<&wurbo_types::Outrecord> for Password {
-    fn from(context: &wurbo_types::Outrecord) -> Self {
+impl From<&String> for Password {
+    fn from(context: &String) -> Self {
         Password(Some(context.clone()))
     }
 }
 
-impl From<Option<wurbo_types::Outrecord>> for Password {
-    fn from(context: Option<wurbo_types::Outrecord>) -> Self {
+impl From<Option<String>> for Password {
+    fn from(context: Option<String>) -> Self {
         Password(context)
     }
 }
 
 impl Deref for Password {
-    type Target = Option<wurbo_types::Outrecord>;
+    type Target = Option<String>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
