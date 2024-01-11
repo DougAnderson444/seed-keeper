@@ -12,9 +12,6 @@ use page::Page;
 
 use std::ops::Deref;
 
-/// Event types which can can emitted from this UI and listened by others
-use seed_keeper_utils::events::*;
-
 use bindings::seed_keeper::wallet::config::{get_encrypted, set_config, Credentials};
 
 use bindings::exports::seed_keeper::wit_ui::wurbo_out::Guest as WurboGuest;

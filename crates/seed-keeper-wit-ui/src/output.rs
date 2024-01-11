@@ -1,5 +1,8 @@
 use super::*;
 
+/// Event types which can can emitted from this UI and listened by others
+use seed_keeper_utils::events;
+
 /// Output handles the storage of the values and the calculation of the length of the concatenated
 #[derive(Debug, Default, Clone)]
 pub(super) struct Output {
