@@ -1390,6 +1390,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "seed-keeper-utils"
+version = "0.1.0"
+
+[[package]]
 name = "seed-keeper-wallet"
 version = "0.1.0"
 dependencies = [
@@ -1407,6 +1411,7 @@ name = "seed-keeper-wit-ui"
 version = "0.1.0"
 dependencies = [
  "cargo-component-bindings",
+ "seed-keeper-utils",
  "serde",
  "serde_json",
  "wurbo",
