@@ -4,7 +4,6 @@ resolver = "2"
 
 [workspace.dependencies]
 seed-keeper-core = { path = "crates/seed-keeper-core" }
-seed-keeper-utils = { path = "crates/seed-keeper-utils" }
 cargo-component-bindings = "0.6.0"
 
 [package]
