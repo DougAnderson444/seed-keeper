@@ -72,10 +72,6 @@
 
 <svelte:head>
 	<title>Seed Keeper</title>
-	<!-- The CSS is embedded in the HTML templates which is embedded in the wasm right now -->
-	<!-- TODO: instead of embedding the HTML, takes them as props so we can run them through Tailwindcss first -->
-	<!-- TODO: instead of embedding the HTML, takes them as props so we can run them through Tailwindcss first -->
-	<!-- TODO: instead of embedding the HTML, takes them as props so we can run them through Tailwindcss first -->
 	<script src="https://cdn.tailwindcss.com"></script>
 </svelte:head>
 <div>
