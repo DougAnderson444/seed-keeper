@@ -7,20 +7,24 @@
 /// so that when this event reaches the Context Router in `wurbo`, it can be routed accordingly.
 /// See <https://serde.rs/enum-representations.html#adjacently-tagged> for more information.
 ///
-/// This enum is non-exhaustive, so that new events can be added in the future without breaking
 #[derive(Debug, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "serde", serde(tag = "tag", content = "val"))]
 #[non_exhaustive]
-pub enum Contexts {
-    Events(Event),
+pub enum Message {
+    /// The encrypted seed
+    Encrypted(Vec<u8>),
 }
 
 #[derive(Debug, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[cfg_attr(feature = "serde", serde(tag = "tag", content = "val"))]
-#[non_exhaustive]
-pub enum Event {
-    /// The encrypted seed
-    Encrypted(Vec<u8>),
+pub struct Context {
+    pub tag: String,
+    pub val: String,
+}
+
+impl Context {
+    pub fn new(tag: String, val: String) -> Self {
+        Self { tag, val }
+    }
 }
