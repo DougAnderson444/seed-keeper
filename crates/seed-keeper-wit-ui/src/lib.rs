@@ -2,6 +2,7 @@
 //!
 cargo_component_bindings::generate!();
 
+mod events;
 mod input;
 mod output;
 mod page;

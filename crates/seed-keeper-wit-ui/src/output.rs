@@ -1,7 +1,7 @@
 use super::*;
 
 /// Event types which can can emitted from this UI and listened by others
-use seed_keeper_utils::events::{Context, Message};
+use events::{Context, Message};
 
 /// Output handles the storage of the values and the calculation of the length of the concatenated
 #[derive(Debug, Default, Clone)]
@@ -42,17 +42,13 @@ impl Output {
                 // if serde feature, emit the serialized encrypted seed as an event
                 #[cfg(feature = "serde")]
                 {
-                    use crate::wurbo_in::emit;
-                    let ctx = Context {
-                        tag: "events".to_owned(),
-                        val: serde_json::to_string(&Message::Encrypted(encrypted.clone()))
-                            .expect("encrypted should be serializable"),
-                    };
-                    // WIT expects variants to be {tag: _, val: _} in lowercase, which we cannot
-                    // get using serde
+                    // WIT expects variants to be {tag: _, val: _} in lowercase,
+                    // which we cannot get using serde
+                    // let ctx = Context::new("events", &Message::Encrypted(encrypted.clone()));
+                    let ctx = Context::Event(Message::Encrypted(encrypted.clone()));
                     let serialized =
                         serde_json::to_string(&ctx).expect("to be able to serialize Context");
-                    emit(&serialized);
+                    crate::wurbo_in::emit(&serialized);
                 }
 
                 Value::from(encrypted)
