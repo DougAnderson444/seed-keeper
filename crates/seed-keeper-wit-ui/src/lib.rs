@@ -2,8 +2,6 @@
 //!
 cargo_component_bindings::generate!();
 
-/// Event types which can can emitted from this UI
-pub mod events;
 mod input;
 mod output;
 mod page;
@@ -13,6 +11,9 @@ use output::Output;
 use page::Page;
 
 use std::ops::Deref;
+
+/// Event types which can can emitted from this UI and listened by others
+use seed_keeper_utils::events::*;
 
 use bindings::seed_keeper::wallet::config::{get_encrypted, set_config, Credentials};
 
@@ -86,6 +87,9 @@ impl From<&wurbo_types::Context> for SeedUIContext {
                 state.output.seed = Some(output::Output::from(state.output.clone()).seed());
                 state
             }
+            // allow unreachable pattern
+            #[allow(unreachable_patterns)]
+            _ => state,
         }
     }
 }
