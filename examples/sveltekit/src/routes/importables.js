@@ -22,7 +22,12 @@ export function buildCodeString(namespace) {
             el = el.closest('[data-slot]');
           }
 
-          let rendered = window.${namespace}.render(ctx); 
+          if(!e.target.dataset.contextTarget) {
+            console.warn("No contextTarget found on event target. Did you set data-context-target='output.html'?");
+            return
+          }
+
+          let rendered = window.${namespace}.render(ctx, e.target.dataset.contextTarget); 
 
           // console.log({ctx}, {rendered});
           bc.postMessage(rendered);

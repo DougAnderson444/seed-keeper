@@ -95,9 +95,7 @@
 			await tick();
 			// once the DOM has our elements loaded, we can activate the event emitters
 			// mod.wurboOut.activate();
-			console.log({ mod });
 			mod.aggregation.activates();
-			console.log('events activated');
 		})();
 </script>
 

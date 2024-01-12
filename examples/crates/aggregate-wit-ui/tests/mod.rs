@@ -55,12 +55,13 @@ impl bindgen::example::edwards_ui::wurbo_out::Host for MyCtx {
     fn render(
         &mut self,
         _ctx: bindgen::example::edwards_ui::wurbo_out::Context,
+        _target: String,
     ) -> wasmtime::Result<Result<String, String>> {
         // return some html as string
         Ok(Ok("edwards ui for testing".to_string()))
     }
 
-    fn activate(&mut self) -> wasmtime::Result<()> {
+    fn activate(&mut self, selectors: Option<Vec<String>>) -> wasmtime::Result<()> {
         Ok(())
     }
 }
@@ -71,12 +72,13 @@ impl bindgen::seed_keeper::wit_ui::wurbo_out::Host for MyCtx {
     fn render(
         &mut self,
         _ctx: bindgen::seed_keeper::wit_ui::wurbo_out::Context,
+        _target: String,
     ) -> wasmtime::Result<Result<String, String>> {
         // return some html as string
         Ok(Ok("seed keeper ui for testing".to_string()))
     }
 
-    fn activate(&mut self) -> wasmtime::Result<()> {
+    fn activate(&mut self, selectors: Option<Vec<String>>) -> wasmtime::Result<()> {
         Ok(())
     }
 }

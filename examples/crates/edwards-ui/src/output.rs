@@ -1,9 +1,11 @@
 use super::*;
+use std::sync::OnceLock;
+
+static OUTPUT_ID: OnceLock<String> = OnceLock::new();
 
 /// Output handles the storage of the values and the calculation of the length of the concatenated
 #[derive(Debug, Default, Clone)]
 pub(super) struct Output {
-    id: Option<String>,
     pub(crate) message: Message,
     pub(crate) signature: Signature,
     pub(crate) log: String,
@@ -18,7 +20,9 @@ impl StructObject for Output {
             "signature" => Some(Value::from_struct_object(self.signature.clone())),
             "log" => Some(Value::from(self.log.clone())),
             // if self.id.is_some, use it, otherwise generate a new one
-            "id" => Some(Value::from(self.id.clone().unwrap_or(utils::rand_id()))),
+            "id" => Some(Value::from(
+                OUTPUT_ID.get_or_init(|| utils::rand_id()).to_owned(),
+            )),
             _ => None,
         }
     }

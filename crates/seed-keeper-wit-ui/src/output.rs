@@ -3,10 +3,11 @@ use super::*;
 /// Event types which can can emitted from this UI and listened by others
 use events::{Context, Message};
 
+static OUTPUT_ID: OnceLock<String> = OnceLock::new();
+
 /// Output handles the storage of the values and the calculation of the length of the concatenated
 #[derive(Debug, Default, Clone)]
 pub(super) struct Output {
-    id: Option<String>,
     pub(crate) username: Username,
     pub(crate) password: Password,
     pub(crate) encrypted: Encrypted,
@@ -93,7 +94,9 @@ impl StructObject for Output {
                 None => Some(Value::from("Enter username and password to create a seed.")),
             },
             // if self.id.is_some, use it, otherwise generate a new one
-            "id" => Some(Value::from(self.id.clone().unwrap_or(utils::rand_id()))),
+            "id" => Some(Value::from(
+                OUTPUT_ID.get_or_init(|| utils::rand_id()).to_owned(),
+            )),
             _ => None,
         }
     }

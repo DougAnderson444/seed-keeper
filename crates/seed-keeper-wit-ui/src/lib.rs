@@ -12,6 +12,7 @@ use output::Output;
 use page::Page;
 
 use std::ops::Deref;
+use std::sync::OnceLock;
 
 use bindings::seed_keeper::wallet::config::{get_encrypted, set_config, Credentials};
 

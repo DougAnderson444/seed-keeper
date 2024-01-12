@@ -10,7 +10,8 @@
       <div class="flex-1">
         <input
           id="{{ input.username_input|on('keyup') }}"
-          name="username"
+          data-context-name="username"
+          data-context-target="output.html"
           autocomplete="username"
           class="rounded border border-blue-400 bg-blue-100 text-neutral-700 p-2 m-2 placeholder:Enter invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
           placeholder="{{input.placeholder}}"
@@ -29,10 +30,10 @@
       <div class="flex-1">
         <input
           id="{{ input.password_input|on('keyup') }}"
+          data-context-name="password"
+          data-context-target="output.html"
           type="password"
-          name="password"
           autocomplete="current-password"
-          data-context="password"
           placeholder="********"
           class="rounded border border-blue-400 bg-blue-100 text-neutral-700 p-2 m-2 placeholder:Enter invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
           minlength="8"
@@ -50,8 +51,8 @@
       <button
         id="{{ input.submit|on('click') }}"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 m-2 rounded group-invalid:pointer-events-none group-invalid:opacity-30"
-        name="submit"
-        data-context="submit"
+        data-context-name="submit"
+        data-context-target="output.html"
       >
         Submit
       </button>
