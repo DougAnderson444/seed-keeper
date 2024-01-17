@@ -43,8 +43,6 @@ version = "0.1.0"
 dependencies = [
  "cargo-component-bindings",
  "minijinja",
- "serde",
- "serde_json",
  "thiserror",
  "wasmtime",
  "wasmtime-wasi",

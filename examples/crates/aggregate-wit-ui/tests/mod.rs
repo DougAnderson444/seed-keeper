@@ -3,11 +3,9 @@
 //! Note: In order for this to run, we need to include the WIT dependencies in ./wit/deps/*,
 //! which is copy and paste from the source directory.
 mod bindgen {
-    // name of the world in the .wit file
-    wasmtime::component::bindgen!("example");
+    wasmtime::component::bindgen!("agg");
 }
 
-use serde::{Deserialize, Serialize};
 use std::{
     env,
     path::{Path, PathBuf},
@@ -109,24 +107,12 @@ pub enum TestError {
     /// From io
     #[error("IO: {0}")]
     Io(#[from] std::io::Error),
-
-    /// From serde_json
-    #[error("Serde JSON: {0}")]
-    SerdeJson(#[from] serde_json::Error),
 }
 
 impl From<String> for TestError {
     fn from(s: String) -> Self {
         TestError::Stringified(s)
     }
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct TestFixtures {
-    seed: Vec<u8>,
-    encrypted: Vec<u8>,
-    username: Vec<u8>,
-    password: Vec<u8>,
 }
 
 /// Utility function to get the workspace dir
@@ -170,7 +156,7 @@ mod aggregate_example_tests {
 
         let mut linker = Linker::new(&engine);
         // link imports like get_seed to our instantiation
-        bindgen::Example::add_to_linker(&mut linker, |state: &mut MyCtx| state)?;
+        bindgen::Agg::add_to_linker(&mut linker, |state: &mut MyCtx| state)?;
         // link the WASI imports to our instantiation
         wasmtime_wasi::preview2::command::sync::add_to_linker(&mut linker)?;
 
@@ -181,7 +167,7 @@ mod aggregate_example_tests {
         };
         let mut store = Store::new(&engine, state);
 
-        let (bindings, _) = bindgen::Example::instantiate(&mut store, &component, &linker)?;
+        let (bindings, _) = bindgen::Agg::instantiate(&mut store, &component, &linker)?;
 
         // Use bindings
         // Call render with initial data, should return all HTML

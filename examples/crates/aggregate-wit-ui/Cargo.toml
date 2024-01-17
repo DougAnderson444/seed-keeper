@@ -14,8 +14,6 @@ minijinja = { version = "1.0.10" }
 wasmtime = { version = "16", features = ['component-model'] }
 wasmtime-wasi = "16.0"
 thiserror = "1.0"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
 
 [lib]
 crate-type = ["cdylib"]
@@ -26,8 +24,7 @@ package = "wallet:aggregate-wit-ui"
 [package.metadata.component.dependencies]
 
 [package.metadata.component.target.dependencies]
-"seed-keeper:wit-ui" = { path = "../../../crates/seed-keeper-wit-ui/wit" }
-"example:edwards-ui" = { path = "../edwards-ui/wit" }
-
+"seed-keeper:wit-ui" = { path = "wit/deps/seed-keeper-ui" }
+"example:edwards-ui" = { path = "wit/deps/edwards-ui" }
 "seed-keeper:edwards-wit" = { path = "wit/deps/edwards" }
-"seed-keeper:wallet" = { path = "../../../crates/seed-keeper-wallet/wit" } 
+"seed-keeper:wallet" = { path = "wit/deps/wallet" } 

@@ -65,7 +65,7 @@ interface wurbo-out {
 }
 
 /// An example world for the component to target.
-world example {
+world agg {
     // requests to the DOM via jco
     import wurbo-in;
 
