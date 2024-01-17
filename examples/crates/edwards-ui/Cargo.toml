@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 cargo-component-bindings = { workspace = true }
-wurbo = "0.1.2"
+wurbo = "0.1.7"
 
 [lib]
 crate-type = ["cdylib"]

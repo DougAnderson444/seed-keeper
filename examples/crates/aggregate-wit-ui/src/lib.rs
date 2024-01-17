@@ -72,8 +72,8 @@ impl WurboGuest for Component {
                 let rendered = tmpl.render(&struct_ctx).map_err(prnt_err)?;
                 rendered
             }
-            Context::Seed(ctx) => wit_ui::wurbo_out::render(&ctx.into(), "output.html")?,
-            Context::Edwards(ctx) => edwards_ui::wurbo_out::render(&ctx.into(), "output.html")?,
+            Context::Seed(ctx) => wit_ui::wurbo_out::render(&ctx.into())?,
+            Context::Edwards(ctx) => edwards_ui::wurbo_out::render(&ctx.into())?,
         };
         Ok(html)
     }
@@ -171,7 +171,7 @@ impl StructObject for SeedUI {
     /// outputs to .html
     fn get_field(&self, name: &str) -> Option<Value> {
         println!("SeedUI::get_field({})", name);
-        let render_result = wit_ui::wurbo_out::render(&self, "page.html");
+        let render_result = wit_ui::wurbo_out::render(&self);
         match (name, render_result) {
             ("html", Ok(html)) => Some(Value::from(html)),
             _ => None,
@@ -206,7 +206,7 @@ struct Edwards(wurbo_types::EdwardsContext);
 /// and return the HTML string as the Value
 impl StructObject for Edwards {
     fn get_field(&self, name: &str) -> Option<Value> {
-        let render_result = edwards_ui::wurbo_out::render(&self, "page.html");
+        let render_result = edwards_ui::wurbo_out::render(&self);
         match (name, render_result) {
             ("html", Ok(html)) => Some(Value::from(html)),
             _ => None,

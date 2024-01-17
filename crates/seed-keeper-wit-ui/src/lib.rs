@@ -46,6 +46,7 @@ pub struct SeedUIContext {
     page: Page,
     input: Input,
     pub(crate) output: Output,
+    target: Option<String>,
 }
 
 impl StructObject for SeedUIContext {
@@ -102,6 +103,7 @@ impl From<wurbo_types::Content> for SeedUIContext {
             // We can use default for Output because the minijinja StructObject impl will
             // calculate the values from the above inouts for us
             output: Output::default(),
+            target: None,
         }
     }
 }
