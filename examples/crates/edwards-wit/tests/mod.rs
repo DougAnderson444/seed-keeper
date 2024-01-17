@@ -153,12 +153,12 @@ mod edwards_example_wit_tests {
         // use bindings to sign a message
         let message = b"hello world";
         let signature = bindings
-            .component_edwards_operations()
+            .seed_keeper_edwards_wit_operations()
             .call_sign(&mut store, message)??;
 
         // use bindings to verify the signature
         let is_valid = bindings
-            .component_edwards_operations()
+            .seed_keeper_edwards_wit_operations()
             .call_verify(&mut store, message, &signature)??;
 
         assert!(is_valid);
