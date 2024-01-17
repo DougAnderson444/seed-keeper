@@ -6,7 +6,7 @@ dependencies:
   seed-keeper:wit-ui/wurbo-out@0.1.0: ../../../target/wasm32-wasi/release/seed_keeper_wit_ui.wasm
   seed-keeper:wallet/config@0.1.0: ../../../target/wasm32-wasi/release/seed_keeper_wallet.wasm
   example:edwards-ui/wurbo-out@0.1.0: ../../../target/wasm32-wasi/release/edwards_ui.wasm
-  component:edwards/operations@0.1.0: ../../../target/wasm32-wasi/release/edwards_wit.wasm
+  seed-keeper:edwards-wit/operations@0.1.0: ../../../target/wasm32-wasi/release/edwards_wit.wasm
 # instantiations:
 #   root:
 #     arguments:
@@ -18,7 +18,7 @@ dependencies:
 #       seed-keeper:wallet/config@0.1.0: seed
 #   edwards-ui:
 #     arguments:
-#       component:edwards/operations@0.1.0: edwards
+#       seed-keeper:edwards-wit/operations@0.1.0: edwards
 #   edwards:
 #     arguments:
 #       seed-keeper:wallet/config@0.1.0: seed

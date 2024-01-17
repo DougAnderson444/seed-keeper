@@ -51,7 +51,7 @@ world root {
   import component:wurbo/wurbo-in;  
   import component:wallet/config@0.1.0;
 
-  export component:edwards-ui/wurbo-out;
+  export example:edwards-ui/wurbo-out;
 }
 
 ```

@@ -1,6 +1,1 @@
-package seed-keeper:wallet@0.1.0;
-
-world keeper {
-    /// Export the ability for users to set the config of the seed keeper
-    export config;
-}
+../../../../../../crates/seed-keeper-wallet/wit/world.wit

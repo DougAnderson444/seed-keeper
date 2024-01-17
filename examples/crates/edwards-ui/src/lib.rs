@@ -8,10 +8,10 @@ use input::Input;
 use output::Output;
 use page::Page;
 
-use bindings::component::edwards::operations;
 use bindings::example::edwards_ui::wurbo_in;
 use bindings::example::edwards_ui::wurbo_types::{self, Context};
 use bindings::exports::example::edwards_ui::wurbo_out::Guest as WurboGuest;
+use bindings::seed_keeper::edwards_wit::operations;
 
 use wurbo::jinja::{Entry, Index, Rest, Templates};
 use wurbo::prelude_bindgen;

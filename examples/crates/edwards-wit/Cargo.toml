@@ -23,7 +23,6 @@ package = "seed-keeper:edwards-wit"
 [package.metadata.component.dependencies]
 
 [package.metadata.component.target.dependencies]
-"component:edwards" = { path = "wit/deps/edwards" }
 # For some reason, the link below doesn't work fully, so we still need to copy the deps to
 # ./wit/deps/wallet in ADDITION to the link below. 
-"seed-keeper:wallet" = { path = "../../../crates/seed-keeper-wallet/wit" } 
+"seed-keeper:wallet" = { path = "wit/deps/wallet" }

@@ -18,4 +18,5 @@ package = "example:edwards-ui"
 [package.metadata.component.dependencies]
 
 [package.metadata.component.target.dependencies]
-"component:edwards" = { path = "../edwards-wit/wit/deps/edwards" }
+"seed-keeper:edwards-wit" = { path = "wit/deps/edwards-wit" }
+"seed-keeper:wallet" = { path = "wit/deps/wallet" }

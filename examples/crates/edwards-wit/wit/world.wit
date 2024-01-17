@@ -1,7 +1,12 @@
 package seed-keeper:edwards-wit@0.1.0;
 
+interface operations {
+    sign: func(message: list<u8>) -> result<list<u8>, string>;
+    verify: func(message: list<u8>, signature: list<u8>) -> result<bool, string>;
+}
+
 world example {
     import seed-keeper:wallet/config@0.1.0;
 
-    export component:edwards/operations@0.1.0;
+    export operations;
 }
