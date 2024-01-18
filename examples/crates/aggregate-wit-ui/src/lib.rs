@@ -170,7 +170,6 @@ impl StructObject for SeedUI {
     /// Simply passes through the seed context to the component for rendering
     /// outputs to .html
     fn get_field(&self, name: &str) -> Option<Value> {
-        println!("SeedUI::get_field({})", name);
         let render_result = wit_ui::wurbo_out::render(&self);
         match (name, render_result) {
             ("html", Ok(html)) => Some(Value::from(html)),
