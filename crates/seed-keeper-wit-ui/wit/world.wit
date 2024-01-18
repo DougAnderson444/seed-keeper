@@ -14,7 +14,9 @@ interface wurbo-types {
   }
 
   record input {
-    placeholder: string
+    placeholder: string,
+    username: option<string>,
+    encrypted: option<list<u8>>
   }
 
   type encrypted = list<u8>;

@@ -1,20 +1,37 @@
-<div id="my-input-id">
+<div id="my-input-id" class="p-2">
   <div class="italic font-semibold">
     The data you enter can't be seen by anyone else, since it's in a WebAssembly
     sandbox. =)
   </div>
   <!-- when keyup fires, send this target.value to the template as a prop for rendering -->
-  <form class="flex group" autocomplete="on" method="post">
+  <form class="flex flex-col group" autocomplete="on" method="post">
+    <!-- A new input text for encrypted seed that spans the whole width of both username and password -->
     <div class="flex-1">
-      <div class="flex-1">Username:</div>
-      <div class="flex-1">
+      {% if input.encrypted_seed %}
+      <div class="flex-1">Your Encrypted Seed:</div>
+      <div class="flex">
+        <input
+          id="{{ input.encrypted_seed_input|on('keyup') }}"
+          data-context-name="encrypted_seed"
+          autocomplete="off"
+          class="rounded w-full border border-amber-500 text-neutral-700 p-2 m-2 placeholder:Enter invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+          value="{{ input.encrypted_seed }}"
+        />
+      </div>
+      {% else %}
+      <p>Making a new seed from the username and password using <a href="https://www.password-hashing.net/#argon2" target="_blank" class="underline text-blue-600">argon2<a>:</p>
+      {% endif %}
+    </div>
+    <div class="flex-1">
+      <div class="flex-1">Your Username:</div>
+      <div class="flex">
         <input
           id="{{ input.username_input|on('keyup') }}"
           data-context-name="username"
           data-context-target="output.html"
           autocomplete="username"
-          class="rounded border border-blue-400 bg-blue-100 text-neutral-700 p-2 m-2 placeholder:Enter invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
-          placeholder="{{input.placeholder}}"
+          class="rounded w-full border border-blue-400 bg-blue-100 text-neutral-700 p-2 m-2 placeholder:Enter invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+          placeholder="{{input.placeholder}} <==  at least 8 characters"
           minlength="8"
           required
         />
@@ -27,15 +44,15 @@
     </div>
     <div class="flex-1">
       <div class="flex-1">Password:</div>
-      <div class="flex-1">
+      <div class="flex">
         <input
           id="{{ input.password_input|on('keyup') }}"
           data-context-name="password"
           data-context-target="output.html"
           type="password"
           autocomplete="current-password"
-          placeholder="********"
-          class="rounded border border-blue-400 bg-blue-100 text-neutral-700 p-2 m-2 placeholder:Enter invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+          placeholder="******** <==  at least 8 characters"
+          class="rounded w-full border border-blue-400 bg-blue-100 text-neutral-700 p-2 m-2 placeholder:Enter invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
           minlength="8"
           required
         />

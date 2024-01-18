@@ -9,6 +9,7 @@ crate-type = ["cdylib"]
 [dependencies]
 cargo-component-bindings = { workspace = true }
 wurbo = "0.1.7"
+base64ct = { version = "1.6.0", features = ["alloc"] }
 
 # optional but default dependencies
 serde = { version = "1.0", optional = true, features = ["derive"] }
