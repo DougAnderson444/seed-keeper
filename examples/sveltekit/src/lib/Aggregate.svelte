@@ -56,6 +56,12 @@
 						},
 						input: {
 							placeholder: 'Your Username (pick any 8+ chars)'
+							// to load a key, just pass it in as a Uint8Array:
+							// encrypted: new Uint8Array([
+							// 	80, 253, 160, 118, 34, 159, 76, 149, 169, 213, 236, 57, 204, 35, 47, 123, 207, 233,
+							// 	150, 41, 16, 111, 123, 12, 220, 76, 217, 199, 47, 51, 44, 135, 223, 50, 98, 187,
+							// 	119, 144, 218, 99
+							// ])
 						},
 						output: null
 					}
