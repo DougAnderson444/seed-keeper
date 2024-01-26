@@ -16,7 +16,7 @@
 //! Each child component takes care of its own inputs/output, so the Router doesn't
 //! need to worry about it.
 //!
-cargo_component_bindings::generate!();
+mod bindings;
 
 use crate::bindings::exports::wallet::aggregate_wit_ui::wurbo_out::Guest as WurboGuest;
 use crate::bindings::wallet::aggregate_wit_ui::wurbo_types::{self, Context};

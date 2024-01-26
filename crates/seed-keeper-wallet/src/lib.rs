@@ -1,6 +1,6 @@
 #![feature(lazy_cell)]
 
-cargo_component_bindings::generate!();
+mod bindings;
 
 use crate::bindings::exports::seed_keeper::wallet::config::Guest as ConfigGuest;
 use bindings::seed_keeper::wallet::types::Credentials;

@@ -1,4 +1,4 @@
-cargo_component_bindings::generate!();
+mod bindings;
 
 use bindings::exports::seed_keeper::edwards_wit::operations::Guest;
 use bindings::seed_keeper::wallet::config::get_seed;

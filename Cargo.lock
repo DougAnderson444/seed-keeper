@@ -41,11 +41,11 @@ dependencies = [
 name = "aggregate-wit-ui"
 version = "0.1.0"
 dependencies = [
- "cargo-component-bindings",
  "minijinja",
  "thiserror",
  "wasmtime",
  "wasmtime-wasi",
+ "wit-bindgen",
  "wurbo",
 ]
 
@@ -205,7 +205,7 @@ checksum = "a2bd12c1caf447e69cd4528f47f94d203fd2582878ecb9e9465484c4148a8223"
 name = "calculator"
 version = "0.1.0"
 dependencies = [
- "cargo-component-bindings",
+ "wit-bindgen",
 ]
 
 [[package]]
@@ -283,27 +283,6 @@ dependencies = [
  "once_cell",
  "rustix",
  "winx",
-]
-
-[[package]]
-name = "cargo-component-bindings"
-version = "0.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "545e48ba821e07f93c97aea897bee6d407de4d58947f914160131f3d78b2c704"
-dependencies = [
- "cargo-component-macro",
- "wit-bindgen",
-]
-
-[[package]]
-name = "cargo-component-macro"
-version = "0.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e198ee0b668e902b43b5e7d2e9620a3891d2632429b3ba66e1ceea455053cbf5"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]
@@ -642,7 +621,7 @@ dependencies = [
 name = "edwards-ui"
 version = "0.1.0"
 dependencies = [
- "cargo-component-bindings",
+ "wit-bindgen",
  "wurbo",
 ]
 
@@ -650,13 +629,13 @@ dependencies = [
 name = "edwards-wit"
 version = "0.1.0"
 dependencies = [
- "cargo-component-bindings",
  "ed25519-dalek",
  "serde",
  "serde_json",
  "thiserror",
  "wasmtime",
  "wasmtime-wasi",
+ "wit-bindgen",
 ]
 
 [[package]]
@@ -1066,7 +1045,7 @@ dependencies = [
 name = "math"
 version = "0.1.0"
 dependencies = [
- "cargo-component-bindings",
+ "wit-bindgen",
 ]
 
 [[package]]
@@ -1459,13 +1438,13 @@ dependencies = [
 name = "seed-keeper-wallet"
 version = "0.1.0"
 dependencies = [
- "cargo-component-bindings",
  "seed-keeper-core",
  "serde",
  "serde_json",
  "thiserror",
  "wasmtime",
  "wasmtime-wasi",
+ "wit-bindgen",
 ]
 
 [[package]]
@@ -1473,9 +1452,9 @@ name = "seed-keeper-wit-ui"
 version = "0.1.0"
 dependencies = [
  "base64ct",
- "cargo-component-bindings",
  "serde",
  "serde_json",
+ "wit-bindgen",
  "wurbo",
 ]
 

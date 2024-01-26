@@ -1,6 +1,6 @@
 //! This User Interface allows a user to generate a seed or load it from storage.
 //!
-cargo_component_bindings::generate!();
+mod bindings;
 
 mod events;
 mod input;

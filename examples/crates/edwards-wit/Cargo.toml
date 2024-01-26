@@ -7,7 +7,7 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-cargo-component-bindings = { workspace = true }
+wit-bindgen = { workspace = true }
 ed25519-dalek = "2.1"
 
 [dev-dependencies]
