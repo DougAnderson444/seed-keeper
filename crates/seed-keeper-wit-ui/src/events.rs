@@ -18,4 +18,6 @@ pub enum Context {
 pub enum Message {
     /// The encrypted seed
     Encrypted(Vec<u8>),
+    /// The username
+    Username(String),
 }
