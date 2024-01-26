@@ -43,13 +43,23 @@ impl Output {
                 // if serde feature, emit the serialized encrypted seed as an event
                 #[cfg(feature = "serde")]
                 {
-                    // WIT expects variants to be {tag: _, val: _} in lowercase,
-                    // which we cannot get using serde
-                    // let ctx = Context::new("events", &Message::Encrypted(encrypted.clone()));
+                    // WIT expects variants to be {tag: _, val: _} in lower kebab-case,
+                    // which we can get using serde rename_all, baked into the Context and Messag enums
                     let ctx = Context::Event(Message::Encrypted(encrypted.clone()));
                     let serialized =
                         serde_json::to_string(&ctx).expect("to be able to serialize Context");
                     crate::wurbo_in::emit(&serialized);
+
+                    // Also emit the Username
+                    let ctx = Context::Event(Message::Username(
+                        self.username
+                            .as_ref()
+                            .map(|v| v.clone())
+                            .unwrap_or_default(),
+                    ));
+                    let serialized_username =
+                        serde_json::to_string(&ctx).expect("to be able to serialize Context");
+                    crate::wurbo_in::emit(&serialized_username);
                 }
 
                 Value::from(encrypted)
