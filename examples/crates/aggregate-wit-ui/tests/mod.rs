@@ -214,7 +214,7 @@ mod aggregate_example_tests {
         // should be able to also call aggregation_activate()
         bindings
             .wallet_aggregate_wit_ui_aggregation()
-            .call_activates(&mut store)?;
+            .call_activates(&mut store, None)?;
 
         // now pass
         // only seed_ui as context for render, should get only seed UI HTML
