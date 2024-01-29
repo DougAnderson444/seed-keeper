@@ -1,5 +1,6 @@
 use super::*;
 
+use base64ct::{Base64UrlUnpadded, Encoding};
 /// Event types which can can emitted from this UI and listened by others
 use events::{Context, Message};
 
@@ -8,34 +9,27 @@ static OUTPUT_ID: OnceLock<String> = OnceLock::new();
 /// Output handles the storage of the values and the calculation of the length of the concatenated
 #[derive(Debug, Default, Clone)]
 pub(super) struct Output {
-    pub(crate) username: Username,
-    pub(crate) password: Password,
-    pub(crate) encrypted: Encrypted,
-    pub(crate) seed: Option<Value>,
+    pub(crate) username: String,
+    pub(crate) password: String,
+    pub(crate) encrypted_seed: Encrypted,
+    error_message: Option<String>,
 }
 
 impl Output {
-    /// Load the given username and password into the config and then
-    /// get the encrypted seed back
-    pub(crate) fn seed(&self) -> Value {
-        let config = Credentials {
-            username: self
-                .username
-                .as_ref()
-                .map(|v| v.clone())
-                .unwrap_or_default()
-                .into(),
-            password: self
-                .password
-                .as_ref()
-                .map(|v| v.clone())
-                .unwrap_or_default()
-                .into(),
-            encrypted: self.encrypted.clone().into(),
-        };
+    /// Create Output from the lastest state (LAST_STATE)
+    pub(crate) fn from_lastest() -> Self {
+        let state = { LAST_STATE.lock().unwrap().clone().unwrap_or_default() };
+        state.output
+    }
 
-        if let Err(e) = set_config(&config) {
-            return Value::from(format!("Error in Output setting config: {:?}", e));
+    /// Load the given username and password (and maybe given encrypted seed, if any) into the config and then
+    /// get the encrypted seed back. Set all [Output] values to the encrypted seed, if changed.
+    pub(crate) fn load(mut self) -> Self {
+        self.error_message = None;
+
+        if let Err(e) = set_config(&Credentials::from(self.clone())) {
+            self.error_message = Some(format!("Error in Output setting config: {:?}", e));
+            return self;
         }
 
         match get_encrypted() {
@@ -51,41 +45,33 @@ impl Output {
                     crate::wurbo_in::emit(&serialized);
 
                     // Also emit the Username
-                    let ctx = Context::Event(Message::Username(
-                        self.username
-                            .as_ref()
-                            .map(|v| v.clone())
-                            .unwrap_or_default(),
-                    ));
+                    let ctx = Context::Event(Message::Username(self.username.clone()));
                     let serialized_username =
                         serde_json::to_string(&ctx).expect("to be able to serialize Context");
                     crate::wurbo_in::emit(&serialized_username);
                 }
 
-                Value::from(encrypted)
+                // if self.encrypted_seed is None, set it to the encrypted seed
+                if self.encrypted_seed.is_none() {
+                    self.encrypted_seed = Encrypted(Some(encrypted));
+                }
+                self
             }
-            Err(e) => Value::from(format!("Error in Output getting encrypted: {:?}", e)),
+            Err(e) => {
+                self.error_message = Some(format!("Error in Output getting encrypted: {:?}", e));
+                return self;
+            }
         }
     }
+}
 
-    /// Calculate the length of the username and password concatenated
-    fn calculate(&self) -> Value {
-        Value::from(*&self.concat().len())
-    }
-
-    /// Concatenate the username and password
-    fn concat(&self) -> String {
-        format!(
-            "{}{}",
-            self.username
-                .as_ref()
-                .map(|v| v.clone())
-                .unwrap_or_default(),
-            self.password
-                .as_ref()
-                .map(|v| v.clone())
-                .unwrap_or_default()
-        )
+impl From<Output> for Credentials {
+    fn from(context: Output) -> Self {
+        Credentials {
+            username: context.username.into(),
+            password: context.password.into(),
+            encrypted: context.encrypted_seed.deref().clone(),
+        }
     }
 }
 
@@ -94,126 +80,45 @@ impl Output {
 impl StructObject for Output {
     fn get_field(&self, name: &str) -> Option<Value> {
         match name {
-            "username" => Some(Value::from_struct_object(self.username.clone())),
-            "password" => Some(Value::from_struct_object(self.password.clone())),
-            "value" => Some(Value::from(self.concat())),
-            // self.username
-            "count" => Some(Value::from(self.calculate())),
-            "seed" => match &self.seed {
-                Some(seed) => Some(Value::from(seed.clone())),
-                None => Some(Value::from("Enter username and password to create a seed.")),
-            },
             // if self.id.is_some, use it, otherwise generate a new one
             "id" => Some(Value::from(
                 OUTPUT_ID.get_or_init(|| utils::rand_id()).to_owned(),
             )),
+            "username" => Some(Value::from(self.username.clone())),
+            "password" => Some(Value::from(self.password.clone())),
+            // Show encrypted Vec as base64 string
+            "seed" => Some(Value::from(self.encrypted_seed.to_string())),
+            "error_message" => match &self.error_message {
+                Some(msg) => Some(Value::from(msg.clone())),
+                None => None,
+            },
             _ => None,
         }
     }
 
     /// So that debug will show the values
     fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["value", "count", "id", "username", "password"])
-    }
-}
-
-/// Username captures is the username input value.
-#[derive(Debug, Default, Clone)]
-pub(crate) struct Username(Option<String>);
-
-impl StructObject for Username {
-    fn get_field(&self, name: &str) -> Option<Value> {
-        match name {
-            "value" => Some(Value::from(
-                // Deref self and use value if is_Some, otherwise use ""
-                self.as_ref().map(|v| v.clone()).unwrap_or_default(),
-            )),
-            _ => None,
-        }
-    }
-
-    /// So that debug will show the values
-    fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["value"])
-    }
-}
-
-impl From<&String> for Username {
-    fn from(context: &String) -> Self {
-        Username(Some(context.clone()))
-    }
-}
-
-impl From<Option<String>> for Username {
-    fn from(context: Option<String>) -> Self {
-        Username(context)
-    }
-}
-
-impl Deref for Username {
-    type Target = Option<String>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-/// [Password] is the password field in the form
-/// We wrap it as a newtype so that we can impl [StructObject] for it
-/// We impl [Deref] so we can access the inner of the Rust smart pointer
-#[derive(Debug, Default, Clone)]
-pub(crate) struct Password(Option<String>);
-
-impl StructObject for Password {
-    fn get_field(&self, name: &str) -> Option<Value> {
-        match name {
-            "value" => Some(Value::from(
-                // Deref self and use value if is_Some, otherwise use ""
-                self.as_ref().map(|v| v.clone()).unwrap_or_default(),
-            )),
-            _ => None,
-        }
-    }
-
-    /// So that debug will show the values
-    fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["value"])
-    }
-}
-
-impl From<&String> for Password {
-    fn from(context: &String) -> Self {
-        Password(Some(context.clone()))
-    }
-}
-
-impl From<Option<String>> for Password {
-    fn from(context: Option<String>) -> Self {
-        Password(context)
-    }
-}
-
-impl Deref for Password {
-    type Target = Option<String>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
+        Some(&["id", "username", "password", "seed"])
     }
 }
 
 /// [Encrypted] is the encrypted seed passed from the User, if any.
 #[derive(Debug, Clone, Default)]
-pub(super) struct Encrypted(Option<wurbo_types::Encrypted>);
+pub(super) struct Encrypted(Option<Vec<u8>>);
 
-impl From<Encrypted> for Option<Vec<u8>> {
-    fn from(context: Encrypted) -> Self {
-        context.0
+impl ToString for Encrypted {
+    fn to_string(&self) -> String {
+        // encode to base64
+        Base64UrlUnpadded::encode_string(&self.as_ref().unwrap_or(&vec![]))
     }
 }
 
-impl From<&Vec<u8>> for Encrypted {
-    fn from(context: &Vec<u8>) -> Self {
-        Encrypted(Some(context.clone().into()))
+/// Decode from base64 into bytes
+impl From<&String> for Encrypted {
+    fn from(context: &String) -> Self {
+        Encrypted(Some(
+            Base64UrlUnpadded::decode_vec(context).unwrap_or_default(),
+        ))
     }
 }
 
