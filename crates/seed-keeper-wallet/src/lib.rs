@@ -34,6 +34,16 @@ impl ConfigGuest for Component {
             if encrypted.len() != 40 {
                 return Err("Encrypted seed must be 40 bytes long".to_string());
             }
+            // before setting the config, decrypt the encrypted seed to ensure it is valid
+            // if it is not, return an error
+            let key = derive(config.password.clone(), config.username.clone())?;
+            let decrypted = decrypt(key, encrypted).map_err(|e| 
+                // add message about the username and password being wrong for this key
+                format!("Set config failed. Are the username and password correct for this encrypted seed? {}",
+                    e.to_string()))?;
+            if decrypted.len() != 32 {
+                return Err("Decrypted seed must be 32 bytes long".to_string());
+            }
         }
         // Set the CONFIG for this component
         // This is a LazyLock, so it can be set multiple times, but only the first time will be used
