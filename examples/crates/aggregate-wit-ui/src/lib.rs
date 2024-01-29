@@ -79,14 +79,14 @@ impl WurboGuest for Component {
     }
 
     /// No-op for activate()
-    fn activate() {}
+    fn activate(selectors: Option<Vec<String>>) {}
 }
 
 impl AggregationGuest for Component {
-    fn activates() {
+    fn activates(selectors: Option<Vec<String>>) {
         // iterate over each of the child components' wurbo_out's and call activate
-        edwards_ui::wurbo_out::activate(None);
-        wit_ui::wurbo_out::activate(None);
+        edwards_ui::wurbo_out::activate(selectors.as_ref().map_or(None, |s| Some(s.as_slice())));
+        wit_ui::wurbo_out::activate(selectors.as_ref().map_or(None, |s| Some(s.as_slice())));
     }
 }
 

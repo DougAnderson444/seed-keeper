@@ -328,6 +328,7 @@ pub mod example {
           #[doc(hidden)]
           #[cfg(target_arch = "wasm32")]
           static __FORCE_SECTION_REF: fn() = super::super::super::__link_section;
+          pub type Encrypted = wit_bindgen::rt::string::String;
           /// Details required in order to add an event listener to an element
           #[derive(Clone)]
           pub struct ListenDetails {
@@ -352,31 +353,10 @@ pub mod example {
           #[derive(Clone)]
           pub struct Input {
             pub placeholder: wit_bindgen::rt::string::String,
-            pub username: Option<wit_bindgen::rt::string::String>,
-            pub encrypted: Option<wit_bindgen::rt::vec::Vec::<u8>>,
           }
           impl ::core::fmt::Debug for Input {
             fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-              f.debug_struct("Input").field("placeholder", &self.placeholder).field("username", &self.username).field("encrypted", &self.encrypted).finish()
-            }
-          }
-          pub type Encrypted = wit_bindgen::rt::vec::Vec::<u8>;
-          #[derive(Clone)]
-          pub struct Output {
-            /// the resulting value of the total outputs combined
-            pub value: Option<wit_bindgen::rt::string::String>,
-            /// optional id string: None is intial render, Some for update value
-            pub id: Option<wit_bindgen::rt::string::String>,
-            /// the output dest for the username changes
-            pub username: Option<wit_bindgen::rt::string::String>,
-            /// the output dest for the password changes
-            pub password: Option<wit_bindgen::rt::string::String>,
-            /// the output dest for the encrypted changes
-            pub encrypted: Option<Encrypted>,
-          }
-          impl ::core::fmt::Debug for Output {
-            fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-              f.debug_struct("Output").field("value", &self.value).field("id", &self.id).field("username", &self.username).field("password", &self.password).field("encrypted", &self.encrypted).finish()
+              f.debug_struct("Input").field("placeholder", &self.placeholder).finish()
             }
           }
           /// Content for the entire page
@@ -384,11 +364,11 @@ pub mod example {
           pub struct Content {
             pub page: Option<Page>,
             pub input: Option<Input>,
-            pub output: Option<Output>,
+            pub load: Option<wit_bindgen::rt::string::String>,
           }
           impl ::core::fmt::Debug for Content {
             fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-              f.debug_struct("Content").field("page", &self.page).field("input", &self.input).field("output", &self.output).finish()
+              f.debug_struct("Content").field("page", &self.page).field("input", &self.input).field("load", &self.load).finish()
             }
           }
           /// Context variants
@@ -442,1278 +422,1011 @@ pub mod example {
             unsafe {
               
               #[repr(align(4))]
-              struct RetArea([u8; 116]);
+              struct RetArea([u8; 12]);
               let mut ret_area = ::core::mem::MaybeUninit::<RetArea>::uninit();
-              let ptr0 = ret_area.as_mut_ptr() as i32;use super::super::super::seed_keeper::wit_ui::wurbo_types::Context as V17;
-              match ctx {
-                V17::AllContent(e) => {
-                  *((ptr0 + 0) as *mut u8) = (0i32) as u8;
-                  let super::super::super::seed_keeper::wit_ui::wurbo_types::Content{ page:page1, input:input1, output:output1, } = e;
-                  match page1 {
+              use super::super::super::seed_keeper::wit_ui::wurbo_types::Context as V12;
+              let (result13_0,result13_1,result13_2,result13_3,result13_4,result13_5,result13_6,result13_7,result13_8,result13_9,) = match ctx {
+                V12::AllContent(e) => {
+                  let super::super::super::seed_keeper::wit_ui::wurbo_types::Content{ page:page0, input:input0, load:load0, } = e;
+                  let (result3_0,result3_1,result3_2,) = match page0 {
                     Some(e) => {
-                      *((ptr0 + 4) as *mut u8) = (1i32) as u8;
-                      let super::super::super::seed_keeper::wit_ui::wurbo_types::Page{ title:title2, } = e;
-                      let vec3 = title2;
-                      let ptr3 = vec3.as_ptr() as i32;
-                      let len3 = vec3.len() as i32;
-                      *((ptr0 + 12) as *mut i32) = len3;
-                      *((ptr0 + 8) as *mut i32) = ptr3;
+                      let super::super::super::seed_keeper::wit_ui::wurbo_types::Page{ title:title1, } = e;
+                      let vec2 = title1;
+                      let ptr2 = vec2.as_ptr() as i32;
+                      let len2 = vec2.len() as i32;
+                      
+                      (1i32, ptr2, len2)
                     },
                     None => {
-                      {
-                        *((ptr0 + 4) as *mut u8) = (0i32) as u8;
-                      }
+                      (0i32, 0i32, 0i32)
                     },
-                  };match input1 {
+                  };let (result6_0,result6_1,result6_2,) = match input0 {
                     Some(e) => {
-                      *((ptr0 + 16) as *mut u8) = (1i32) as u8;
-                      let super::super::super::seed_keeper::wit_ui::wurbo_types::Input{ placeholder:placeholder4, username:username4, encrypted:encrypted4, } = e;
+                      let super::super::super::seed_keeper::wit_ui::wurbo_types::Input{ placeholder:placeholder4, } = e;
                       let vec5 = placeholder4;
                       let ptr5 = vec5.as_ptr() as i32;
                       let len5 = vec5.len() as i32;
-                      *((ptr0 + 24) as *mut i32) = len5;
-                      *((ptr0 + 20) as *mut i32) = ptr5;
-                      match username4 {
-                        Some(e) => {
-                          *((ptr0 + 28) as *mut u8) = (1i32) as u8;
-                          let vec6 = e;
-                          let ptr6 = vec6.as_ptr() as i32;
-                          let len6 = vec6.len() as i32;
-                          *((ptr0 + 36) as *mut i32) = len6;
-                          *((ptr0 + 32) as *mut i32) = ptr6;
-                        },
-                        None => {
-                          {
-                            *((ptr0 + 28) as *mut u8) = (0i32) as u8;
-                          }
-                        },
-                      };match encrypted4 {
-                        Some(e) => {
-                          *((ptr0 + 40) as *mut u8) = (1i32) as u8;
-                          let vec7 = e;
-                          let ptr7 = vec7.as_ptr() as i32;
-                          let len7 = vec7.len() as i32;
-                          *((ptr0 + 48) as *mut i32) = len7;
-                          *((ptr0 + 44) as *mut i32) = ptr7;
-                        },
-                        None => {
-                          {
-                            *((ptr0 + 40) as *mut u8) = (0i32) as u8;
-                          }
-                        },
-                      };},
-                      None => {
-                        {
-                          *((ptr0 + 16) as *mut u8) = (0i32) as u8;
-                        }
-                      },
-                    };match output1 {
-                      Some(e) => {
-                        *((ptr0 + 52) as *mut u8) = (1i32) as u8;
-                        let super::super::super::seed_keeper::wit_ui::wurbo_types::Output{ value:value8, id:id8, username:username8, password:password8, encrypted:encrypted8, } = e;
-                        match value8 {
-                          Some(e) => {
-                            *((ptr0 + 56) as *mut u8) = (1i32) as u8;
-                            let vec9 = e;
-                            let ptr9 = vec9.as_ptr() as i32;
-                            let len9 = vec9.len() as i32;
-                            *((ptr0 + 64) as *mut i32) = len9;
-                            *((ptr0 + 60) as *mut i32) = ptr9;
-                          },
-                          None => {
-                            {
-                              *((ptr0 + 56) as *mut u8) = (0i32) as u8;
-                            }
-                          },
-                        };match id8 {
-                          Some(e) => {
-                            *((ptr0 + 68) as *mut u8) = (1i32) as u8;
-                            let vec10 = e;
-                            let ptr10 = vec10.as_ptr() as i32;
-                            let len10 = vec10.len() as i32;
-                            *((ptr0 + 76) as *mut i32) = len10;
-                            *((ptr0 + 72) as *mut i32) = ptr10;
-                          },
-                          None => {
-                            {
-                              *((ptr0 + 68) as *mut u8) = (0i32) as u8;
-                            }
-                          },
-                        };match username8 {
-                          Some(e) => {
-                            *((ptr0 + 80) as *mut u8) = (1i32) as u8;
-                            let vec11 = e;
-                            let ptr11 = vec11.as_ptr() as i32;
-                            let len11 = vec11.len() as i32;
-                            *((ptr0 + 88) as *mut i32) = len11;
-                            *((ptr0 + 84) as *mut i32) = ptr11;
-                          },
-                          None => {
-                            {
-                              *((ptr0 + 80) as *mut u8) = (0i32) as u8;
-                            }
-                          },
-                        };match password8 {
-                          Some(e) => {
-                            *((ptr0 + 92) as *mut u8) = (1i32) as u8;
-                            let vec12 = e;
-                            let ptr12 = vec12.as_ptr() as i32;
-                            let len12 = vec12.len() as i32;
-                            *((ptr0 + 100) as *mut i32) = len12;
-                            *((ptr0 + 96) as *mut i32) = ptr12;
-                          },
-                          None => {
-                            {
-                              *((ptr0 + 92) as *mut u8) = (0i32) as u8;
-                            }
-                          },
-                        };match encrypted8 {
-                          Some(e) => {
-                            *((ptr0 + 104) as *mut u8) = (1i32) as u8;
-                            let vec13 = e;
-                            let ptr13 = vec13.as_ptr() as i32;
-                            let len13 = vec13.len() as i32;
-                            *((ptr0 + 112) as *mut i32) = len13;
-                            *((ptr0 + 108) as *mut i32) = ptr13;
-                          },
-                          None => {
-                            {
-                              *((ptr0 + 104) as *mut u8) = (0i32) as u8;
-                            }
-                          },
-                        };},
-                        None => {
-                          {
-                            *((ptr0 + 52) as *mut u8) = (0i32) as u8;
-                          }
-                        },
-                      };},
-                      V17::Username(e) => {
-                        *((ptr0 + 0) as *mut u8) = (1i32) as u8;
-                        let vec14 = e;
-                        let ptr14 = vec14.as_ptr() as i32;
-                        let len14 = vec14.len() as i32;
-                        *((ptr0 + 8) as *mut i32) = len14;
-                        *((ptr0 + 4) as *mut i32) = ptr14;
-                      },
-                      V17::Password(e) => {
-                        *((ptr0 + 0) as *mut u8) = (2i32) as u8;
-                        let vec15 = e;
-                        let ptr15 = vec15.as_ptr() as i32;
-                        let len15 = vec15.len() as i32;
-                        *((ptr0 + 8) as *mut i32) = len15;
-                        *((ptr0 + 4) as *mut i32) = ptr15;
-                      },
-                      V17::Encrypted(e) => {
-                        *((ptr0 + 0) as *mut u8) = (3i32) as u8;
-                        let vec16 = e;
-                        let ptr16 = vec16.as_ptr() as i32;
-                        let len16 = vec16.len() as i32;
-                        *((ptr0 + 8) as *mut i32) = len16;
-                        *((ptr0 + 4) as *mut i32) = ptr16;
-                      },
-                      V17::Submit=> {
-                        {
-                          *((ptr0 + 0) as *mut u8) = (4i32) as u8;
-                        }
-                      }
-                    }
-                    let ptr18 = ret_area.as_mut_ptr() as i32;
-                    #[cfg(target_arch = "wasm32")]
-                    #[link(wasm_import_module = "seed-keeper:wit-ui/wurbo-out@0.1.0")]
-                    extern "C" {
-                      #[link_name = "render"]
-                      fn wit_import(_: i32, _: i32, );
-                    }
-                    
-                    #[cfg(not(target_arch = "wasm32"))]
-                    fn wit_import(_: i32, _: i32, ){ unreachable!() }
-                    wit_import(ptr0, ptr18);
-                    let l19 = i32::from(*((ptr18 + 0) as *const u8));
-                    match l19 {
-                      0 => {
-                        let e = {
-                          let l20 = *((ptr18 + 4) as *const i32);
-                          let l21 = *((ptr18 + 8) as *const i32);
-                          let len22 = l21 as usize;
-                          let bytes22 = Vec::from_raw_parts(l20 as *mut _, len22, len22);
-                          
-                          wit_bindgen::rt::string_lift(bytes22)
-                        };
-                        Ok(e)
-                      }
-                      1 => {
-                        let e = {
-                          let l23 = *((ptr18 + 4) as *const i32);
-                          let l24 = *((ptr18 + 8) as *const i32);
-                          let len25 = l24 as usize;
-                          let bytes25 = Vec::from_raw_parts(l23 as *mut _, len25, len25);
-                          
-                          wit_bindgen::rt::string_lift(bytes25)
-                        };
-                        Err(e)
-                      }
-                      _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                    }
-                  }
-                }
-                #[allow(unused_unsafe, clippy::all)]
-                /// listen on all or given selectors
-                pub fn activate(selectors: Option<&[wit_bindgen::rt::string::String]>,){
+                      
+                      (1i32, ptr5, len5)
+                    },
+                    None => {
+                      (0i32, 0i32, 0i32)
+                    },
+                  };let (result8_0,result8_1,result8_2,) = match load0 {
+                    Some(e) => {
+                      let vec7 = e;
+                      let ptr7 = vec7.as_ptr() as i32;
+                      let len7 = vec7.len() as i32;
+                      
+                      (1i32, ptr7, len7)
+                    },
+                    None => {
+                      (0i32, 0i32, 0i32)
+                    },
+                  };
+                  (0i32, result3_0, result3_1, result3_2, result6_0, result6_1, result6_2, result8_0, result8_1, result8_2)
+                },
+                V12::Username(e) => {
+                  let vec9 = e;
+                  let ptr9 = vec9.as_ptr() as i32;
+                  let len9 = vec9.len() as i32;
                   
-                  #[allow(unused_imports)]
-                  use wit_bindgen::rt::{alloc, vec::Vec, string::String};
-                  unsafe {
-                    let mut cleanup_list = Vec::new();
-                    let (result2_0,result2_1,result2_2,) = match selectors {
-                      Some(e) => {
-                        let vec1 = e;
-                        let len1 = vec1.len() as i32;
-                        let layout1 = alloc::Layout::from_size_align_unchecked(vec1.len() * 8, 4);
-                        let result1 = if layout1.size() != 0
-                        {
-                          let ptr = alloc::alloc(layout1);
-                          if ptr.is_null()
-                          {
-                            alloc::handle_alloc_error(layout1);
-                          }
-                          ptr
-                        }else {{
-                          ::core::ptr::null_mut()
-                        }};
-                        for (i, e) in vec1.into_iter().enumerate() {
-                          let base = result1 as i32 + (i as i32) * 8;
-                          {
-                            let vec0 = e;
-                            let ptr0 = vec0.as_ptr() as i32;
-                            let len0 = vec0.len() as i32;
-                            *((base + 4) as *mut i32) = len0;
-                            *((base + 0) as *mut i32) = ptr0;
-                          }
-                        }
-                        cleanup_list.extend_from_slice(&[(result1, layout1),]);
-                        
-                        (1i32, result1 as i32, len1)
-                      },
-                      None => {
-                        (0i32, 0i32, 0i32)
-                      },
-                    };
-                    #[cfg(target_arch = "wasm32")]
-                    #[link(wasm_import_module = "seed-keeper:wit-ui/wurbo-out@0.1.0")]
-                    extern "C" {
-                      #[link_name = "activate"]
-                      fn wit_import(_: i32, _: i32, _: i32, );
-                    }
-                    
-                    #[cfg(not(target_arch = "wasm32"))]
-                    fn wit_import(_: i32, _: i32, _: i32, ){ unreachable!() }
-                    wit_import(result2_0, result2_1, result2_2);
-                    for (ptr, layout) in cleanup_list {
-                      
-                      if layout.size() != 0 {
-                        
-                        alloc::dealloc(ptr, layout);
-                        
-                      }
-                      
-                    }
-                  }
+                  (1i32, ptr9, len9, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32)
+                },
+                V12::Password(e) => {
+                  let vec10 = e;
+                  let ptr10 = vec10.as_ptr() as i32;
+                  let len10 = vec10.len() as i32;
+                  
+                  (2i32, ptr10, len10, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32)
+                },
+                V12::Encrypted(e) => {
+                  let vec11 = e;
+                  let ptr11 = vec11.as_ptr() as i32;
+                  let len11 = vec11.len() as i32;
+                  
+                  (3i32, ptr11, len11, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32)
+                },
+                V12::Submit=> {
+                  (4i32, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32)
                 }
-                
+              };
+              let ptr14 = ret_area.as_mut_ptr() as i32;
+              #[cfg(target_arch = "wasm32")]
+              #[link(wasm_import_module = "seed-keeper:wit-ui/wurbo-out@0.1.0")]
+              extern "C" {
+                #[link_name = "render"]
+                fn wit_import(_: i32, _: i32, _: i32, _: i32, _: i32, _: i32, _: i32, _: i32, _: i32, _: i32, _: i32, );
               }
               
+              #[cfg(not(target_arch = "wasm32"))]
+              fn wit_import(_: i32, _: i32, _: i32, _: i32, _: i32, _: i32, _: i32, _: i32, _: i32, _: i32, _: i32, ){ unreachable!() }
+              wit_import(result13_0, result13_1, result13_2, result13_3, result13_4, result13_5, result13_6, result13_7, result13_8, result13_9, ptr14);
+              let l15 = i32::from(*((ptr14 + 0) as *const u8));
+              match l15 {
+                0 => {
+                  let e = {
+                    let l16 = *((ptr14 + 4) as *const i32);
+                    let l17 = *((ptr14 + 8) as *const i32);
+                    let len18 = l17 as usize;
+                    let bytes18 = Vec::from_raw_parts(l16 as *mut _, len18, len18);
+                    
+                    wit_bindgen::rt::string_lift(bytes18)
+                  };
+                  Ok(e)
+                }
+                1 => {
+                  let e = {
+                    let l19 = *((ptr14 + 4) as *const i32);
+                    let l20 = *((ptr14 + 8) as *const i32);
+                    let len21 = l20 as usize;
+                    let bytes21 = Vec::from_raw_parts(l19 as *mut _, len21, len21);
+                    
+                    wit_bindgen::rt::string_lift(bytes21)
+                  };
+                  Err(e)
+                }
+                _ => wit_bindgen::rt::invalid_enum_discriminant(),
+              }
             }
           }
-          pub mod wallet {
-            pub mod aggregate_wit_ui {
-              
-              #[allow(clippy::all)]
-              pub mod wurbo_types {
-                #[used]
-                #[doc(hidden)]
-                #[cfg(target_arch = "wasm32")]
-                static __FORCE_SECTION_REF: fn() = super::super::super::__link_section;
-                pub type EdwardsContext = super::super::super::example::edwards_ui::wurbo_out::Context;
-                pub type SeedContext = super::super::super::seed_keeper::wit_ui::wurbo_out::Context;
-                /// Details required in order to add an event listener to an element
-                #[derive(Clone)]
-                pub struct ListenDetails {
-                  pub selector: wit_bindgen::rt::string::String,
-                  pub ty: wit_bindgen::rt::string::String,
-                }
-                impl ::core::fmt::Debug for ListenDetails {
-                  fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-                    f.debug_struct("ListenDetails").field("selector", &self.selector).field("ty", &self.ty).finish()
-                  }
-                }
-                /// Context for the minijinja rendering
-                #[derive(Clone)]
-                pub struct App {
-                  pub title: wit_bindgen::rt::string::String,
-                }
-                impl ::core::fmt::Debug for App {
-                  fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-                    f.debug_struct("App").field("title", &self.title).finish()
-                  }
-                }
-                /// Content record for the initial content of the entire app
-                #[derive(Clone)]
-                pub struct Content {
-                  /// pass in props like title, etc.
-                  pub app: App,
-                  /// optionally pass in an encrypted seed to load
-                  pub seed_ui: SeedContext,
-                  /// optionally pass in a message to sign or verify
-                  pub edwards_ui: EdwardsContext,
-                }
-                impl ::core::fmt::Debug for Content {
-                  fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-                    f.debug_struct("Content").field("app", &self.app).field("seed-ui", &self.seed_ui).field("edwards-ui", &self.edwards_ui).finish()
-                  }
-                }
-                /// Context variants
-                #[derive(Clone)]
-                pub enum Context{
-                  AllContent(Content),
-                  Seed(SeedContext),
-                  Edwards(EdwardsContext),
-                }
-                impl ::core::fmt::Debug for Context {
-                  fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-                    match self {
-                      Context::AllContent(e) => {
-                        f.debug_tuple("Context::AllContent").field(e).finish()
-                      }
-                      Context::Seed(e) => {
-                        f.debug_tuple("Context::Seed").field(e).finish()
-                      }
-                      Context::Edwards(e) => {
-                        f.debug_tuple("Context::Edwards").field(e).finish()
-                      }
+          #[allow(unused_unsafe, clippy::all)]
+          /// listen on all or given selectors
+          pub fn activate(selectors: Option<&[wit_bindgen::rt::string::String]>,){
+            
+            #[allow(unused_imports)]
+            use wit_bindgen::rt::{alloc, vec::Vec, string::String};
+            unsafe {
+              let mut cleanup_list = Vec::new();
+              let (result2_0,result2_1,result2_2,) = match selectors {
+                Some(e) => {
+                  let vec1 = e;
+                  let len1 = vec1.len() as i32;
+                  let layout1 = alloc::Layout::from_size_align_unchecked(vec1.len() * 8, 4);
+                  let result1 = if layout1.size() != 0
+                  {
+                    let ptr = alloc::alloc(layout1);
+                    if ptr.is_null()
+                    {
+                      alloc::handle_alloc_error(layout1);
+                    }
+                    ptr
+                  }else {{
+                    ::core::ptr::null_mut()
+                  }};
+                  for (i, e) in vec1.into_iter().enumerate() {
+                    let base = result1 as i32 + (i as i32) * 8;
+                    {
+                      let vec0 = e;
+                      let ptr0 = vec0.as_ptr() as i32;
+                      let len0 = vec0.len() as i32;
+                      *((base + 4) as *mut i32) = len0;
+                      *((base + 0) as *mut i32) = ptr0;
                     }
                   }
-                }
-                
-              }
-              
-              
-              #[allow(clippy::all)]
-              pub mod wurbo_in {
-                #[used]
-                #[doc(hidden)]
-                #[cfg(target_arch = "wasm32")]
-                static __FORCE_SECTION_REF: fn() = super::super::super::__link_section;
-                pub type ListenDetails = super::super::super::wallet::aggregate_wit_ui::wurbo_types::ListenDetails;
-                #[allow(unused_unsafe, clippy::all)]
-                /// Add an event listener to the given element
-                pub fn addeventlistener(details: &ListenDetails,){
+                  cleanup_list.extend_from_slice(&[(result1, layout1),]);
                   
-                  #[allow(unused_imports)]
-                  use wit_bindgen::rt::{alloc, vec::Vec, string::String};
-                  unsafe {
-                    let super::super::super::wallet::aggregate_wit_ui::wurbo_types::ListenDetails{ selector:selector0, ty:ty0, } = details;
-                    let vec1 = selector0;
-                    let ptr1 = vec1.as_ptr() as i32;
-                    let len1 = vec1.len() as i32;
-                    let vec2 = ty0;
-                    let ptr2 = vec2.as_ptr() as i32;
-                    let len2 = vec2.len() as i32;
-                    
-                    #[cfg(target_arch = "wasm32")]
-                    #[link(wasm_import_module = "wallet:aggregate-wit-ui/wurbo-in@0.1.0")]
-                    extern "C" {
-                      #[link_name = "addeventlistener"]
-                      fn wit_import(_: i32, _: i32, _: i32, _: i32, );
-                    }
-                    
-                    #[cfg(not(target_arch = "wasm32"))]
-                    fn wit_import(_: i32, _: i32, _: i32, _: i32, ){ unreachable!() }
-                    wit_import(ptr1, len1, ptr2, len2);
-                  }
+                  (1i32, result1 as i32, len1)
+                },
+                None => {
+                  (0i32, 0i32, 0i32)
+                },
+              };
+              #[cfg(target_arch = "wasm32")]
+              #[link(wasm_import_module = "seed-keeper:wit-ui/wurbo-out@0.1.0")]
+              extern "C" {
+                #[link_name = "activate"]
+                fn wit_import(_: i32, _: i32, _: i32, );
+              }
+              
+              #[cfg(not(target_arch = "wasm32"))]
+              fn wit_import(_: i32, _: i32, _: i32, ){ unreachable!() }
+              wit_import(result2_0, result2_1, result2_2);
+              for (ptr, layout) in cleanup_list {
+                
+                if layout.size() != 0 {
+                  
+                  alloc::dealloc(ptr, layout);
+                  
                 }
                 
               }
-              
             }
           }
-          pub mod exports {
-            pub mod wallet {
-              pub mod aggregate_wit_ui {
+          
+        }
+        
+      }
+    }
+    pub mod wallet {
+      pub mod aggregate_wit_ui {
+        
+        #[allow(clippy::all)]
+        pub mod wurbo_types {
+          #[used]
+          #[doc(hidden)]
+          #[cfg(target_arch = "wasm32")]
+          static __FORCE_SECTION_REF: fn() = super::super::super::__link_section;
+          pub type EdwardsContext = super::super::super::example::edwards_ui::wurbo_out::Context;
+          pub type SeedContext = super::super::super::seed_keeper::wit_ui::wurbo_out::Context;
+          /// Details required in order to add an event listener to an element
+          #[derive(Clone)]
+          pub struct ListenDetails {
+            pub selector: wit_bindgen::rt::string::String,
+            pub ty: wit_bindgen::rt::string::String,
+          }
+          impl ::core::fmt::Debug for ListenDetails {
+            fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+              f.debug_struct("ListenDetails").field("selector", &self.selector).field("ty", &self.ty).finish()
+            }
+          }
+          /// Context for the minijinja rendering
+          #[derive(Clone)]
+          pub struct App {
+            pub title: wit_bindgen::rt::string::String,
+          }
+          impl ::core::fmt::Debug for App {
+            fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+              f.debug_struct("App").field("title", &self.title).finish()
+            }
+          }
+          /// Content record for the initial content of the entire app
+          #[derive(Clone)]
+          pub struct Content {
+            /// pass in props like title, etc.
+            pub app: App,
+            /// optionally pass in an encrypted seed to load
+            pub seed_ui: SeedContext,
+            /// optionally pass in a message to sign or verify
+            pub edwards_ui: EdwardsContext,
+          }
+          impl ::core::fmt::Debug for Content {
+            fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+              f.debug_struct("Content").field("app", &self.app).field("seed-ui", &self.seed_ui).field("edwards-ui", &self.edwards_ui).finish()
+            }
+          }
+          /// Context variants
+          #[derive(Clone)]
+          pub enum Context{
+            AllContent(Content),
+            Seed(SeedContext),
+            Edwards(EdwardsContext),
+          }
+          impl ::core::fmt::Debug for Context {
+            fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+              match self {
+                Context::AllContent(e) => {
+                  f.debug_tuple("Context::AllContent").field(e).finish()
+                }
+                Context::Seed(e) => {
+                  f.debug_tuple("Context::Seed").field(e).finish()
+                }
+                Context::Edwards(e) => {
+                  f.debug_tuple("Context::Edwards").field(e).finish()
+                }
+              }
+            }
+          }
+          
+        }
+        
+        
+        #[allow(clippy::all)]
+        pub mod wurbo_in {
+          #[used]
+          #[doc(hidden)]
+          #[cfg(target_arch = "wasm32")]
+          static __FORCE_SECTION_REF: fn() = super::super::super::__link_section;
+          pub type ListenDetails = super::super::super::wallet::aggregate_wit_ui::wurbo_types::ListenDetails;
+          #[allow(unused_unsafe, clippy::all)]
+          /// Add an event listener to the given element
+          pub fn addeventlistener(details: &ListenDetails,){
+            
+            #[allow(unused_imports)]
+            use wit_bindgen::rt::{alloc, vec::Vec, string::String};
+            unsafe {
+              let super::super::super::wallet::aggregate_wit_ui::wurbo_types::ListenDetails{ selector:selector0, ty:ty0, } = details;
+              let vec1 = selector0;
+              let ptr1 = vec1.as_ptr() as i32;
+              let len1 = vec1.len() as i32;
+              let vec2 = ty0;
+              let ptr2 = vec2.as_ptr() as i32;
+              let len2 = vec2.len() as i32;
+              
+              #[cfg(target_arch = "wasm32")]
+              #[link(wasm_import_module = "wallet:aggregate-wit-ui/wurbo-in@0.1.0")]
+              extern "C" {
+                #[link_name = "addeventlistener"]
+                fn wit_import(_: i32, _: i32, _: i32, _: i32, );
+              }
+              
+              #[cfg(not(target_arch = "wasm32"))]
+              fn wit_import(_: i32, _: i32, _: i32, _: i32, ){ unreachable!() }
+              wit_import(ptr1, len1, ptr2, len2);
+            }
+          }
+          
+        }
+        
+      }
+    }
+    pub mod exports {
+      pub mod wallet {
+        pub mod aggregate_wit_ui {
+          
+          #[allow(clippy::all)]
+          pub mod wurbo_out {
+            #[used]
+            #[doc(hidden)]
+            #[cfg(target_arch = "wasm32")]
+            static __FORCE_SECTION_REF: fn() = super::super::super::super::__link_section;
+            pub type Context = super::super::super::super::wallet::aggregate_wit_ui::wurbo_types::Context;
+            const _: () = {
+              
+              #[doc(hidden)]
+              #[export_name = "wallet:aggregate-wit-ui/wurbo-out@0.1.0#render"]
+              #[allow(non_snake_case)]
+              unsafe extern "C" fn __export_render(arg0: i32,) -> i32 {
+                #[allow(unused_imports)]
+                use wit_bindgen::rt::{alloc, vec::Vec, string::String};
                 
-                #[allow(clippy::all)]
-                pub mod wurbo_out {
-                  #[used]
-                  #[doc(hidden)]
-                  #[cfg(target_arch = "wasm32")]
-                  static __FORCE_SECTION_REF: fn() = super::super::super::super::__link_section;
-                  pub type Context = super::super::super::super::wallet::aggregate_wit_ui::wurbo_types::Context;
-                  const _: () = {
-                    
-                    #[doc(hidden)]
-                    #[export_name = "wallet:aggregate-wit-ui/wurbo-out@0.1.0#render"]
-                    #[allow(non_snake_case)]
-                    unsafe extern "C" fn __export_render(arg0: i32,) -> i32 {
-                      #[allow(unused_imports)]
-                      use wit_bindgen::rt::{alloc, vec::Vec, string::String};
-                      
-                      // Before executing any other code, use this function to run all static
-                      // constructors, if they have not yet been run. This is a hack required
-                      // to work around wasi-libc ctors calling import functions to initialize
-                      // the environment.
-                      //
-                      // This functionality will be removed once rust 1.69.0 is stable, at which
-                      // point wasi-libc will no longer have this behavior.
-                      //
-                      // See
-                      // https://github.com/bytecodealliance/preview2-prototyping/issues/99
-                      // for more details.
-                      #[cfg(target_arch="wasm32")]
-                      wit_bindgen::rt::run_ctors_once();
-                      
-                      let l0 = i32::from(*((arg0 + 0) as *const u8));
-                      use super::super::super::super::wallet::aggregate_wit_ui::wurbo_types::Context as V162;
-                      let v162 = match l0 {
+                // Before executing any other code, use this function to run all static
+                // constructors, if they have not yet been run. This is a hack required
+                // to work around wasi-libc ctors calling import functions to initialize
+                // the environment.
+                //
+                // This functionality will be removed once rust 1.69.0 is stable, at which
+                // point wasi-libc will no longer have this behavior.
+                //
+                // See
+                // https://github.com/bytecodealliance/preview2-prototyping/issues/99
+                // for more details.
+                #[cfg(target_arch="wasm32")]
+                wit_bindgen::rt::run_ctors_once();
+                
+                let l0 = i32::from(*((arg0 + 0) as *const u8));
+                use super::super::super::super::wallet::aggregate_wit_ui::wurbo_types::Context as V112;
+                let v112 = match l0 {
+                  0 => {
+                    let e112 = {
+                      let l1 = *((arg0 + 4) as *const i32);
+                      let l2 = *((arg0 + 8) as *const i32);
+                      let len3 = l2 as usize;
+                      let bytes3 = Vec::from_raw_parts(l1 as *mut _, len3, len3);
+                      let l4 = i32::from(*((arg0 + 12) as *const u8));
+                      use super::super::super::super::seed_keeper::wit_ui::wurbo_types::Context as V26;
+                      let v26 = match l4 {
                         0 => {
-                          let e162 = {
-                            let l1 = *((arg0 + 4) as *const i32);
-                            let l2 = *((arg0 + 8) as *const i32);
-                            let len3 = l2 as usize;
-                            let bytes3 = Vec::from_raw_parts(l1 as *mut _, len3, len3);
-                            let l4 = i32::from(*((arg0 + 12) as *const u8));
-                            use super::super::super::super::seed_keeper::wit_ui::wurbo_types::Context as V51;
-                            let v51 = match l4 {
-                              0 => {
-                                let e51 = {
-                                  let l5 = i32::from(*((arg0 + 16) as *const u8));
-                                  let l9 = i32::from(*((arg0 + 28) as *const u8));
-                                  let l21 = i32::from(*((arg0 + 64) as *const u8));
-                                  
-                                  super::super::super::super::seed_keeper::wit_ui::wurbo_types::Content{
-                                    page: match l5 {
-                                      0 => None,
-                                      1 => {
-                                        let e = {
-                                          let l6 = *((arg0 + 20) as *const i32);
-                                          let l7 = *((arg0 + 24) as *const i32);
-                                          let len8 = l7 as usize;
-                                          let bytes8 = Vec::from_raw_parts(l6 as *mut _, len8, len8);
-                                          
-                                          super::super::super::super::seed_keeper::wit_ui::wurbo_types::Page{
-                                            title: wit_bindgen::rt::string_lift(bytes8),
-                                          }
-                                        };
-                                        Some(e)
-                                      }
-                                      _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                    },
-                                    input: match l9 {
-                                      0 => None,
-                                      1 => {
-                                        let e = {
-                                          let l10 = *((arg0 + 32) as *const i32);
-                                          let l11 = *((arg0 + 36) as *const i32);
-                                          let len12 = l11 as usize;
-                                          let bytes12 = Vec::from_raw_parts(l10 as *mut _, len12, len12);
-                                          let l13 = i32::from(*((arg0 + 40) as *const u8));
-                                          let l17 = i32::from(*((arg0 + 52) as *const u8));
-                                          
-                                          super::super::super::super::seed_keeper::wit_ui::wurbo_types::Input{
-                                            placeholder: wit_bindgen::rt::string_lift(bytes12),
-                                            username: match l13 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l14 = *((arg0 + 44) as *const i32);
-                                                  let l15 = *((arg0 + 48) as *const i32);
-                                                  let len16 = l15 as usize;
-                                                  let bytes16 = Vec::from_raw_parts(l14 as *mut _, len16, len16);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes16)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            encrypted: match l17 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l18 = *((arg0 + 56) as *const i32);
-                                                  let l19 = *((arg0 + 60) as *const i32);
-                                                  let len20 = l19 as usize;
-                                                  
-                                                  Vec::from_raw_parts(l18 as *mut _, len20, len20)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                          }
-                                        };
-                                        Some(e)
-                                      }
-                                      _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                    },
-                                    output: match l21 {
-                                      0 => None,
-                                      1 => {
-                                        let e = {
-                                          let l22 = i32::from(*((arg0 + 68) as *const u8));
-                                          let l26 = i32::from(*((arg0 + 80) as *const u8));
-                                          let l30 = i32::from(*((arg0 + 92) as *const u8));
-                                          let l34 = i32::from(*((arg0 + 104) as *const u8));
-                                          let l38 = i32::from(*((arg0 + 116) as *const u8));
-                                          
-                                          super::super::super::super::seed_keeper::wit_ui::wurbo_types::Output{
-                                            value: match l22 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l23 = *((arg0 + 72) as *const i32);
-                                                  let l24 = *((arg0 + 76) as *const i32);
-                                                  let len25 = l24 as usize;
-                                                  let bytes25 = Vec::from_raw_parts(l23 as *mut _, len25, len25);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes25)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            id: match l26 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l27 = *((arg0 + 84) as *const i32);
-                                                  let l28 = *((arg0 + 88) as *const i32);
-                                                  let len29 = l28 as usize;
-                                                  let bytes29 = Vec::from_raw_parts(l27 as *mut _, len29, len29);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes29)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            username: match l30 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l31 = *((arg0 + 96) as *const i32);
-                                                  let l32 = *((arg0 + 100) as *const i32);
-                                                  let len33 = l32 as usize;
-                                                  let bytes33 = Vec::from_raw_parts(l31 as *mut _, len33, len33);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes33)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            password: match l34 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l35 = *((arg0 + 108) as *const i32);
-                                                  let l36 = *((arg0 + 112) as *const i32);
-                                                  let len37 = l36 as usize;
-                                                  let bytes37 = Vec::from_raw_parts(l35 as *mut _, len37, len37);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes37)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            encrypted: match l38 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l39 = *((arg0 + 120) as *const i32);
-                                                  let l40 = *((arg0 + 124) as *const i32);
-                                                  let len41 = l40 as usize;
-                                                  
-                                                  Vec::from_raw_parts(l39 as *mut _, len41, len41)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                          }
-                                        };
-                                        Some(e)
-                                      }
-                                      _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                    },
-                                  }
-                                };
-                                V51::AllContent(e51)
-                              }
-                              1 => {
-                                let e51 = {
-                                  let l42 = *((arg0 + 16) as *const i32);
-                                  let l43 = *((arg0 + 20) as *const i32);
-                                  let len44 = l43 as usize;
-                                  let bytes44 = Vec::from_raw_parts(l42 as *mut _, len44, len44);
-                                  
-                                  wit_bindgen::rt::string_lift(bytes44)
-                                };
-                                V51::Username(e51)
-                              }
-                              2 => {
-                                let e51 = {
-                                  let l45 = *((arg0 + 16) as *const i32);
-                                  let l46 = *((arg0 + 20) as *const i32);
-                                  let len47 = l46 as usize;
-                                  let bytes47 = Vec::from_raw_parts(l45 as *mut _, len47, len47);
-                                  
-                                  wit_bindgen::rt::string_lift(bytes47)
-                                };
-                                V51::Password(e51)
-                              }
-                              3 => {
-                                let e51 = {
-                                  let l48 = *((arg0 + 16) as *const i32);
-                                  let l49 = *((arg0 + 20) as *const i32);
-                                  let len50 = l49 as usize;
-                                  
-                                  Vec::from_raw_parts(l48 as *mut _, len50, len50)
-                                };
-                                V51::Encrypted(e51)
-                              }
-                              n => {
-                                debug_assert_eq!(n, 4, "invalid enum discriminant");
-                                V51::Submit
-                              }
-                            };
-                            let l52 = i32::from(*((arg0 + 128) as *const u8));
-                            use super::super::super::super::example::edwards_ui::wurbo_types::Context as V82;
-                            let v82 = match l52 {
-                              0 => {
-                                let e82 = {
-                                  let l53 = *((arg0 + 132) as *const i32);
-                                  let l54 = *((arg0 + 136) as *const i32);
-                                  let len55 = l54 as usize;
-                                  let bytes55 = Vec::from_raw_parts(l53 as *mut _, len55, len55);
-                                  let l56 = *((arg0 + 140) as *const i32);
-                                  let l57 = *((arg0 + 144) as *const i32);
-                                  let len58 = l57 as usize;
-                                  let bytes58 = Vec::from_raw_parts(l56 as *mut _, len58, len58);
-                                  let l59 = i32::from(*((arg0 + 148) as *const u8));
-                                  
-                                  super::super::super::super::example::edwards_ui::wurbo_types::Content{
-                                    page: super::super::super::super::example::edwards_ui::wurbo_types::Page{
-                                      title: wit_bindgen::rt::string_lift(bytes55),
-                                    },
-                                    input: super::super::super::super::example::edwards_ui::wurbo_types::Input{
-                                      placeholder: wit_bindgen::rt::string_lift(bytes58),
-                                    },
-                                    output: match l59 {
-                                      0 => None,
-                                      1 => {
-                                        let e = {
-                                          let l60 = i32::from(*((arg0 + 152) as *const u8));
-                                          let l64 = i32::from(*((arg0 + 164) as *const u8));
-                                          let l68 = i32::from(*((arg0 + 176) as *const u8));
-                                          let l72 = i32::from(*((arg0 + 188) as *const u8));
-                                          
-                                          super::super::super::super::example::edwards_ui::wurbo_types::Output{
-                                            value: match l60 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l61 = *((arg0 + 156) as *const i32);
-                                                  let l62 = *((arg0 + 160) as *const i32);
-                                                  let len63 = l62 as usize;
-                                                  let bytes63 = Vec::from_raw_parts(l61 as *mut _, len63, len63);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes63)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            id: match l64 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l65 = *((arg0 + 168) as *const i32);
-                                                  let l66 = *((arg0 + 172) as *const i32);
-                                                  let len67 = l66 as usize;
-                                                  let bytes67 = Vec::from_raw_parts(l65 as *mut _, len67, len67);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes67)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            message: match l68 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l69 = *((arg0 + 180) as *const i32);
-                                                  let l70 = *((arg0 + 184) as *const i32);
-                                                  let len71 = l70 as usize;
-                                                  let bytes71 = Vec::from_raw_parts(l69 as *mut _, len71, len71);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes71)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            signature: match l72 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l73 = *((arg0 + 192) as *const i32);
-                                                  let l74 = *((arg0 + 196) as *const i32);
-                                                  let len75 = l74 as usize;
-                                                  let bytes75 = Vec::from_raw_parts(l73 as *mut _, len75, len75);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes75)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                          }
-                                        };
-                                        Some(e)
-                                      }
-                                      _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                    },
-                                  }
-                                };
-                                V82::AllContent(e82)
-                              }
-                              1 => {
-                                let e82 = {
-                                  let l76 = *((arg0 + 132) as *const i32);
-                                  let l77 = *((arg0 + 136) as *const i32);
-                                  let len78 = l77 as usize;
-                                  let bytes78 = Vec::from_raw_parts(l76 as *mut _, len78, len78);
-                                  
-                                  wit_bindgen::rt::string_lift(bytes78)
-                                };
-                                V82::Message(e82)
-                              }
-                              n => {
-                                debug_assert_eq!(n, 2, "invalid enum discriminant");
-                                let e82 = {
-                                  let l79 = *((arg0 + 132) as *const i32);
-                                  let l80 = *((arg0 + 136) as *const i32);
-                                  let len81 = l80 as usize;
-                                  let bytes81 = Vec::from_raw_parts(l79 as *mut _, len81, len81);
-                                  
-                                  wit_bindgen::rt::string_lift(bytes81)
-                                };
-                                V82::Submit(e82)
-                              }
-                            };
+                          let e26 = {
+                            let l5 = i32::from(*((arg0 + 16) as *const u8));
+                            let l9 = i32::from(*((arg0 + 28) as *const u8));
+                            let l13 = i32::from(*((arg0 + 40) as *const u8));
                             
-                            super::super::super::super::wallet::aggregate_wit_ui::wurbo_types::Content{
-                              app: super::super::super::super::wallet::aggregate_wit_ui::wurbo_types::App{
-                                title: wit_bindgen::rt::string_lift(bytes3),
+                            super::super::super::super::seed_keeper::wit_ui::wurbo_types::Content{
+                              page: match l5 {
+                                0 => None,
+                                1 => {
+                                  let e = {
+                                    let l6 = *((arg0 + 20) as *const i32);
+                                    let l7 = *((arg0 + 24) as *const i32);
+                                    let len8 = l7 as usize;
+                                    let bytes8 = Vec::from_raw_parts(l6 as *mut _, len8, len8);
+                                    
+                                    super::super::super::super::seed_keeper::wit_ui::wurbo_types::Page{
+                                      title: wit_bindgen::rt::string_lift(bytes8),
+                                    }
+                                  };
+                                  Some(e)
+                                }
+                                _ => wit_bindgen::rt::invalid_enum_discriminant(),
                               },
-                              seed_ui: v51,
-                              edwards_ui: v82,
+                              input: match l9 {
+                                0 => None,
+                                1 => {
+                                  let e = {
+                                    let l10 = *((arg0 + 32) as *const i32);
+                                    let l11 = *((arg0 + 36) as *const i32);
+                                    let len12 = l11 as usize;
+                                    let bytes12 = Vec::from_raw_parts(l10 as *mut _, len12, len12);
+                                    
+                                    super::super::super::super::seed_keeper::wit_ui::wurbo_types::Input{
+                                      placeholder: wit_bindgen::rt::string_lift(bytes12),
+                                    }
+                                  };
+                                  Some(e)
+                                }
+                                _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                              },
+                              load: match l13 {
+                                0 => None,
+                                1 => {
+                                  let e = {
+                                    let l14 = *((arg0 + 44) as *const i32);
+                                    let l15 = *((arg0 + 48) as *const i32);
+                                    let len16 = l15 as usize;
+                                    let bytes16 = Vec::from_raw_parts(l14 as *mut _, len16, len16);
+                                    
+                                    wit_bindgen::rt::string_lift(bytes16)
+                                  };
+                                  Some(e)
+                                }
+                                _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                              },
                             }
                           };
-                          V162::AllContent(e162)
+                          V26::AllContent(e26)
                         }
                         1 => {
-                          let e162 = {
-                            let l83 = i32::from(*((arg0 + 4) as *const u8));
-                            use super::super::super::super::seed_keeper::wit_ui::wurbo_types::Context as V130;
-                            let v130 = match l83 {
-                              0 => {
-                                let e130 = {
-                                  let l84 = i32::from(*((arg0 + 8) as *const u8));
-                                  let l88 = i32::from(*((arg0 + 20) as *const u8));
-                                  let l100 = i32::from(*((arg0 + 56) as *const u8));
-                                  
-                                  super::super::super::super::seed_keeper::wit_ui::wurbo_types::Content{
-                                    page: match l84 {
-                                      0 => None,
-                                      1 => {
-                                        let e = {
-                                          let l85 = *((arg0 + 12) as *const i32);
-                                          let l86 = *((arg0 + 16) as *const i32);
-                                          let len87 = l86 as usize;
-                                          let bytes87 = Vec::from_raw_parts(l85 as *mut _, len87, len87);
-                                          
-                                          super::super::super::super::seed_keeper::wit_ui::wurbo_types::Page{
-                                            title: wit_bindgen::rt::string_lift(bytes87),
-                                          }
-                                        };
-                                        Some(e)
-                                      }
-                                      _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                    },
-                                    input: match l88 {
-                                      0 => None,
-                                      1 => {
-                                        let e = {
-                                          let l89 = *((arg0 + 24) as *const i32);
-                                          let l90 = *((arg0 + 28) as *const i32);
-                                          let len91 = l90 as usize;
-                                          let bytes91 = Vec::from_raw_parts(l89 as *mut _, len91, len91);
-                                          let l92 = i32::from(*((arg0 + 32) as *const u8));
-                                          let l96 = i32::from(*((arg0 + 44) as *const u8));
-                                          
-                                          super::super::super::super::seed_keeper::wit_ui::wurbo_types::Input{
-                                            placeholder: wit_bindgen::rt::string_lift(bytes91),
-                                            username: match l92 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l93 = *((arg0 + 36) as *const i32);
-                                                  let l94 = *((arg0 + 40) as *const i32);
-                                                  let len95 = l94 as usize;
-                                                  let bytes95 = Vec::from_raw_parts(l93 as *mut _, len95, len95);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes95)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            encrypted: match l96 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l97 = *((arg0 + 48) as *const i32);
-                                                  let l98 = *((arg0 + 52) as *const i32);
-                                                  let len99 = l98 as usize;
-                                                  
-                                                  Vec::from_raw_parts(l97 as *mut _, len99, len99)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                          }
-                                        };
-                                        Some(e)
-                                      }
-                                      _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                    },
-                                    output: match l100 {
-                                      0 => None,
-                                      1 => {
-                                        let e = {
-                                          let l101 = i32::from(*((arg0 + 60) as *const u8));
-                                          let l105 = i32::from(*((arg0 + 72) as *const u8));
-                                          let l109 = i32::from(*((arg0 + 84) as *const u8));
-                                          let l113 = i32::from(*((arg0 + 96) as *const u8));
-                                          let l117 = i32::from(*((arg0 + 108) as *const u8));
-                                          
-                                          super::super::super::super::seed_keeper::wit_ui::wurbo_types::Output{
-                                            value: match l101 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l102 = *((arg0 + 64) as *const i32);
-                                                  let l103 = *((arg0 + 68) as *const i32);
-                                                  let len104 = l103 as usize;
-                                                  let bytes104 = Vec::from_raw_parts(l102 as *mut _, len104, len104);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes104)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            id: match l105 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l106 = *((arg0 + 76) as *const i32);
-                                                  let l107 = *((arg0 + 80) as *const i32);
-                                                  let len108 = l107 as usize;
-                                                  let bytes108 = Vec::from_raw_parts(l106 as *mut _, len108, len108);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes108)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            username: match l109 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l110 = *((arg0 + 88) as *const i32);
-                                                  let l111 = *((arg0 + 92) as *const i32);
-                                                  let len112 = l111 as usize;
-                                                  let bytes112 = Vec::from_raw_parts(l110 as *mut _, len112, len112);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes112)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            password: match l113 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l114 = *((arg0 + 100) as *const i32);
-                                                  let l115 = *((arg0 + 104) as *const i32);
-                                                  let len116 = l115 as usize;
-                                                  let bytes116 = Vec::from_raw_parts(l114 as *mut _, len116, len116);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes116)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            encrypted: match l117 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l118 = *((arg0 + 112) as *const i32);
-                                                  let l119 = *((arg0 + 116) as *const i32);
-                                                  let len120 = l119 as usize;
-                                                  
-                                                  Vec::from_raw_parts(l118 as *mut _, len120, len120)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                          }
-                                        };
-                                        Some(e)
-                                      }
-                                      _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                    },
-                                  }
-                                };
-                                V130::AllContent(e130)
-                              }
-                              1 => {
-                                let e130 = {
-                                  let l121 = *((arg0 + 8) as *const i32);
-                                  let l122 = *((arg0 + 12) as *const i32);
-                                  let len123 = l122 as usize;
-                                  let bytes123 = Vec::from_raw_parts(l121 as *mut _, len123, len123);
-                                  
-                                  wit_bindgen::rt::string_lift(bytes123)
-                                };
-                                V130::Username(e130)
-                              }
-                              2 => {
-                                let e130 = {
-                                  let l124 = *((arg0 + 8) as *const i32);
-                                  let l125 = *((arg0 + 12) as *const i32);
-                                  let len126 = l125 as usize;
-                                  let bytes126 = Vec::from_raw_parts(l124 as *mut _, len126, len126);
-                                  
-                                  wit_bindgen::rt::string_lift(bytes126)
-                                };
-                                V130::Password(e130)
-                              }
-                              3 => {
-                                let e130 = {
-                                  let l127 = *((arg0 + 8) as *const i32);
-                                  let l128 = *((arg0 + 12) as *const i32);
-                                  let len129 = l128 as usize;
-                                  
-                                  Vec::from_raw_parts(l127 as *mut _, len129, len129)
-                                };
-                                V130::Encrypted(e130)
-                              }
-                              n => {
-                                debug_assert_eq!(n, 4, "invalid enum discriminant");
-                                V130::Submit
-                              }
-                            };
+                          let e26 = {
+                            let l17 = *((arg0 + 16) as *const i32);
+                            let l18 = *((arg0 + 20) as *const i32);
+                            let len19 = l18 as usize;
+                            let bytes19 = Vec::from_raw_parts(l17 as *mut _, len19, len19);
                             
-                            v130
+                            wit_bindgen::rt::string_lift(bytes19)
                           };
-                          V162::Seed(e162)
+                          V26::Username(e26)
+                        }
+                        2 => {
+                          let e26 = {
+                            let l20 = *((arg0 + 16) as *const i32);
+                            let l21 = *((arg0 + 20) as *const i32);
+                            let len22 = l21 as usize;
+                            let bytes22 = Vec::from_raw_parts(l20 as *mut _, len22, len22);
+                            
+                            wit_bindgen::rt::string_lift(bytes22)
+                          };
+                          V26::Password(e26)
+                        }
+                        3 => {
+                          let e26 = {
+                            let l23 = *((arg0 + 16) as *const i32);
+                            let l24 = *((arg0 + 20) as *const i32);
+                            let len25 = l24 as usize;
+                            let bytes25 = Vec::from_raw_parts(l23 as *mut _, len25, len25);
+                            
+                            wit_bindgen::rt::string_lift(bytes25)
+                          };
+                          V26::Encrypted(e26)
+                        }
+                        n => {
+                          debug_assert_eq!(n, 4, "invalid enum discriminant");
+                          V26::Submit
+                        }
+                      };
+                      let l27 = i32::from(*((arg0 + 52) as *const u8));
+                      use super::super::super::super::example::edwards_ui::wurbo_types::Context as V57;
+                      let v57 = match l27 {
+                        0 => {
+                          let e57 = {
+                            let l28 = *((arg0 + 56) as *const i32);
+                            let l29 = *((arg0 + 60) as *const i32);
+                            let len30 = l29 as usize;
+                            let bytes30 = Vec::from_raw_parts(l28 as *mut _, len30, len30);
+                            let l31 = *((arg0 + 64) as *const i32);
+                            let l32 = *((arg0 + 68) as *const i32);
+                            let len33 = l32 as usize;
+                            let bytes33 = Vec::from_raw_parts(l31 as *mut _, len33, len33);
+                            let l34 = i32::from(*((arg0 + 72) as *const u8));
+                            
+                            super::super::super::super::example::edwards_ui::wurbo_types::Content{
+                              page: super::super::super::super::example::edwards_ui::wurbo_types::Page{
+                                title: wit_bindgen::rt::string_lift(bytes30),
+                              },
+                              input: super::super::super::super::example::edwards_ui::wurbo_types::Input{
+                                placeholder: wit_bindgen::rt::string_lift(bytes33),
+                              },
+                              output: match l34 {
+                                0 => None,
+                                1 => {
+                                  let e = {
+                                    let l35 = i32::from(*((arg0 + 76) as *const u8));
+                                    let l39 = i32::from(*((arg0 + 88) as *const u8));
+                                    let l43 = i32::from(*((arg0 + 100) as *const u8));
+                                    let l47 = i32::from(*((arg0 + 112) as *const u8));
+                                    
+                                    super::super::super::super::example::edwards_ui::wurbo_types::Output{
+                                      value: match l35 {
+                                        0 => None,
+                                        1 => {
+                                          let e = {
+                                            let l36 = *((arg0 + 80) as *const i32);
+                                            let l37 = *((arg0 + 84) as *const i32);
+                                            let len38 = l37 as usize;
+                                            let bytes38 = Vec::from_raw_parts(l36 as *mut _, len38, len38);
+                                            
+                                            wit_bindgen::rt::string_lift(bytes38)
+                                          };
+                                          Some(e)
+                                        }
+                                        _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                                      },
+                                      id: match l39 {
+                                        0 => None,
+                                        1 => {
+                                          let e = {
+                                            let l40 = *((arg0 + 92) as *const i32);
+                                            let l41 = *((arg0 + 96) as *const i32);
+                                            let len42 = l41 as usize;
+                                            let bytes42 = Vec::from_raw_parts(l40 as *mut _, len42, len42);
+                                            
+                                            wit_bindgen::rt::string_lift(bytes42)
+                                          };
+                                          Some(e)
+                                        }
+                                        _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                                      },
+                                      message: match l43 {
+                                        0 => None,
+                                        1 => {
+                                          let e = {
+                                            let l44 = *((arg0 + 104) as *const i32);
+                                            let l45 = *((arg0 + 108) as *const i32);
+                                            let len46 = l45 as usize;
+                                            let bytes46 = Vec::from_raw_parts(l44 as *mut _, len46, len46);
+                                            
+                                            wit_bindgen::rt::string_lift(bytes46)
+                                          };
+                                          Some(e)
+                                        }
+                                        _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                                      },
+                                      signature: match l47 {
+                                        0 => None,
+                                        1 => {
+                                          let e = {
+                                            let l48 = *((arg0 + 116) as *const i32);
+                                            let l49 = *((arg0 + 120) as *const i32);
+                                            let len50 = l49 as usize;
+                                            let bytes50 = Vec::from_raw_parts(l48 as *mut _, len50, len50);
+                                            
+                                            wit_bindgen::rt::string_lift(bytes50)
+                                          };
+                                          Some(e)
+                                        }
+                                        _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                                      },
+                                    }
+                                  };
+                                  Some(e)
+                                }
+                                _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                              },
+                            }
+                          };
+                          V57::AllContent(e57)
+                        }
+                        1 => {
+                          let e57 = {
+                            let l51 = *((arg0 + 56) as *const i32);
+                            let l52 = *((arg0 + 60) as *const i32);
+                            let len53 = l52 as usize;
+                            let bytes53 = Vec::from_raw_parts(l51 as *mut _, len53, len53);
+                            
+                            wit_bindgen::rt::string_lift(bytes53)
+                          };
+                          V57::Message(e57)
                         }
                         n => {
                           debug_assert_eq!(n, 2, "invalid enum discriminant");
-                          let e162 = {
-                            let l131 = i32::from(*((arg0 + 4) as *const u8));
-                            use super::super::super::super::example::edwards_ui::wurbo_types::Context as V161;
-                            let v161 = match l131 {
-                              0 => {
-                                let e161 = {
-                                  let l132 = *((arg0 + 8) as *const i32);
-                                  let l133 = *((arg0 + 12) as *const i32);
-                                  let len134 = l133 as usize;
-                                  let bytes134 = Vec::from_raw_parts(l132 as *mut _, len134, len134);
-                                  let l135 = *((arg0 + 16) as *const i32);
-                                  let l136 = *((arg0 + 20) as *const i32);
-                                  let len137 = l136 as usize;
-                                  let bytes137 = Vec::from_raw_parts(l135 as *mut _, len137, len137);
-                                  let l138 = i32::from(*((arg0 + 24) as *const u8));
-                                  
-                                  super::super::super::super::example::edwards_ui::wurbo_types::Content{
-                                    page: super::super::super::super::example::edwards_ui::wurbo_types::Page{
-                                      title: wit_bindgen::rt::string_lift(bytes134),
-                                    },
-                                    input: super::super::super::super::example::edwards_ui::wurbo_types::Input{
-                                      placeholder: wit_bindgen::rt::string_lift(bytes137),
-                                    },
-                                    output: match l138 {
-                                      0 => None,
-                                      1 => {
-                                        let e = {
-                                          let l139 = i32::from(*((arg0 + 28) as *const u8));
-                                          let l143 = i32::from(*((arg0 + 40) as *const u8));
-                                          let l147 = i32::from(*((arg0 + 52) as *const u8));
-                                          let l151 = i32::from(*((arg0 + 64) as *const u8));
-                                          
-                                          super::super::super::super::example::edwards_ui::wurbo_types::Output{
-                                            value: match l139 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l140 = *((arg0 + 32) as *const i32);
-                                                  let l141 = *((arg0 + 36) as *const i32);
-                                                  let len142 = l141 as usize;
-                                                  let bytes142 = Vec::from_raw_parts(l140 as *mut _, len142, len142);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes142)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            id: match l143 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l144 = *((arg0 + 44) as *const i32);
-                                                  let l145 = *((arg0 + 48) as *const i32);
-                                                  let len146 = l145 as usize;
-                                                  let bytes146 = Vec::from_raw_parts(l144 as *mut _, len146, len146);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes146)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            message: match l147 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l148 = *((arg0 + 56) as *const i32);
-                                                  let l149 = *((arg0 + 60) as *const i32);
-                                                  let len150 = l149 as usize;
-                                                  let bytes150 = Vec::from_raw_parts(l148 as *mut _, len150, len150);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes150)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                            signature: match l151 {
-                                              0 => None,
-                                              1 => {
-                                                let e = {
-                                                  let l152 = *((arg0 + 68) as *const i32);
-                                                  let l153 = *((arg0 + 72) as *const i32);
-                                                  let len154 = l153 as usize;
-                                                  let bytes154 = Vec::from_raw_parts(l152 as *mut _, len154, len154);
-                                                  
-                                                  wit_bindgen::rt::string_lift(bytes154)
-                                                };
-                                                Some(e)
-                                              }
-                                              _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                            },
-                                          }
-                                        };
-                                        Some(e)
-                                      }
-                                      _ => wit_bindgen::rt::invalid_enum_discriminant(),
-                                    },
-                                  }
-                                };
-                                V161::AllContent(e161)
-                              }
-                              1 => {
-                                let e161 = {
-                                  let l155 = *((arg0 + 8) as *const i32);
-                                  let l156 = *((arg0 + 12) as *const i32);
-                                  let len157 = l156 as usize;
-                                  let bytes157 = Vec::from_raw_parts(l155 as *mut _, len157, len157);
-                                  
-                                  wit_bindgen::rt::string_lift(bytes157)
-                                };
-                                V161::Message(e161)
-                              }
-                              n => {
-                                debug_assert_eq!(n, 2, "invalid enum discriminant");
-                                let e161 = {
-                                  let l158 = *((arg0 + 8) as *const i32);
-                                  let l159 = *((arg0 + 12) as *const i32);
-                                  let len160 = l159 as usize;
-                                  let bytes160 = Vec::from_raw_parts(l158 as *mut _, len160, len160);
-                                  
-                                  wit_bindgen::rt::string_lift(bytes160)
-                                };
-                                V161::Submit(e161)
-                              }
-                            };
+                          let e57 = {
+                            let l54 = *((arg0 + 56) as *const i32);
+                            let l55 = *((arg0 + 60) as *const i32);
+                            let len56 = l55 as usize;
+                            let bytes56 = Vec::from_raw_parts(l54 as *mut _, len56, len56);
                             
-                            v161
+                            wit_bindgen::rt::string_lift(bytes56)
                           };
-                          V162::Edwards(e162)
+                          V57::Submit(e57)
                         }
                       };
-                      let result163 = <_GuestImpl as Guest>::render(v162);
-                      wit_bindgen::rt::dealloc(arg0, 200, 4);
-                      let ptr164 = _RET_AREA.0.as_mut_ptr() as i32;
-                      match result163 {
-                        Ok(e) => { {
-                          *((ptr164 + 0) as *mut u8) = (0i32) as u8;
-                          let vec165 = (e.into_bytes()).into_boxed_slice();
-                          let ptr165 = vec165.as_ptr() as i32;
-                          let len165 = vec165.len() as i32;
-                          ::core::mem::forget(vec165);
-                          *((ptr164 + 8) as *mut i32) = len165;
-                          *((ptr164 + 4) as *mut i32) = ptr165;
-                        } },
-                        Err(e) => { {
-                          *((ptr164 + 0) as *mut u8) = (1i32) as u8;
-                          let vec166 = (e.into_bytes()).into_boxed_slice();
-                          let ptr166 = vec166.as_ptr() as i32;
-                          let len166 = vec166.len() as i32;
-                          ::core::mem::forget(vec166);
-                          *((ptr164 + 8) as *mut i32) = len166;
-                          *((ptr164 + 4) as *mut i32) = ptr166;
-                        } },
-                      };ptr164
-                    }
-                    
-                    const _: () = {
-                      #[doc(hidden)]
-                      #[export_name = "cabi_post_wallet:aggregate-wit-ui/wurbo-out@0.1.0#render"]
-                      #[allow(non_snake_case)]
-                      unsafe extern "C" fn __post_return_render(arg0: i32,) {
-                        let l0 = i32::from(*((arg0 + 0) as *const u8));
-                        match l0 {
-                          0 => {
-                            let l1 = *((arg0 + 4) as *const i32);
-                            let l2 = *((arg0 + 8) as *const i32);
-                            wit_bindgen::rt::dealloc(l1, (l2) as usize, 1);
-                          },
-                          _ => {
-                            let l3 = *((arg0 + 4) as *const i32);
-                            let l4 = *((arg0 + 8) as *const i32);
-                            wit_bindgen::rt::dealloc(l3, (l4) as usize, 1);
-                          },
-                        }
+                      
+                      super::super::super::super::wallet::aggregate_wit_ui::wurbo_types::Content{
+                        app: super::super::super::super::wallet::aggregate_wit_ui::wurbo_types::App{
+                          title: wit_bindgen::rt::string_lift(bytes3),
+                        },
+                        seed_ui: v26,
+                        edwards_ui: v57,
                       }
                     };
-                  };
-                  const _: () = {
-                    
-                    #[doc(hidden)]
-                    #[export_name = "wallet:aggregate-wit-ui/wurbo-out@0.1.0#activate"]
-                    #[allow(non_snake_case)]
-                    unsafe extern "C" fn __export_activate() {
-                      #[allow(unused_imports)]
-                      use wit_bindgen::rt::{alloc, vec::Vec, string::String};
-                      
-                      // Before executing any other code, use this function to run all static
-                      // constructors, if they have not yet been run. This is a hack required
-                      // to work around wasi-libc ctors calling import functions to initialize
-                      // the environment.
-                      //
-                      // This functionality will be removed once rust 1.69.0 is stable, at which
-                      // point wasi-libc will no longer have this behavior.
-                      //
-                      // See
-                      // https://github.com/bytecodealliance/preview2-prototyping/issues/99
-                      // for more details.
-                      #[cfg(target_arch="wasm32")]
-                      wit_bindgen::rt::run_ctors_once();
-                      
-                      <_GuestImpl as Guest>::activate();
-                    }
-                  };
-                  use super::super::super::super::super::Component as _GuestImpl;
-                  pub trait Guest {
-                    /// renders the initial Web component with the given data
-                    fn render(ctx: Context,) -> Result<wit_bindgen::rt::string::String,wit_bindgen::rt::string::String>;
-                    /// activate listening
-                    fn activate();
+                    V112::AllContent(e112)
                   }
-                  
-                  #[allow(unused_imports)]
-                  use wit_bindgen::rt::{alloc, vec::Vec, string::String};
-                  
-                  #[repr(align(4))]
-                  struct _RetArea([u8; 12]);
-                  static mut _RET_AREA: _RetArea = _RetArea([0; 12]);
-                  
-                }
-                
-                
-                #[allow(clippy::all)]
-                pub mod aggregation {
-                  #[used]
-                  #[doc(hidden)]
-                  #[cfg(target_arch = "wasm32")]
-                  static __FORCE_SECTION_REF: fn() = super::super::super::super::__link_section;
-                  const _: () = {
-                    
-                    #[doc(hidden)]
-                    #[export_name = "wallet:aggregate-wit-ui/aggregation@0.1.0#activates"]
-                    #[allow(non_snake_case)]
-                    unsafe extern "C" fn __export_activates() {
-                      #[allow(unused_imports)]
-                      use wit_bindgen::rt::{alloc, vec::Vec, string::String};
+                  1 => {
+                    let e112 = {
+                      let l58 = i32::from(*((arg0 + 4) as *const u8));
+                      use super::super::super::super::seed_keeper::wit_ui::wurbo_types::Context as V80;
+                      let v80 = match l58 {
+                        0 => {
+                          let e80 = {
+                            let l59 = i32::from(*((arg0 + 8) as *const u8));
+                            let l63 = i32::from(*((arg0 + 20) as *const u8));
+                            let l67 = i32::from(*((arg0 + 32) as *const u8));
+                            
+                            super::super::super::super::seed_keeper::wit_ui::wurbo_types::Content{
+                              page: match l59 {
+                                0 => None,
+                                1 => {
+                                  let e = {
+                                    let l60 = *((arg0 + 12) as *const i32);
+                                    let l61 = *((arg0 + 16) as *const i32);
+                                    let len62 = l61 as usize;
+                                    let bytes62 = Vec::from_raw_parts(l60 as *mut _, len62, len62);
+                                    
+                                    super::super::super::super::seed_keeper::wit_ui::wurbo_types::Page{
+                                      title: wit_bindgen::rt::string_lift(bytes62),
+                                    }
+                                  };
+                                  Some(e)
+                                }
+                                _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                              },
+                              input: match l63 {
+                                0 => None,
+                                1 => {
+                                  let e = {
+                                    let l64 = *((arg0 + 24) as *const i32);
+                                    let l65 = *((arg0 + 28) as *const i32);
+                                    let len66 = l65 as usize;
+                                    let bytes66 = Vec::from_raw_parts(l64 as *mut _, len66, len66);
+                                    
+                                    super::super::super::super::seed_keeper::wit_ui::wurbo_types::Input{
+                                      placeholder: wit_bindgen::rt::string_lift(bytes66),
+                                    }
+                                  };
+                                  Some(e)
+                                }
+                                _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                              },
+                              load: match l67 {
+                                0 => None,
+                                1 => {
+                                  let e = {
+                                    let l68 = *((arg0 + 36) as *const i32);
+                                    let l69 = *((arg0 + 40) as *const i32);
+                                    let len70 = l69 as usize;
+                                    let bytes70 = Vec::from_raw_parts(l68 as *mut _, len70, len70);
+                                    
+                                    wit_bindgen::rt::string_lift(bytes70)
+                                  };
+                                  Some(e)
+                                }
+                                _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                              },
+                            }
+                          };
+                          V80::AllContent(e80)
+                        }
+                        1 => {
+                          let e80 = {
+                            let l71 = *((arg0 + 8) as *const i32);
+                            let l72 = *((arg0 + 12) as *const i32);
+                            let len73 = l72 as usize;
+                            let bytes73 = Vec::from_raw_parts(l71 as *mut _, len73, len73);
+                            
+                            wit_bindgen::rt::string_lift(bytes73)
+                          };
+                          V80::Username(e80)
+                        }
+                        2 => {
+                          let e80 = {
+                            let l74 = *((arg0 + 8) as *const i32);
+                            let l75 = *((arg0 + 12) as *const i32);
+                            let len76 = l75 as usize;
+                            let bytes76 = Vec::from_raw_parts(l74 as *mut _, len76, len76);
+                            
+                            wit_bindgen::rt::string_lift(bytes76)
+                          };
+                          V80::Password(e80)
+                        }
+                        3 => {
+                          let e80 = {
+                            let l77 = *((arg0 + 8) as *const i32);
+                            let l78 = *((arg0 + 12) as *const i32);
+                            let len79 = l78 as usize;
+                            let bytes79 = Vec::from_raw_parts(l77 as *mut _, len79, len79);
+                            
+                            wit_bindgen::rt::string_lift(bytes79)
+                          };
+                          V80::Encrypted(e80)
+                        }
+                        n => {
+                          debug_assert_eq!(n, 4, "invalid enum discriminant");
+                          V80::Submit
+                        }
+                      };
                       
-                      // Before executing any other code, use this function to run all static
-                      // constructors, if they have not yet been run. This is a hack required
-                      // to work around wasi-libc ctors calling import functions to initialize
-                      // the environment.
-                      //
-                      // This functionality will be removed once rust 1.69.0 is stable, at which
-                      // point wasi-libc will no longer have this behavior.
-                      //
-                      // See
-                      // https://github.com/bytecodealliance/preview2-prototyping/issues/99
-                      // for more details.
-                      #[cfg(target_arch="wasm32")]
-                      wit_bindgen::rt::run_ctors_once();
-                      
-                      <_GuestImpl as Guest>::activates();
-                    }
-                  };
-                  use super::super::super::super::super::Component as _GuestImpl;
-                  pub trait Guest {
-                    /// calls activate on on the child components
-                    fn activates();
+                      v80
+                    };
+                    V112::Seed(e112)
                   }
-                  
-                }
-                
+                  n => {
+                    debug_assert_eq!(n, 2, "invalid enum discriminant");
+                    let e112 = {
+                      let l81 = i32::from(*((arg0 + 4) as *const u8));
+                      use super::super::super::super::example::edwards_ui::wurbo_types::Context as V111;
+                      let v111 = match l81 {
+                        0 => {
+                          let e111 = {
+                            let l82 = *((arg0 + 8) as *const i32);
+                            let l83 = *((arg0 + 12) as *const i32);
+                            let len84 = l83 as usize;
+                            let bytes84 = Vec::from_raw_parts(l82 as *mut _, len84, len84);
+                            let l85 = *((arg0 + 16) as *const i32);
+                            let l86 = *((arg0 + 20) as *const i32);
+                            let len87 = l86 as usize;
+                            let bytes87 = Vec::from_raw_parts(l85 as *mut _, len87, len87);
+                            let l88 = i32::from(*((arg0 + 24) as *const u8));
+                            
+                            super::super::super::super::example::edwards_ui::wurbo_types::Content{
+                              page: super::super::super::super::example::edwards_ui::wurbo_types::Page{
+                                title: wit_bindgen::rt::string_lift(bytes84),
+                              },
+                              input: super::super::super::super::example::edwards_ui::wurbo_types::Input{
+                                placeholder: wit_bindgen::rt::string_lift(bytes87),
+                              },
+                              output: match l88 {
+                                0 => None,
+                                1 => {
+                                  let e = {
+                                    let l89 = i32::from(*((arg0 + 28) as *const u8));
+                                    let l93 = i32::from(*((arg0 + 40) as *const u8));
+                                    let l97 = i32::from(*((arg0 + 52) as *const u8));
+                                    let l101 = i32::from(*((arg0 + 64) as *const u8));
+                                    
+                                    super::super::super::super::example::edwards_ui::wurbo_types::Output{
+                                      value: match l89 {
+                                        0 => None,
+                                        1 => {
+                                          let e = {
+                                            let l90 = *((arg0 + 32) as *const i32);
+                                            let l91 = *((arg0 + 36) as *const i32);
+                                            let len92 = l91 as usize;
+                                            let bytes92 = Vec::from_raw_parts(l90 as *mut _, len92, len92);
+                                            
+                                            wit_bindgen::rt::string_lift(bytes92)
+                                          };
+                                          Some(e)
+                                        }
+                                        _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                                      },
+                                      id: match l93 {
+                                        0 => None,
+                                        1 => {
+                                          let e = {
+                                            let l94 = *((arg0 + 44) as *const i32);
+                                            let l95 = *((arg0 + 48) as *const i32);
+                                            let len96 = l95 as usize;
+                                            let bytes96 = Vec::from_raw_parts(l94 as *mut _, len96, len96);
+                                            
+                                            wit_bindgen::rt::string_lift(bytes96)
+                                          };
+                                          Some(e)
+                                        }
+                                        _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                                      },
+                                      message: match l97 {
+                                        0 => None,
+                                        1 => {
+                                          let e = {
+                                            let l98 = *((arg0 + 56) as *const i32);
+                                            let l99 = *((arg0 + 60) as *const i32);
+                                            let len100 = l99 as usize;
+                                            let bytes100 = Vec::from_raw_parts(l98 as *mut _, len100, len100);
+                                            
+                                            wit_bindgen::rt::string_lift(bytes100)
+                                          };
+                                          Some(e)
+                                        }
+                                        _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                                      },
+                                      signature: match l101 {
+                                        0 => None,
+                                        1 => {
+                                          let e = {
+                                            let l102 = *((arg0 + 68) as *const i32);
+                                            let l103 = *((arg0 + 72) as *const i32);
+                                            let len104 = l103 as usize;
+                                            let bytes104 = Vec::from_raw_parts(l102 as *mut _, len104, len104);
+                                            
+                                            wit_bindgen::rt::string_lift(bytes104)
+                                          };
+                                          Some(e)
+                                        }
+                                        _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                                      },
+                                    }
+                                  };
+                                  Some(e)
+                                }
+                                _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                              },
+                            }
+                          };
+                          V111::AllContent(e111)
+                        }
+                        1 => {
+                          let e111 = {
+                            let l105 = *((arg0 + 8) as *const i32);
+                            let l106 = *((arg0 + 12) as *const i32);
+                            let len107 = l106 as usize;
+                            let bytes107 = Vec::from_raw_parts(l105 as *mut _, len107, len107);
+                            
+                            wit_bindgen::rt::string_lift(bytes107)
+                          };
+                          V111::Message(e111)
+                        }
+                        n => {
+                          debug_assert_eq!(n, 2, "invalid enum discriminant");
+                          let e111 = {
+                            let l108 = *((arg0 + 8) as *const i32);
+                            let l109 = *((arg0 + 12) as *const i32);
+                            let len110 = l109 as usize;
+                            let bytes110 = Vec::from_raw_parts(l108 as *mut _, len110, len110);
+                            
+                            wit_bindgen::rt::string_lift(bytes110)
+                          };
+                          V111::Submit(e111)
+                        }
+                      };
+                      
+                      v111
+                    };
+                    V112::Edwards(e112)
+                  }
+                };
+                let result113 = <_GuestImpl as Guest>::render(v112);
+                wit_bindgen::rt::dealloc(arg0, 124, 4);
+                let ptr114 = _RET_AREA.0.as_mut_ptr() as i32;
+                match result113 {
+                  Ok(e) => { {
+                    *((ptr114 + 0) as *mut u8) = (0i32) as u8;
+                    let vec115 = (e.into_bytes()).into_boxed_slice();
+                    let ptr115 = vec115.as_ptr() as i32;
+                    let len115 = vec115.len() as i32;
+                    ::core::mem::forget(vec115);
+                    *((ptr114 + 8) as *mut i32) = len115;
+                    *((ptr114 + 4) as *mut i32) = ptr115;
+                  } },
+                  Err(e) => { {
+                    *((ptr114 + 0) as *mut u8) = (1i32) as u8;
+                    let vec116 = (e.into_bytes()).into_boxed_slice();
+                    let ptr116 = vec116.as_ptr() as i32;
+                    let len116 = vec116.len() as i32;
+                    ::core::mem::forget(vec116);
+                    *((ptr114 + 8) as *mut i32) = len116;
+                    *((ptr114 + 4) as *mut i32) = ptr116;
+                  } },
+                };ptr114
               }
+              
+              const _: () = {
+                #[doc(hidden)]
+                #[export_name = "cabi_post_wallet:aggregate-wit-ui/wurbo-out@0.1.0#render"]
+                #[allow(non_snake_case)]
+                unsafe extern "C" fn __post_return_render(arg0: i32,) {
+                  let l0 = i32::from(*((arg0 + 0) as *const u8));
+                  match l0 {
+                    0 => {
+                      let l1 = *((arg0 + 4) as *const i32);
+                      let l2 = *((arg0 + 8) as *const i32);
+                      wit_bindgen::rt::dealloc(l1, (l2) as usize, 1);
+                    },
+                    _ => {
+                      let l3 = *((arg0 + 4) as *const i32);
+                      let l4 = *((arg0 + 8) as *const i32);
+                      wit_bindgen::rt::dealloc(l3, (l4) as usize, 1);
+                    },
+                  }
+                }
+              };
+            };
+            const _: () = {
+              
+              #[doc(hidden)]
+              #[export_name = "wallet:aggregate-wit-ui/wurbo-out@0.1.0#activate"]
+              #[allow(non_snake_case)]
+              unsafe extern "C" fn __export_activate(arg0: i32,arg1: i32,arg2: i32,) {
+                #[allow(unused_imports)]
+                use wit_bindgen::rt::{alloc, vec::Vec, string::String};
+                
+                // Before executing any other code, use this function to run all static
+                // constructors, if they have not yet been run. This is a hack required
+                // to work around wasi-libc ctors calling import functions to initialize
+                // the environment.
+                //
+                // This functionality will be removed once rust 1.69.0 is stable, at which
+                // point wasi-libc will no longer have this behavior.
+                //
+                // See
+                // https://github.com/bytecodealliance/preview2-prototyping/issues/99
+                // for more details.
+                #[cfg(target_arch="wasm32")]
+                wit_bindgen::rt::run_ctors_once();
+                
+                <_GuestImpl as Guest>::activate(match arg0 {
+                  0 => None,
+                  1 => {
+                    let e = {
+                      let base3 = arg1;
+                      let len3 = arg2;
+                      let mut result3 = Vec::with_capacity(len3 as usize);
+                      for i in 0..len3 {
+                        let base = base3 + i * 8;
+                        let e3 = {
+                          let l0 = *((base + 0) as *const i32);
+                          let l1 = *((base + 4) as *const i32);
+                          let len2 = l1 as usize;
+                          let bytes2 = Vec::from_raw_parts(l0 as *mut _, len2, len2);
+                          
+                          wit_bindgen::rt::string_lift(bytes2)
+                        };
+                        result3.push(e3);
+                      }
+                      wit_bindgen::rt::dealloc(base3, (len3 as usize) * 8, 4);
+                      
+                      result3
+                    };
+                    Some(e)
+                  }
+                  _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                });
+              }
+            };
+            use super::super::super::super::super::Component as _GuestImpl;
+            pub trait Guest {
+              /// renders the initial Web component with the given data
+              fn render(ctx: Context,) -> Result<wit_bindgen::rt::string::String,wit_bindgen::rt::string::String>;
+              /// listen on all or given selectors
+              fn activate(selectors: Option<wit_bindgen::rt::vec::Vec::<wit_bindgen::rt::string::String>>,);
             }
+            
+            #[allow(unused_imports)]
+            use wit_bindgen::rt::{alloc, vec::Vec, string::String};
+            
+            #[repr(align(4))]
+            struct _RetArea([u8; 12]);
+            static mut _RET_AREA: _RetArea = _RetArea([0; 12]);
+            
           }
           
-          #[cfg(target_arch = "wasm32")]
-          #[link_section = "component-type:agg"]
-          #[doc(hidden)]
-          pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 6141] = [3, 0, 3, 97, 103, 103, 0, 97, 115, 109, 13, 0, 1, 0, 7, 149, 8, 1, 65, 14, 1, 66, 14, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 2, 1, 114, 1, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 4, 1, 107, 115, 1, 114, 4, 5, 118, 97, 108, 117, 101, 6, 2, 105, 100, 6, 7, 109, 101, 115, 115, 97, 103, 101, 6, 9, 115, 105, 103, 110, 97, 116, 117, 114, 101, 6, 4, 0, 6, 111, 117, 116, 112, 117, 116, 3, 0, 7, 1, 107, 8, 1, 114, 3, 4, 112, 97, 103, 101, 3, 5, 105, 110, 112, 117, 116, 5, 6, 111, 117, 116, 112, 117, 116, 9, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 10, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 11, 0, 7, 109, 101, 115, 115, 97, 103, 101, 1, 115, 0, 6, 115, 117, 98, 109, 105, 116, 1, 115, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 12, 3, 1, 36, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 0, 2, 3, 0, 0, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 2, 2, 3, 2, 1, 1, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 3, 1, 34, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 2, 1, 66, 21, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 2, 1, 107, 115, 1, 112, 125, 1, 107, 5, 1, 114, 3, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 8, 117, 115, 101, 114, 110, 97, 109, 101, 4, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 6, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 7, 1, 112, 125, 4, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 3, 0, 9, 1, 107, 10, 1, 114, 5, 5, 118, 97, 108, 117, 101, 4, 2, 105, 100, 4, 8, 117, 115, 101, 114, 110, 97, 109, 101, 4, 8, 112, 97, 115, 115, 119, 111, 114, 100, 4, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 11, 4, 0, 6, 111, 117, 116, 112, 117, 116, 3, 0, 12, 1, 107, 3, 1, 107, 8, 1, 107, 13, 1, 114, 3, 4, 112, 97, 103, 101, 14, 5, 105, 110, 112, 117, 116, 15, 6, 111, 117, 116, 112, 117, 116, 16, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 17, 1, 113, 5, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 18, 0, 8, 117, 115, 101, 114, 110, 97, 109, 101, 1, 115, 0, 8, 112, 97, 115, 115, 119, 111, 114, 100, 1, 115, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 1, 10, 0, 6, 115, 117, 98, 109, 105, 116, 0, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 19, 3, 1, 36, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 3, 2, 3, 0, 2, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 2, 2, 3, 2, 1, 4, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 3, 1, 34, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 5, 2, 3, 0, 1, 7, 99, 111, 110, 116, 101, 120, 116, 2, 3, 0, 3, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 12, 2, 3, 2, 1, 6, 4, 0, 15, 101, 100, 119, 97, 114, 100, 115, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 2, 3, 2, 1, 7, 4, 0, 12, 115, 101, 101, 100, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 2, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 4, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 3, 97, 112, 112, 3, 0, 6, 1, 114, 3, 3, 97, 112, 112, 7, 7, 115, 101, 101, 100, 45, 117, 105, 3, 10, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 1, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 8, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 9, 0, 4, 115, 101, 101, 100, 1, 3, 0, 7, 101, 100, 119, 97, 114, 100, 115, 1, 1, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 10, 4, 1, 41, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 8, 11, 17, 1, 0, 11, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 3, 0, 0, 7, 71, 1, 65, 2, 1, 66, 2, 1, 64, 0, 1, 0, 4, 0, 9, 97, 99, 116, 105, 118, 97, 116, 101, 115, 1, 0, 4, 1, 41, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 97, 103, 103, 114, 101, 103, 97, 116, 105, 111, 110, 64, 48, 46, 49, 46, 48, 5, 0, 11, 17, 1, 0, 11, 97, 103, 103, 114, 101, 103, 97, 116, 105, 111, 110, 3, 2, 0, 7, 146, 9, 1, 65, 17, 1, 66, 14, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 2, 1, 114, 1, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 4, 1, 107, 115, 1, 114, 4, 5, 118, 97, 108, 117, 101, 6, 2, 105, 100, 6, 7, 109, 101, 115, 115, 97, 103, 101, 6, 9, 115, 105, 103, 110, 97, 116, 117, 114, 101, 6, 4, 0, 6, 111, 117, 116, 112, 117, 116, 3, 0, 7, 1, 107, 8, 1, 114, 3, 4, 112, 97, 103, 101, 3, 5, 105, 110, 112, 117, 116, 5, 6, 111, 117, 116, 112, 117, 116, 9, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 10, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 11, 0, 7, 109, 101, 115, 115, 97, 103, 101, 1, 115, 0, 6, 115, 117, 98, 109, 105, 116, 1, 115, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 12, 3, 1, 36, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 0, 2, 3, 0, 0, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 2, 2, 3, 2, 1, 1, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 3, 1, 34, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 2, 1, 66, 21, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 2, 1, 107, 115, 1, 112, 125, 1, 107, 5, 1, 114, 3, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 8, 117, 115, 101, 114, 110, 97, 109, 101, 4, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 6, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 7, 1, 112, 125, 4, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 3, 0, 9, 1, 107, 10, 1, 114, 5, 5, 118, 97, 108, 117, 101, 4, 2, 105, 100, 4, 8, 117, 115, 101, 114, 110, 97, 109, 101, 4, 8, 112, 97, 115, 115, 119, 111, 114, 100, 4, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 11, 4, 0, 6, 111, 117, 116, 112, 117, 116, 3, 0, 12, 1, 107, 3, 1, 107, 8, 1, 107, 13, 1, 114, 3, 4, 112, 97, 103, 101, 14, 5, 105, 110, 112, 117, 116, 15, 6, 111, 117, 116, 112, 117, 116, 16, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 17, 1, 113, 5, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 18, 0, 8, 117, 115, 101, 114, 110, 97, 109, 101, 1, 115, 0, 8, 112, 97, 115, 115, 119, 111, 114, 100, 1, 115, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 1, 10, 0, 6, 115, 117, 98, 109, 105, 116, 0, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 19, 3, 1, 36, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 3, 2, 3, 0, 2, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 2, 2, 3, 2, 1, 4, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 3, 1, 34, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 5, 2, 3, 0, 1, 7, 99, 111, 110, 116, 101, 120, 116, 2, 3, 0, 3, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 12, 2, 3, 2, 1, 6, 4, 0, 15, 101, 100, 119, 97, 114, 100, 115, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 2, 3, 2, 1, 7, 4, 0, 12, 115, 101, 101, 100, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 2, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 4, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 3, 97, 112, 112, 3, 0, 6, 1, 114, 3, 3, 97, 112, 112, 7, 7, 115, 101, 101, 100, 45, 117, 105, 3, 10, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 1, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 8, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 9, 0, 4, 115, 101, 101, 100, 1, 3, 0, 7, 101, 100, 119, 97, 114, 100, 115, 1, 1, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 10, 3, 1, 41, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 8, 2, 3, 0, 4, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 1, 66, 4, 2, 3, 2, 1, 9, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 64, 1, 7, 100, 101, 116, 97, 105, 108, 115, 1, 1, 0, 4, 0, 16, 97, 100, 100, 101, 118, 101, 110, 116, 108, 105, 115, 116, 101, 110, 101, 114, 1, 2, 4, 1, 38, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 105, 110, 64, 48, 46, 49, 46, 48, 5, 10, 11, 14, 1, 0, 8, 119, 117, 114, 98, 111, 45, 105, 110, 3, 4, 0, 7, 143, 9, 1, 65, 17, 1, 66, 14, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 2, 1, 114, 1, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 4, 1, 107, 115, 1, 114, 4, 5, 118, 97, 108, 117, 101, 6, 2, 105, 100, 6, 7, 109, 101, 115, 115, 97, 103, 101, 6, 9, 115, 105, 103, 110, 97, 116, 117, 114, 101, 6, 4, 0, 6, 111, 117, 116, 112, 117, 116, 3, 0, 7, 1, 107, 8, 1, 114, 3, 4, 112, 97, 103, 101, 3, 5, 105, 110, 112, 117, 116, 5, 6, 111, 117, 116, 112, 117, 116, 9, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 10, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 11, 0, 7, 109, 101, 115, 115, 97, 103, 101, 1, 115, 0, 6, 115, 117, 98, 109, 105, 116, 1, 115, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 12, 3, 1, 36, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 0, 2, 3, 0, 0, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 2, 2, 3, 2, 1, 1, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 3, 1, 34, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 2, 1, 66, 21, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 2, 1, 107, 115, 1, 112, 125, 1, 107, 5, 1, 114, 3, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 8, 117, 115, 101, 114, 110, 97, 109, 101, 4, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 6, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 7, 1, 112, 125, 4, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 3, 0, 9, 1, 107, 10, 1, 114, 5, 5, 118, 97, 108, 117, 101, 4, 2, 105, 100, 4, 8, 117, 115, 101, 114, 110, 97, 109, 101, 4, 8, 112, 97, 115, 115, 119, 111, 114, 100, 4, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 11, 4, 0, 6, 111, 117, 116, 112, 117, 116, 3, 0, 12, 1, 107, 3, 1, 107, 8, 1, 107, 13, 1, 114, 3, 4, 112, 97, 103, 101, 14, 5, 105, 110, 112, 117, 116, 15, 6, 111, 117, 116, 112, 117, 116, 16, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 17, 1, 113, 5, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 18, 0, 8, 117, 115, 101, 114, 110, 97, 109, 101, 1, 115, 0, 8, 112, 97, 115, 115, 119, 111, 114, 100, 1, 115, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 1, 10, 0, 6, 115, 117, 98, 109, 105, 116, 0, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 19, 3, 1, 36, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 3, 2, 3, 0, 2, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 2, 2, 3, 2, 1, 4, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 3, 1, 34, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 5, 2, 3, 0, 1, 7, 99, 111, 110, 116, 101, 120, 116, 2, 3, 0, 3, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 12, 2, 3, 2, 1, 6, 4, 0, 15, 101, 100, 119, 97, 114, 100, 115, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 2, 3, 2, 1, 7, 4, 0, 12, 115, 101, 101, 100, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 2, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 4, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 3, 97, 112, 112, 3, 0, 6, 1, 114, 3, 3, 97, 112, 112, 7, 7, 115, 101, 101, 100, 45, 117, 105, 3, 10, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 1, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 8, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 9, 0, 4, 115, 101, 101, 100, 1, 3, 0, 7, 101, 100, 119, 97, 114, 100, 115, 1, 1, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 10, 3, 1, 41, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 8, 2, 3, 0, 4, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 7, 2, 3, 2, 1, 9, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 1, 106, 1, 115, 1, 115, 1, 64, 1, 3, 99, 116, 120, 1, 0, 2, 4, 0, 6, 114, 101, 110, 100, 101, 114, 1, 3, 1, 64, 0, 1, 0, 4, 0, 8, 97, 99, 116, 105, 118, 97, 116, 101, 1, 4, 4, 1, 39, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 10, 11, 15, 1, 0, 9, 119, 117, 114, 98, 111, 45, 111, 117, 116, 3, 6, 0, 7, 245, 11, 1, 65, 2, 1, 65, 22, 1, 66, 14, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 2, 1, 114, 1, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 4, 1, 107, 115, 1, 114, 4, 5, 118, 97, 108, 117, 101, 6, 2, 105, 100, 6, 7, 109, 101, 115, 115, 97, 103, 101, 6, 9, 115, 105, 103, 110, 97, 116, 117, 114, 101, 6, 4, 0, 6, 111, 117, 116, 112, 117, 116, 3, 0, 7, 1, 107, 8, 1, 114, 3, 4, 112, 97, 103, 101, 3, 5, 105, 110, 112, 117, 116, 5, 6, 111, 117, 116, 112, 117, 116, 9, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 10, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 11, 0, 7, 109, 101, 115, 115, 97, 103, 101, 1, 115, 0, 6, 115, 117, 98, 109, 105, 116, 1, 115, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 12, 3, 1, 36, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 0, 2, 3, 0, 0, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 9, 2, 3, 2, 1, 1, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 1, 106, 1, 115, 1, 115, 1, 64, 1, 3, 99, 116, 120, 1, 0, 2, 4, 0, 6, 114, 101, 110, 100, 101, 114, 1, 3, 1, 112, 115, 1, 107, 4, 1, 64, 1, 9, 115, 101, 108, 101, 99, 116, 111, 114, 115, 5, 1, 0, 4, 0, 8, 97, 99, 116, 105, 118, 97, 116, 101, 1, 6, 3, 1, 34, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 2, 1, 66, 21, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 2, 1, 107, 115, 1, 112, 125, 1, 107, 5, 1, 114, 3, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 8, 117, 115, 101, 114, 110, 97, 109, 101, 4, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 6, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 7, 1, 112, 125, 4, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 3, 0, 9, 1, 107, 10, 1, 114, 5, 5, 118, 97, 108, 117, 101, 4, 2, 105, 100, 4, 8, 117, 115, 101, 114, 110, 97, 109, 101, 4, 8, 112, 97, 115, 115, 119, 111, 114, 100, 4, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 11, 4, 0, 6, 111, 117, 116, 112, 117, 116, 3, 0, 12, 1, 107, 3, 1, 107, 8, 1, 107, 13, 1, 114, 3, 4, 112, 97, 103, 101, 14, 5, 105, 110, 112, 117, 116, 15, 6, 111, 117, 116, 112, 117, 116, 16, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 17, 1, 113, 5, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 18, 0, 8, 117, 115, 101, 114, 110, 97, 109, 101, 1, 115, 0, 8, 112, 97, 115, 115, 119, 111, 114, 100, 1, 115, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 1, 10, 0, 6, 115, 117, 98, 109, 105, 116, 0, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 19, 3, 1, 36, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 3, 2, 3, 0, 2, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 9, 2, 3, 2, 1, 4, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 1, 106, 1, 115, 1, 115, 1, 64, 1, 3, 99, 116, 120, 1, 0, 2, 4, 0, 6, 114, 101, 110, 100, 101, 114, 1, 3, 1, 112, 115, 1, 107, 4, 1, 64, 1, 9, 115, 101, 108, 101, 99, 116, 111, 114, 115, 5, 1, 0, 4, 0, 8, 97, 99, 116, 105, 118, 97, 116, 101, 1, 6, 3, 1, 34, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 5, 2, 3, 0, 1, 7, 99, 111, 110, 116, 101, 120, 116, 2, 3, 0, 3, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 12, 2, 3, 2, 1, 6, 4, 0, 15, 101, 100, 119, 97, 114, 100, 115, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 2, 3, 2, 1, 7, 4, 0, 12, 115, 101, 101, 100, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 2, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 4, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 3, 97, 112, 112, 3, 0, 6, 1, 114, 3, 3, 97, 112, 112, 7, 7, 115, 101, 101, 100, 45, 117, 105, 3, 10, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 1, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 8, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 9, 0, 4, 115, 101, 101, 100, 1, 3, 0, 7, 101, 100, 119, 97, 114, 100, 115, 1, 1, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 10, 3, 1, 41, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 8, 2, 3, 0, 4, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 1, 66, 4, 2, 3, 2, 1, 9, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 64, 1, 7, 100, 101, 116, 97, 105, 108, 115, 1, 1, 0, 4, 0, 16, 97, 100, 100, 101, 118, 101, 110, 116, 108, 105, 115, 116, 101, 110, 101, 114, 1, 2, 3, 1, 38, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 105, 110, 64, 48, 46, 49, 46, 48, 5, 10, 2, 3, 0, 4, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 7, 2, 3, 2, 1, 11, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 1, 106, 1, 115, 1, 115, 1, 64, 1, 3, 99, 116, 120, 1, 0, 2, 4, 0, 6, 114, 101, 110, 100, 101, 114, 1, 3, 1, 64, 0, 1, 0, 4, 0, 8, 97, 99, 116, 105, 118, 97, 116, 101, 1, 4, 4, 1, 39, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 12, 1, 66, 2, 1, 64, 0, 1, 0, 4, 0, 9, 97, 99, 116, 105, 118, 97, 116, 101, 115, 1, 0, 4, 1, 41, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 97, 103, 103, 114, 101, 103, 97, 116, 105, 111, 110, 64, 48, 46, 49, 46, 48, 5, 13, 4, 1, 33, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 97, 103, 103, 64, 48, 46, 49, 46, 48, 4, 0, 11, 9, 1, 0, 3, 97, 103, 103, 3, 8, 0, 0, 210, 7, 12, 112, 97, 99, 107, 97, 103, 101, 45, 100, 111, 99, 115, 0, 123, 34, 100, 111, 99, 115, 34, 58, 34, 78, 111, 110, 101, 32, 111, 102, 32, 116, 104, 101, 32, 100, 101, 112, 115, 32, 99, 97, 110, 32, 104, 97, 118, 101, 32, 116, 104, 101, 32, 115, 97, 109, 101, 32, 112, 97, 99, 107, 97, 103, 101, 32, 110, 97, 109, 101, 32, 97, 115, 32, 116, 104, 105, 115, 32, 112, 97, 99, 107, 97, 103, 101, 44, 32, 105, 116, 32, 99, 111, 110, 102, 108, 105, 99, 116, 115, 46, 32, 83, 111, 32, 119, 101, 32, 110, 101, 101, 100, 32, 116, 111, 32, 107, 101, 101, 112, 32, 99, 104, 97, 110, 103, 105, 110, 103, 32, 110, 97, 109, 101, 115, 112, 97, 99, 101, 115, 46, 34, 44, 34, 119, 111, 114, 108, 100, 115, 34, 58, 123, 34, 97, 103, 103, 34, 58, 123, 34, 100, 111, 99, 115, 34, 58, 34, 65, 110, 32, 101, 120, 97, 109, 112, 108, 101, 32, 119, 111, 114, 108, 100, 32, 102, 111, 114, 32, 116, 104, 101, 32, 99, 111, 109, 112, 111, 110, 101, 110, 116, 32, 116, 111, 32, 116, 97, 114, 103, 101, 116, 46, 34, 125, 125, 44, 34, 105, 110, 116, 101, 114, 102, 97, 99, 101, 115, 34, 58, 123, 34, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 34, 58, 123, 34, 116, 121, 112, 101, 115, 34, 58, 123, 34, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 34, 58, 123, 34, 100, 111, 99, 115, 34, 58, 34, 68, 101, 116, 97, 105, 108, 115, 32, 114, 101, 113, 117, 105, 114, 101, 100, 32, 105, 110, 32, 111, 114, 100, 101, 114, 32, 116, 111, 32, 97, 100, 100, 32, 97, 110, 32, 101, 118, 101, 110, 116, 32, 108, 105, 115, 116, 101, 110, 101, 114, 32, 116, 111, 32, 97, 110, 32, 101, 108, 101, 109, 101, 110, 116, 34, 125, 44, 34, 97, 112, 112, 34, 58, 123, 34, 100, 111, 99, 115, 34, 58, 34, 67, 111, 110, 116, 101, 120, 116, 32, 102, 111, 114, 32, 116, 104, 101, 32, 109, 105, 110, 105, 106, 105, 110, 106, 97, 32, 114, 101, 110, 100, 101, 114, 105, 110, 103, 34, 125, 44, 34, 99, 111, 110, 116, 101, 110, 116, 34, 58, 123, 34, 100, 111, 99, 115, 34, 58, 34, 67, 111, 110, 116, 101, 110, 116, 32, 114, 101, 99, 111, 114, 100, 32, 102, 111, 114, 32, 116, 104, 101, 32, 105, 110, 105, 116, 105, 97, 108, 32, 99, 111, 110, 116, 101, 110, 116, 32, 111, 102, 32, 116, 104, 101, 32, 101, 110, 116, 105, 114, 101, 32, 97, 112, 112, 34, 44, 34, 105, 116, 101, 109, 115, 34, 58, 123, 34, 97, 112, 112, 34, 58, 34, 112, 97, 115, 115, 32, 105, 110, 32, 112, 114, 111, 112, 115, 32, 108, 105, 107, 101, 32, 116, 105, 116, 108, 101, 44, 32, 101, 116, 99, 46, 34, 44, 34, 115, 101, 101, 100, 45, 117, 105, 34, 58, 34, 111, 112, 116, 105, 111, 110, 97, 108, 108, 121, 32, 112, 97, 115, 115, 32, 105, 110, 32, 97, 110, 32, 101, 110, 99, 114, 121, 112, 116, 101, 100, 32, 115, 101, 101, 100, 32, 116, 111, 32, 108, 111, 97, 100, 34, 44, 34, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 34, 58, 34, 111, 112, 116, 105, 111, 110, 97, 108, 108, 121, 32, 112, 97, 115, 115, 32, 105, 110, 32, 97, 32, 109, 101, 115, 115, 97, 103, 101, 32, 116, 111, 32, 115, 105, 103, 110, 32, 111, 114, 32, 118, 101, 114, 105, 102, 121, 34, 125, 125, 44, 34, 99, 111, 110, 116, 101, 120, 116, 34, 58, 123, 34, 100, 111, 99, 115, 34, 58, 34, 67, 111, 110, 116, 101, 120, 116, 32, 118, 97, 114, 105, 97, 110, 116, 115, 34, 125, 125, 125, 44, 34, 97, 103, 103, 114, 101, 103, 97, 116, 105, 111, 110, 34, 58, 123, 34, 102, 117, 110, 99, 115, 34, 58, 123, 34, 97, 99, 116, 105, 118, 97, 116, 101, 115, 34, 58, 34, 99, 97, 108, 108, 115, 32, 97, 99, 116, 105, 118, 97, 116, 101, 32, 111, 110, 32, 111, 110, 32, 116, 104, 101, 32, 99, 104, 105, 108, 100, 32, 99, 111, 109, 112, 111, 110, 101, 110, 116, 115, 34, 125, 125, 44, 34, 119, 117, 114, 98, 111, 45, 105, 110, 34, 58, 123, 34, 102, 117, 110, 99, 115, 34, 58, 123, 34, 97, 100, 100, 101, 118, 101, 110, 116, 108, 105, 115, 116, 101, 110, 101, 114, 34, 58, 34, 65, 100, 100, 32, 97, 110, 32, 101, 118, 101, 110, 116, 32, 108, 105, 115, 116, 101, 110, 101, 114, 32, 116, 111, 32, 116, 104, 101, 32, 103, 105, 118, 101, 110, 32, 101, 108, 101, 109, 101, 110, 116, 34, 125, 125, 44, 34, 119, 117, 114, 98, 111, 45, 111, 117, 116, 34, 58, 123, 34, 102, 117, 110, 99, 115, 34, 58, 123, 34, 114, 101, 110, 100, 101, 114, 34, 58, 34, 114, 101, 110, 100, 101, 114, 115, 32, 116, 104, 101, 32, 105, 110, 105, 116, 105, 97, 108, 32, 87, 101, 98, 32, 99, 111, 109, 112, 111, 110, 101, 110, 116, 32, 119, 105, 116, 104, 32, 116, 104, 101, 32, 103, 105, 118, 101, 110, 32, 100, 97, 116, 97, 34, 44, 34, 97, 99, 116, 105, 118, 97, 116, 101, 34, 58, 34, 97, 99, 116, 105, 118, 97, 116, 101, 32, 108, 105, 115, 116, 101, 110, 105, 110, 103, 34, 125, 125, 125, 125, 0, 70, 9, 112, 114, 111, 100, 117, 99, 101, 114, 115, 1, 12, 112, 114, 111, 99, 101, 115, 115, 101, 100, 45, 98, 121, 2, 13, 119, 105, 116, 45, 99, 111, 109, 112, 111, 110, 101, 110, 116, 6, 48, 46, 49, 56, 46, 50, 16, 119, 105, 116, 45, 98, 105, 110, 100, 103, 101, 110, 45, 114, 117, 115, 116, 6, 48, 46, 49, 54, 46, 48];
           
-          #[inline(never)]
-          #[doc(hidden)]
-          #[cfg(target_arch = "wasm32")]
-          pub fn __link_section() {}
+          #[allow(clippy::all)]
+          pub mod aggregation {
+            #[used]
+            #[doc(hidden)]
+            #[cfg(target_arch = "wasm32")]
+            static __FORCE_SECTION_REF: fn() = super::super::super::super::__link_section;
+            const _: () = {
+              
+              #[doc(hidden)]
+              #[export_name = "wallet:aggregate-wit-ui/aggregation@0.1.0#activates"]
+              #[allow(non_snake_case)]
+              unsafe extern "C" fn __export_activates(arg0: i32,arg1: i32,arg2: i32,) {
+                #[allow(unused_imports)]
+                use wit_bindgen::rt::{alloc, vec::Vec, string::String};
+                
+                // Before executing any other code, use this function to run all static
+                // constructors, if they have not yet been run. This is a hack required
+                // to work around wasi-libc ctors calling import functions to initialize
+                // the environment.
+                //
+                // This functionality will be removed once rust 1.69.0 is stable, at which
+                // point wasi-libc will no longer have this behavior.
+                //
+                // See
+                // https://github.com/bytecodealliance/preview2-prototyping/issues/99
+                // for more details.
+                #[cfg(target_arch="wasm32")]
+                wit_bindgen::rt::run_ctors_once();
+                
+                <_GuestImpl as Guest>::activates(match arg0 {
+                  0 => None,
+                  1 => {
+                    let e = {
+                      let base3 = arg1;
+                      let len3 = arg2;
+                      let mut result3 = Vec::with_capacity(len3 as usize);
+                      for i in 0..len3 {
+                        let base = base3 + i * 8;
+                        let e3 = {
+                          let l0 = *((base + 0) as *const i32);
+                          let l1 = *((base + 4) as *const i32);
+                          let len2 = l1 as usize;
+                          let bytes2 = Vec::from_raw_parts(l0 as *mut _, len2, len2);
+                          
+                          wit_bindgen::rt::string_lift(bytes2)
+                        };
+                        result3.push(e3);
+                      }
+                      wit_bindgen::rt::dealloc(base3, (len3 as usize) * 8, 4);
+                      
+                      result3
+                    };
+                    Some(e)
+                  }
+                  _ => wit_bindgen::rt::invalid_enum_discriminant(),
+                });
+              }
+            };
+            use super::super::super::super::super::Component as _GuestImpl;
+            pub trait Guest {
+              /// calls activate on on the child components
+              fn activates(selectors: Option<wit_bindgen::rt::vec::Vec::<wit_bindgen::rt::string::String>>,);
+            }
+            
+          }
           
+        }
+      }
+    }
+    
+    #[cfg(target_arch = "wasm32")]
+    #[link_section = "component-type:agg"]
+    #[doc(hidden)]
+    pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 5851] = [3, 0, 3, 97, 103, 103, 0, 97, 115, 109, 13, 0, 1, 0, 7, 184, 7, 1, 65, 14, 1, 66, 14, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 2, 1, 114, 1, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 4, 1, 107, 115, 1, 114, 4, 5, 118, 97, 108, 117, 101, 6, 2, 105, 100, 6, 7, 109, 101, 115, 115, 97, 103, 101, 6, 9, 115, 105, 103, 110, 97, 116, 117, 114, 101, 6, 4, 0, 6, 111, 117, 116, 112, 117, 116, 3, 0, 7, 1, 107, 8, 1, 114, 3, 4, 112, 97, 103, 101, 3, 5, 105, 110, 112, 117, 116, 5, 6, 111, 117, 116, 112, 117, 116, 9, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 10, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 11, 0, 7, 109, 101, 115, 115, 97, 103, 101, 1, 115, 0, 6, 115, 117, 98, 109, 105, 116, 1, 115, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 12, 3, 1, 36, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 0, 2, 3, 0, 0, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 2, 2, 3, 2, 1, 1, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 3, 1, 34, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 2, 1, 66, 15, 1, 115, 4, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 3, 0, 0, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 2, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 4, 1, 114, 1, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 6, 1, 107, 5, 1, 107, 7, 1, 107, 115, 1, 114, 3, 4, 112, 97, 103, 101, 8, 5, 105, 110, 112, 117, 116, 9, 4, 108, 111, 97, 100, 10, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 11, 1, 113, 5, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 12, 0, 8, 117, 115, 101, 114, 110, 97, 109, 101, 1, 115, 0, 8, 112, 97, 115, 115, 119, 111, 114, 100, 1, 115, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 1, 1, 0, 6, 115, 117, 98, 109, 105, 116, 0, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 13, 3, 1, 36, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 3, 2, 3, 0, 2, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 2, 2, 3, 2, 1, 4, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 3, 1, 34, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 5, 2, 3, 0, 1, 7, 99, 111, 110, 116, 101, 120, 116, 2, 3, 0, 3, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 12, 2, 3, 2, 1, 6, 4, 0, 15, 101, 100, 119, 97, 114, 100, 115, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 2, 3, 2, 1, 7, 4, 0, 12, 115, 101, 101, 100, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 2, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 4, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 3, 97, 112, 112, 3, 0, 6, 1, 114, 3, 3, 97, 112, 112, 7, 7, 115, 101, 101, 100, 45, 117, 105, 3, 10, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 1, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 8, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 9, 0, 4, 115, 101, 101, 100, 1, 3, 0, 7, 101, 100, 119, 97, 114, 100, 115, 1, 1, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 10, 4, 1, 41, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 8, 11, 17, 1, 0, 11, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 3, 0, 0, 7, 88, 1, 65, 2, 1, 66, 4, 1, 112, 115, 1, 107, 0, 1, 64, 1, 9, 115, 101, 108, 101, 99, 116, 111, 114, 115, 1, 1, 0, 4, 0, 9, 97, 99, 116, 105, 118, 97, 116, 101, 115, 1, 2, 4, 1, 41, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 97, 103, 103, 114, 101, 103, 97, 116, 105, 111, 110, 64, 48, 46, 49, 46, 48, 5, 0, 11, 17, 1, 0, 11, 97, 103, 103, 114, 101, 103, 97, 116, 105, 111, 110, 3, 2, 0, 7, 181, 8, 1, 65, 17, 1, 66, 14, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 2, 1, 114, 1, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 4, 1, 107, 115, 1, 114, 4, 5, 118, 97, 108, 117, 101, 6, 2, 105, 100, 6, 7, 109, 101, 115, 115, 97, 103, 101, 6, 9, 115, 105, 103, 110, 97, 116, 117, 114, 101, 6, 4, 0, 6, 111, 117, 116, 112, 117, 116, 3, 0, 7, 1, 107, 8, 1, 114, 3, 4, 112, 97, 103, 101, 3, 5, 105, 110, 112, 117, 116, 5, 6, 111, 117, 116, 112, 117, 116, 9, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 10, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 11, 0, 7, 109, 101, 115, 115, 97, 103, 101, 1, 115, 0, 6, 115, 117, 98, 109, 105, 116, 1, 115, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 12, 3, 1, 36, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 0, 2, 3, 0, 0, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 2, 2, 3, 2, 1, 1, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 3, 1, 34, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 2, 1, 66, 15, 1, 115, 4, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 3, 0, 0, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 2, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 4, 1, 114, 1, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 6, 1, 107, 5, 1, 107, 7, 1, 107, 115, 1, 114, 3, 4, 112, 97, 103, 101, 8, 5, 105, 110, 112, 117, 116, 9, 4, 108, 111, 97, 100, 10, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 11, 1, 113, 5, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 12, 0, 8, 117, 115, 101, 114, 110, 97, 109, 101, 1, 115, 0, 8, 112, 97, 115, 115, 119, 111, 114, 100, 1, 115, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 1, 1, 0, 6, 115, 117, 98, 109, 105, 116, 0, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 13, 3, 1, 36, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 3, 2, 3, 0, 2, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 2, 2, 3, 2, 1, 4, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 3, 1, 34, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 5, 2, 3, 0, 1, 7, 99, 111, 110, 116, 101, 120, 116, 2, 3, 0, 3, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 12, 2, 3, 2, 1, 6, 4, 0, 15, 101, 100, 119, 97, 114, 100, 115, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 2, 3, 2, 1, 7, 4, 0, 12, 115, 101, 101, 100, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 2, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 4, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 3, 97, 112, 112, 3, 0, 6, 1, 114, 3, 3, 97, 112, 112, 7, 7, 115, 101, 101, 100, 45, 117, 105, 3, 10, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 1, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 8, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 9, 0, 4, 115, 101, 101, 100, 1, 3, 0, 7, 101, 100, 119, 97, 114, 100, 115, 1, 1, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 10, 3, 1, 41, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 8, 2, 3, 0, 4, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 1, 66, 4, 2, 3, 2, 1, 9, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 64, 1, 7, 100, 101, 116, 97, 105, 108, 115, 1, 1, 0, 4, 0, 16, 97, 100, 100, 101, 118, 101, 110, 116, 108, 105, 115, 116, 101, 110, 101, 114, 1, 2, 4, 1, 38, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 105, 110, 64, 48, 46, 49, 46, 48, 5, 10, 11, 14, 1, 0, 8, 119, 117, 114, 98, 111, 45, 105, 110, 3, 4, 0, 7, 195, 8, 1, 65, 17, 1, 66, 14, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 2, 1, 114, 1, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 4, 1, 107, 115, 1, 114, 4, 5, 118, 97, 108, 117, 101, 6, 2, 105, 100, 6, 7, 109, 101, 115, 115, 97, 103, 101, 6, 9, 115, 105, 103, 110, 97, 116, 117, 114, 101, 6, 4, 0, 6, 111, 117, 116, 112, 117, 116, 3, 0, 7, 1, 107, 8, 1, 114, 3, 4, 112, 97, 103, 101, 3, 5, 105, 110, 112, 117, 116, 5, 6, 111, 117, 116, 112, 117, 116, 9, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 10, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 11, 0, 7, 109, 101, 115, 115, 97, 103, 101, 1, 115, 0, 6, 115, 117, 98, 109, 105, 116, 1, 115, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 12, 3, 1, 36, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 0, 2, 3, 0, 0, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 2, 2, 3, 2, 1, 1, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 3, 1, 34, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 2, 1, 66, 15, 1, 115, 4, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 3, 0, 0, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 2, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 4, 1, 114, 1, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 6, 1, 107, 5, 1, 107, 7, 1, 107, 115, 1, 114, 3, 4, 112, 97, 103, 101, 8, 5, 105, 110, 112, 117, 116, 9, 4, 108, 111, 97, 100, 10, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 11, 1, 113, 5, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 12, 0, 8, 117, 115, 101, 114, 110, 97, 109, 101, 1, 115, 0, 8, 112, 97, 115, 115, 119, 111, 114, 100, 1, 115, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 1, 1, 0, 6, 115, 117, 98, 109, 105, 116, 0, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 13, 3, 1, 36, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 3, 2, 3, 0, 2, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 2, 2, 3, 2, 1, 4, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 3, 1, 34, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 5, 2, 3, 0, 1, 7, 99, 111, 110, 116, 101, 120, 116, 2, 3, 0, 3, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 12, 2, 3, 2, 1, 6, 4, 0, 15, 101, 100, 119, 97, 114, 100, 115, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 2, 3, 2, 1, 7, 4, 0, 12, 115, 101, 101, 100, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 2, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 4, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 3, 97, 112, 112, 3, 0, 6, 1, 114, 3, 3, 97, 112, 112, 7, 7, 115, 101, 101, 100, 45, 117, 105, 3, 10, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 1, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 8, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 9, 0, 4, 115, 101, 101, 100, 1, 3, 0, 7, 101, 100, 119, 97, 114, 100, 115, 1, 1, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 10, 3, 1, 41, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 8, 2, 3, 0, 4, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 9, 2, 3, 2, 1, 9, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 1, 106, 1, 115, 1, 115, 1, 64, 1, 3, 99, 116, 120, 1, 0, 2, 4, 0, 6, 114, 101, 110, 100, 101, 114, 1, 3, 1, 112, 115, 1, 107, 4, 1, 64, 1, 9, 115, 101, 108, 101, 99, 116, 111, 114, 115, 5, 1, 0, 4, 0, 8, 97, 99, 116, 105, 118, 97, 116, 101, 1, 6, 4, 1, 39, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 10, 11, 15, 1, 0, 9, 119, 117, 114, 98, 111, 45, 111, 117, 116, 3, 6, 0, 7, 186, 11, 1, 65, 2, 1, 65, 22, 1, 66, 14, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 2, 1, 114, 1, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 4, 1, 107, 115, 1, 114, 4, 5, 118, 97, 108, 117, 101, 6, 2, 105, 100, 6, 7, 109, 101, 115, 115, 97, 103, 101, 6, 9, 115, 105, 103, 110, 97, 116, 117, 114, 101, 6, 4, 0, 6, 111, 117, 116, 112, 117, 116, 3, 0, 7, 1, 107, 8, 1, 114, 3, 4, 112, 97, 103, 101, 3, 5, 105, 110, 112, 117, 116, 5, 6, 111, 117, 116, 112, 117, 116, 9, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 10, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 11, 0, 7, 109, 101, 115, 115, 97, 103, 101, 1, 115, 0, 6, 115, 117, 98, 109, 105, 116, 1, 115, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 12, 3, 1, 36, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 0, 2, 3, 0, 0, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 9, 2, 3, 2, 1, 1, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 1, 106, 1, 115, 1, 115, 1, 64, 1, 3, 99, 116, 120, 1, 0, 2, 4, 0, 6, 114, 101, 110, 100, 101, 114, 1, 3, 1, 112, 115, 1, 107, 4, 1, 64, 1, 9, 115, 101, 108, 101, 99, 116, 111, 114, 115, 5, 1, 0, 4, 0, 8, 97, 99, 116, 105, 118, 97, 116, 101, 1, 6, 3, 1, 34, 101, 120, 97, 109, 112, 108, 101, 58, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 2, 1, 66, 15, 1, 115, 4, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 3, 0, 0, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 2, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 4, 112, 97, 103, 101, 3, 0, 4, 1, 114, 1, 11, 112, 108, 97, 99, 101, 104, 111, 108, 100, 101, 114, 115, 4, 0, 5, 105, 110, 112, 117, 116, 3, 0, 6, 1, 107, 5, 1, 107, 7, 1, 107, 115, 1, 114, 3, 4, 112, 97, 103, 101, 8, 5, 105, 110, 112, 117, 116, 9, 4, 108, 111, 97, 100, 10, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 11, 1, 113, 5, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 12, 0, 8, 117, 115, 101, 114, 110, 97, 109, 101, 1, 115, 0, 8, 112, 97, 115, 115, 119, 111, 114, 100, 1, 115, 0, 9, 101, 110, 99, 114, 121, 112, 116, 101, 100, 1, 1, 0, 6, 115, 117, 98, 109, 105, 116, 0, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 13, 3, 1, 36, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 3, 2, 3, 0, 2, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 9, 2, 3, 2, 1, 4, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 1, 106, 1, 115, 1, 115, 1, 64, 1, 3, 99, 116, 120, 1, 0, 2, 4, 0, 6, 114, 101, 110, 100, 101, 114, 1, 3, 1, 112, 115, 1, 107, 4, 1, 64, 1, 9, 115, 101, 108, 101, 99, 116, 111, 114, 115, 5, 1, 0, 4, 0, 8, 97, 99, 116, 105, 118, 97, 116, 101, 1, 6, 3, 1, 34, 115, 101, 101, 100, 45, 107, 101, 101, 112, 101, 114, 58, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 5, 2, 3, 0, 1, 7, 99, 111, 110, 116, 101, 120, 116, 2, 3, 0, 3, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 12, 2, 3, 2, 1, 6, 4, 0, 15, 101, 100, 119, 97, 114, 100, 115, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 2, 3, 2, 1, 7, 4, 0, 12, 115, 101, 101, 100, 45, 99, 111, 110, 116, 101, 120, 116, 3, 0, 2, 1, 114, 2, 8, 115, 101, 108, 101, 99, 116, 111, 114, 115, 2, 116, 121, 115, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 4, 1, 114, 1, 5, 116, 105, 116, 108, 101, 115, 4, 0, 3, 97, 112, 112, 3, 0, 6, 1, 114, 3, 3, 97, 112, 112, 7, 7, 115, 101, 101, 100, 45, 117, 105, 3, 10, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 1, 4, 0, 7, 99, 111, 110, 116, 101, 110, 116, 3, 0, 8, 1, 113, 3, 11, 97, 108, 108, 45, 99, 111, 110, 116, 101, 110, 116, 1, 9, 0, 4, 115, 101, 101, 100, 1, 3, 0, 7, 101, 100, 119, 97, 114, 100, 115, 1, 1, 0, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 10, 3, 1, 41, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 64, 48, 46, 49, 46, 48, 5, 8, 2, 3, 0, 4, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 1, 66, 4, 2, 3, 2, 1, 9, 4, 0, 14, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 3, 0, 0, 1, 64, 1, 7, 100, 101, 116, 97, 105, 108, 115, 1, 1, 0, 4, 0, 16, 97, 100, 100, 101, 118, 101, 110, 116, 108, 105, 115, 116, 101, 110, 101, 114, 1, 2, 3, 1, 38, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 105, 110, 64, 48, 46, 49, 46, 48, 5, 10, 2, 3, 0, 4, 7, 99, 111, 110, 116, 101, 120, 116, 1, 66, 9, 2, 3, 2, 1, 11, 4, 0, 7, 99, 111, 110, 116, 101, 120, 116, 3, 0, 0, 1, 106, 1, 115, 1, 115, 1, 64, 1, 3, 99, 116, 120, 1, 0, 2, 4, 0, 6, 114, 101, 110, 100, 101, 114, 1, 3, 1, 112, 115, 1, 107, 4, 1, 64, 1, 9, 115, 101, 108, 101, 99, 116, 111, 114, 115, 5, 1, 0, 4, 0, 8, 97, 99, 116, 105, 118, 97, 116, 101, 1, 6, 4, 1, 39, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 119, 117, 114, 98, 111, 45, 111, 117, 116, 64, 48, 46, 49, 46, 48, 5, 12, 1, 66, 4, 1, 112, 115, 1, 107, 0, 1, 64, 1, 9, 115, 101, 108, 101, 99, 116, 111, 114, 115, 1, 1, 0, 4, 0, 9, 97, 99, 116, 105, 118, 97, 116, 101, 115, 1, 2, 4, 1, 41, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 97, 103, 103, 114, 101, 103, 97, 116, 105, 111, 110, 64, 48, 46, 49, 46, 48, 5, 13, 4, 1, 33, 119, 97, 108, 108, 101, 116, 58, 97, 103, 103, 114, 101, 103, 97, 116, 101, 45, 119, 105, 116, 45, 117, 105, 47, 97, 103, 103, 64, 48, 46, 49, 46, 48, 4, 0, 11, 9, 1, 0, 3, 97, 103, 103, 3, 8, 0, 0, 224, 7, 12, 112, 97, 99, 107, 97, 103, 101, 45, 100, 111, 99, 115, 0, 123, 34, 100, 111, 99, 115, 34, 58, 34, 78, 111, 110, 101, 32, 111, 102, 32, 116, 104, 101, 32, 100, 101, 112, 115, 32, 99, 97, 110, 32, 104, 97, 118, 101, 32, 116, 104, 101, 32, 115, 97, 109, 101, 32, 112, 97, 99, 107, 97, 103, 101, 32, 110, 97, 109, 101, 32, 97, 115, 32, 116, 104, 105, 115, 32, 112, 97, 99, 107, 97, 103, 101, 44, 32, 105, 116, 32, 99, 111, 110, 102, 108, 105, 99, 116, 115, 46, 32, 83, 111, 32, 119, 101, 32, 110, 101, 101, 100, 32, 116, 111, 32, 107, 101, 101, 112, 32, 99, 104, 97, 110, 103, 105, 110, 103, 32, 110, 97, 109, 101, 115, 112, 97, 99, 101, 115, 46, 34, 44, 34, 119, 111, 114, 108, 100, 115, 34, 58, 123, 34, 97, 103, 103, 34, 58, 123, 34, 100, 111, 99, 115, 34, 58, 34, 65, 110, 32, 101, 120, 97, 109, 112, 108, 101, 32, 119, 111, 114, 108, 100, 32, 102, 111, 114, 32, 116, 104, 101, 32, 99, 111, 109, 112, 111, 110, 101, 110, 116, 32, 116, 111, 32, 116, 97, 114, 103, 101, 116, 46, 34, 125, 125, 44, 34, 105, 110, 116, 101, 114, 102, 97, 99, 101, 115, 34, 58, 123, 34, 119, 117, 114, 98, 111, 45, 116, 121, 112, 101, 115, 34, 58, 123, 34, 116, 121, 112, 101, 115, 34, 58, 123, 34, 108, 105, 115, 116, 101, 110, 45, 100, 101, 116, 97, 105, 108, 115, 34, 58, 123, 34, 100, 111, 99, 115, 34, 58, 34, 68, 101, 116, 97, 105, 108, 115, 32, 114, 101, 113, 117, 105, 114, 101, 100, 32, 105, 110, 32, 111, 114, 100, 101, 114, 32, 116, 111, 32, 97, 100, 100, 32, 97, 110, 32, 101, 118, 101, 110, 116, 32, 108, 105, 115, 116, 101, 110, 101, 114, 32, 116, 111, 32, 97, 110, 32, 101, 108, 101, 109, 101, 110, 116, 34, 125, 44, 34, 97, 112, 112, 34, 58, 123, 34, 100, 111, 99, 115, 34, 58, 34, 67, 111, 110, 116, 101, 120, 116, 32, 102, 111, 114, 32, 116, 104, 101, 32, 109, 105, 110, 105, 106, 105, 110, 106, 97, 32, 114, 101, 110, 100, 101, 114, 105, 110, 103, 34, 125, 44, 34, 99, 111, 110, 116, 101, 110, 116, 34, 58, 123, 34, 100, 111, 99, 115, 34, 58, 34, 67, 111, 110, 116, 101, 110, 116, 32, 114, 101, 99, 111, 114, 100, 32, 102, 111, 114, 32, 116, 104, 101, 32, 105, 110, 105, 116, 105, 97, 108, 32, 99, 111, 110, 116, 101, 110, 116, 32, 111, 102, 32, 116, 104, 101, 32, 101, 110, 116, 105, 114, 101, 32, 97, 112, 112, 34, 44, 34, 105, 116, 101, 109, 115, 34, 58, 123, 34, 97, 112, 112, 34, 58, 34, 112, 97, 115, 115, 32, 105, 110, 32, 112, 114, 111, 112, 115, 32, 108, 105, 107, 101, 32, 116, 105, 116, 108, 101, 44, 32, 101, 116, 99, 46, 34, 44, 34, 115, 101, 101, 100, 45, 117, 105, 34, 58, 34, 111, 112, 116, 105, 111, 110, 97, 108, 108, 121, 32, 112, 97, 115, 115, 32, 105, 110, 32, 97, 110, 32, 101, 110, 99, 114, 121, 112, 116, 101, 100, 32, 115, 101, 101, 100, 32, 116, 111, 32, 108, 111, 97, 100, 34, 44, 34, 101, 100, 119, 97, 114, 100, 115, 45, 117, 105, 34, 58, 34, 111, 112, 116, 105, 111, 110, 97, 108, 108, 121, 32, 112, 97, 115, 115, 32, 105, 110, 32, 97, 32, 109, 101, 115, 115, 97, 103, 101, 32, 116, 111, 32, 115, 105, 103, 110, 32, 111, 114, 32, 118, 101, 114, 105, 102, 121, 34, 125, 125, 44, 34, 99, 111, 110, 116, 101, 120, 116, 34, 58, 123, 34, 100, 111, 99, 115, 34, 58, 34, 67, 111, 110, 116, 101, 120, 116, 32, 118, 97, 114, 105, 97, 110, 116, 115, 34, 125, 125, 125, 44, 34, 97, 103, 103, 114, 101, 103, 97, 116, 105, 111, 110, 34, 58, 123, 34, 102, 117, 110, 99, 115, 34, 58, 123, 34, 97, 99, 116, 105, 118, 97, 116, 101, 115, 34, 58, 34, 99, 97, 108, 108, 115, 32, 97, 99, 116, 105, 118, 97, 116, 101, 32, 111, 110, 32, 111, 110, 32, 116, 104, 101, 32, 99, 104, 105, 108, 100, 32, 99, 111, 109, 112, 111, 110, 101, 110, 116, 115, 34, 125, 125, 44, 34, 119, 117, 114, 98, 111, 45, 105, 110, 34, 58, 123, 34, 102, 117, 110, 99, 115, 34, 58, 123, 34, 97, 100, 100, 101, 118, 101, 110, 116, 108, 105, 115, 116, 101, 110, 101, 114, 34, 58, 34, 65, 100, 100, 32, 97, 110, 32, 101, 118, 101, 110, 116, 32, 108, 105, 115, 116, 101, 110, 101, 114, 32, 116, 111, 32, 116, 104, 101, 32, 103, 105, 118, 101, 110, 32, 101, 108, 101, 109, 101, 110, 116, 34, 125, 125, 44, 34, 119, 117, 114, 98, 111, 45, 111, 117, 116, 34, 58, 123, 34, 102, 117, 110, 99, 115, 34, 58, 123, 34, 114, 101, 110, 100, 101, 114, 34, 58, 34, 114, 101, 110, 100, 101, 114, 115, 32, 116, 104, 101, 32, 105, 110, 105, 116, 105, 97, 108, 32, 87, 101, 98, 32, 99, 111, 109, 112, 111, 110, 101, 110, 116, 32, 119, 105, 116, 104, 32, 116, 104, 101, 32, 103, 105, 118, 101, 110, 32, 100, 97, 116, 97, 34, 44, 34, 97, 99, 116, 105, 118, 97, 116, 101, 34, 58, 34, 108, 105, 115, 116, 101, 110, 32, 111, 110, 32, 97, 108, 108, 32, 111, 114, 32, 103, 105, 118, 101, 110, 32, 115, 101, 108, 101, 99, 116, 111, 114, 115, 34, 125, 125, 125, 125, 0, 70, 9, 112, 114, 111, 100, 117, 99, 101, 114, 115, 1, 12, 112, 114, 111, 99, 101, 115, 115, 101, 100, 45, 98, 121, 2, 13, 119, 105, 116, 45, 99, 111, 109, 112, 111, 110, 101, 110, 116, 6, 48, 46, 49, 56, 46, 50, 16, 119, 105, 116, 45, 98, 105, 110, 100, 103, 101, 110, 45, 114, 117, 115, 116, 6, 48, 46, 49, 54, 46, 48];
+    
+    #[inline(never)]
+    #[doc(hidden)]
+    #[cfg(target_arch = "wasm32")]
+    pub fn __link_section() {}
+    

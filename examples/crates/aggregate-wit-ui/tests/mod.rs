@@ -180,10 +180,8 @@ mod aggregate_example_tests {
             }),
             input: Some(bindgen::seed_keeper::wit_ui::wurbo_types::Input {
                 placeholder: "a placeholder".to_string(),
-                username: None,
-                encrypted: None,
             }),
-            output: None,
+            load: None,
         });
 
         let edwards_ui =

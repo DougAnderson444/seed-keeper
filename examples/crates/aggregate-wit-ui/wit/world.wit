@@ -41,7 +41,7 @@ interface wurbo-types {
 
 interface aggregation {
   // calls activate on on the child components
-  activates: func();
+  activates: func(selectors: option<list<string>>);
 }
 
 interface wurbo-in {
@@ -60,8 +60,8 @@ interface wurbo-out {
   // renders the initial Web component with the given data
   render: func(ctx: context) -> result<string, string>;
 
-  // activate listening 
-  activate: func();
+  // listen on all or given selectors
+  activate: func(selectors: option<list<string>>);
 }
 
 /// An example world for the component to target.
