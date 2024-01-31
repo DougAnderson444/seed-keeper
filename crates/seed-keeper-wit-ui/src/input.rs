@@ -1,5 +1,4 @@
 use super::*;
-use base64ct::{Base64UrlUnpadded, Encoding};
 
 /// Input is the input form(s)
 #[derive(Debug, Clone, Default)]
@@ -8,7 +7,7 @@ pub(crate) struct Input(Option<wurbo_types::Input>);
 impl StructObject for Input {
     fn get_field(&self, name: &str) -> Option<Value> {
         match name {
-            "id" => Some(Value::from(utils::rand_id())),
+            "id" => Some(Value::from(rand_id())),
             "placeholder" => Some(Value::from(
                 self.as_ref()
                     .map(|c| c.placeholder.clone())

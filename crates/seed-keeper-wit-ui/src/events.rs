@@ -1,5 +1,7 @@
 //! Events that can be emitted by this WIT component, matches WIT format (lowercase kebab-case)
-//!
+
+use wurbo::prelude::Base64JSON;
+
 #[derive(Debug, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "serde", serde(tag = "tag", content = "val"))]
@@ -21,3 +23,6 @@ pub enum Message {
     /// The username
     Username(String),
 }
+
+impl Base64JSON for Context {}
+impl Base64JSON for Message {}

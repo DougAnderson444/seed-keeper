@@ -12,9 +12,7 @@ impl StructObject for Page {
             "title" => Some(Value::from(
                 self.as_ref().map(|v| v.title.clone()).unwrap_or_default(),
             )),
-            "id" => Some(Value::from(
-                PAGE_ID.get_or_init(|| utils::rand_id()).to_owned(),
-            )),
+            "id" => Some(Value::from(PAGE_ID.get_or_init(|| rand_id()).to_owned())),
             _ => None,
         }
     }

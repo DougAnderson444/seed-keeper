@@ -2,7 +2,7 @@
 //!
 mod bindings;
 
-mod events;
+pub mod events;
 mod input;
 mod output;
 mod page;

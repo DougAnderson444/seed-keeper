@@ -81,9 +81,7 @@ impl StructObject for Output {
     fn get_field(&self, name: &str) -> Option<Value> {
         match name {
             // if self.id.is_some, use it, otherwise generate a new one
-            "id" => Some(Value::from(
-                OUTPUT_ID.get_or_init(|| utils::rand_id()).to_owned(),
-            )),
+            "id" => Some(Value::from(OUTPUT_ID.get_or_init(|| rand_id()).to_owned())),
             "username" => Some(Value::from(self.username.clone())),
             "password" => Some(Value::from(self.password.clone())),
             // Show encrypted Vec as base64 string
