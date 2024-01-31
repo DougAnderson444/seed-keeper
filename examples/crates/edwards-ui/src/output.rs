@@ -20,9 +20,7 @@ impl StructObject for Output {
             "signature" => Some(Value::from_struct_object(self.signature.clone())),
             "log" => Some(Value::from(self.log.clone())),
             // if self.id.is_some, use it, otherwise generate a new one
-            "id" => Some(Value::from(
-                OUTPUT_ID.get_or_init(|| utils::rand_id()).to_owned(),
-            )),
+            "id" => Some(Value::from(OUTPUT_ID.get_or_init(|| rand_id()).to_owned())),
             _ => None,
         }
     }

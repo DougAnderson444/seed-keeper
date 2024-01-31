@@ -8,8 +8,8 @@ impl StructObject for Input {
     fn get_field(&self, name: &str) -> Option<Value> {
         match name {
             "placeholder" => Some(Value::from(self.placeholder.clone())),
-            "message_input" => Some(Value::from(utils::rand_id())),
-            "submit_button" => Some(Value::from(utils::rand_id())),
+            "message_input" => Some(Value::from(rand_id())),
+            "submit_button" => Some(Value::from(rand_id())),
             _ => None,
         }
     }

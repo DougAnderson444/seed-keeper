@@ -135,7 +135,7 @@ impl StructObject for App {
     fn get_field(&self, name: &str) -> Option<Value> {
         match name {
             "title" => Some(Value::from(self.title.clone())),
-            "id" => Some(Value::from(utils::rand_id())),
+            "id" => Some(Value::from(rand_id())),
             _ => None,
         }
     }
