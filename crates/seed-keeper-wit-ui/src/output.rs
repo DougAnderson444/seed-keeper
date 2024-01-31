@@ -36,7 +36,7 @@ impl Output {
             Ok(encrypted) => {
                 // if self.encrypted_seed is None, set it to the encrypted seed
                 if self.encrypted_seed.is_none() {
-                    self.encrypted_seed = Encrypted(Some(encrypted));
+                    self.encrypted_seed = Encrypted(Some(encrypted.clone()));
                 }
 
                 // if serde feature, emit the serialized encrypted seed as an event

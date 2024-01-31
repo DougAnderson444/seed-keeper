@@ -8,7 +8,7 @@ use wurbo::prelude::Base64JSON;
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
 #[non_exhaustive]
 pub enum Context {
-    Event(Message),
+    Event(String),
 }
 
 /// The Messages eitted.
