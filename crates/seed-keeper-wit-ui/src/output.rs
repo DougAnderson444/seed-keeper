@@ -34,27 +34,33 @@ impl Output {
 
         match get_encrypted() {
             Ok(encrypted) => {
+                // if self.encrypted_seed is None, set it to the encrypted seed
+                if self.encrypted_seed.is_none() {
+                    self.encrypted_seed = Encrypted(Some(encrypted));
+                }
+
                 // if serde feature, emit the serialized encrypted seed as an event
                 #[cfg(feature = "serde")]
                 {
                     // WIT expects variants to be {tag: _, val: _} in lower kebab-case,
                     // which we can get using serde rename_all, baked into the Context and Messag enums
-                    let ctx = Context::Event(Message::Encrypted(encrypted.clone()));
-                    let serialized =
-                        serde_json::to_string(&ctx).expect("to be able to serialize Context");
+                    let Ok(msg) = Message::Encrypted(encrypted.clone()).to_urlsafe() else {
+                        return self;
+                    };
+
+                    let ctx = Context::Event(msg);
+                    let serialized = serde_json::to_string(&ctx).unwrap_or_default();
                     crate::wurbo_in::emit(&serialized);
 
                     // Also emit the Username
-                    let ctx = Context::Event(Message::Username(self.username.clone()));
-                    let serialized_username =
-                        serde_json::to_string(&ctx).expect("to be able to serialize Context");
+                    let Ok(msg) = Message::Username(self.username.clone()).to_urlsafe() else {
+                        return self;
+                    };
+                    let ctx = Context::Event(msg);
+                    let serialized_username = serde_json::to_string(&ctx).unwrap_or_default();
                     crate::wurbo_in::emit(&serialized_username);
                 }
 
-                // if self.encrypted_seed is None, set it to the encrypted seed
-                if self.encrypted_seed.is_none() {
-                    self.encrypted_seed = Encrypted(Some(encrypted));
-                }
                 self
             }
             Err(e) => {

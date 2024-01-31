@@ -11,11 +11,11 @@ pub enum Context {
     Event(Message),
 }
 
-/// The Message
+/// The Messages eitted.
 #[derive(Debug, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[cfg_attr(feature = "serde", serde(tag = "tag", content = "val"))]
-#[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+// #[cfg_attr(feature = "serde", serde(tag = "tag", content = "val"))]
+// #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
 #[non_exhaustive]
 pub enum Message {
     /// The encrypted seed
@@ -24,5 +24,4 @@ pub enum Message {
     Username(String),
 }
 
-impl Base64JSON for Context {}
 impl Base64JSON for Message {}
