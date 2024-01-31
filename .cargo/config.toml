@@ -4,5 +4,4 @@ RUST_BACKTRACE = "1"
 RUST_LOG="debug"
 
 [build]
-target = "wasm32-wasi"
 rustflags = ["-A", "dead_code"]
