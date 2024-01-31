@@ -79,7 +79,7 @@ impl WurboGuest for Component {
     }
 
     /// No-op for activate()
-    fn activate(selectors: Option<Vec<String>>) {}
+    fn activate(_selectors: Option<Vec<String>>) {}
 }
 
 impl AggregationGuest for Component {
