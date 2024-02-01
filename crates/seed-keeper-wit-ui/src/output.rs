@@ -52,13 +52,13 @@ impl Output {
                     let serialized = serde_json::to_string(&ctx).unwrap_or_default();
                     crate::wurbo_in::emit(&serialized);
 
-                    // Also emit the Username
-                    let Ok(msg) = Message::Username(self.username.clone()).to_urlsafe() else {
-                        return self;
-                    };
-                    let ctx = Context::Event(msg);
-                    let serialized_username = serde_json::to_string(&ctx).unwrap_or_default();
-                    crate::wurbo_in::emit(&serialized_username);
+                    // // Also emit the Username
+                    // let Ok(msg) = Message::Username(self.username.clone()).to_urlsafe() else {
+                    //     return self;
+                    // };
+                    // let ctx = Context::Event(msg);
+                    // let serialized_username = serde_json::to_string(&ctx).unwrap_or_default();
+                    // crate::wurbo_in::emit(&serialized_username);
                 }
 
                 self
