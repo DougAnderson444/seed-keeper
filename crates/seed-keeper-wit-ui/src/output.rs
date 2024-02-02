@@ -91,7 +91,10 @@ impl StructObject for Output {
             "username" => Some(Value::from(self.username.clone())),
             "password" => Some(Value::from(self.password.clone())),
             // Show encrypted Vec as base64 string
-            "seed" => Some(Value::from(self.encrypted_seed.to_string())),
+            "encrypted_seed" => match get_encrypted() {
+                Ok(encrypted) => Some(Value::from(Encrypted(Some(encrypted)).to_string())),
+                _ => None,
+            },
             "error_message" => match &self.error_message {
                 Some(msg) => Some(Value::from(msg.clone())),
                 None => None,
