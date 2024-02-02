@@ -13,6 +13,14 @@ impl StructObject for Input {
                     .map(|c| c.placeholder.clone())
                     .unwrap_or_default(),
             )),
+            // copy encrypted_seed from Input, if any
+            "encrypted_seed" => match self.as_ref() {
+                Some(val) => match &val.encrypted_seed {
+                    Some(encrypted) => Some(Value::from(encrypted.clone())),
+                    None => None,
+                },
+                None => None,
+            },
             _ => None,
         }
     }

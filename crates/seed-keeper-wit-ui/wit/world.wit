@@ -17,6 +17,7 @@ interface wurbo-types {
 
   record input {
     placeholder: string,
+    encrypted-seed: option<string>
   }
 
   // Content for the entire page

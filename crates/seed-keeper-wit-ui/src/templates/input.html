@@ -15,7 +15,7 @@
           data-context-name="encrypted"
           autocomplete="on"
           class="rounded w-full border border-amber-500 text-neutral-700 p-2 m-2 placeholder:Enter invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
-          {% if output.encrypted_seed %}
+          {% if input.encrypted_seed %}
               value="{{ input.encrypted_seed }}"
           {% endif %}
         />
