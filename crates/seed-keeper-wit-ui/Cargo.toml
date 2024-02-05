@@ -5,13 +5,13 @@ edition = "2021"
 
 [lib]
 crate-type = [
-  "cdylib", 
-  "lib" #need this to import exported modules, but this break tests
+  "cdylib", # need this for cargo component build, but breaks tests if "lib" is also there
+  "lib" # need this to import exported modules
 ]
 
 [dependencies]
 wit-bindgen = { workspace = true }
-wurbo = "0.1.9" 
+wurbo = { workspace = true } 
 base64ct = { version = "1.6.0", features = ["alloc"] }
 
 # optional but default dependencies
