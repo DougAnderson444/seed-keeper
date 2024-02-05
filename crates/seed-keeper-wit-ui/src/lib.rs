@@ -2,7 +2,6 @@
 //!
 mod bindings;
 
-pub mod events;
 mod input;
 mod output;
 mod page;
@@ -19,6 +18,7 @@ use bindings::seed_keeper::wallet::config::{get_encrypted, set_config, Credentia
 use bindings::exports::seed_keeper::wit_ui::wurbo_out::Guest as WurboGuest;
 use bindings::seed_keeper::wit_ui::wurbo_in;
 use bindings::seed_keeper::wit_ui::wurbo_types::{self, Context};
+
 use wurbo::jinja::{Entry, Index, Rest, Templates};
 use wurbo::prelude_bindgen;
 

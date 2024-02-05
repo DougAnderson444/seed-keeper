@@ -2,7 +2,7 @@ use super::*;
 
 use base64ct::{Base64UrlUnpadded, Encoding};
 /// Event types which can can emitted from this UI and listened by others
-use events::{Context, Message};
+use seed_keeper_events::{Context, Message};
 
 static OUTPUT_ID: OnceLock<String> = OnceLock::new();
 
