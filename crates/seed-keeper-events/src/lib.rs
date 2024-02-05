@@ -3,7 +3,7 @@ use wurbo::prelude::Base64JSON;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
-// #[cfg_attr(feature = "serde", serde(tag = "tag", content = "val"))]
+#[serde(tag = "tag", content = "val")]
 // #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
 #[non_exhaustive]
 pub enum Context {
