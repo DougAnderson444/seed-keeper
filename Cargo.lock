@@ -2577,9 +2577,9 @@ dependencies = [
 
 [[package]]
 name = "wurbo"
-version = "0.1.9"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d523518b0c700aa0a9a332006ec5c23042cc195c0725c9b48545d3ee0a660dd5"
+checksum = "373d302e1aecbfdba6ddfe1860d3385d34f181f854c4493725555d7a988a57f1"
 dependencies = [
  "base64ct",
  "convert_case",

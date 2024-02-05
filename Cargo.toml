@@ -5,7 +5,7 @@ resolver = "2"
 [workspace.dependencies]
 seed-keeper-core = { path = "crates/seed-keeper-core" }
 wit-bindgen = { version = "0.16.0", default-features = false, features = ["realloc"] }
-wurbo = "0.1.9"
+wurbo = "0.2.0"
 
 [package]
 name = "seed-keeper"
