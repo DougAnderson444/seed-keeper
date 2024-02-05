@@ -180,6 +180,7 @@ mod aggregate_example_tests {
             }),
             input: Some(bindgen::seed_keeper::wit_ui::wurbo_types::Input {
                 placeholder: "a placeholder".to_string(),
+                encrypted_seed: None,
             }),
             load: None,
         });
