@@ -42,10 +42,11 @@ impl Output {
                 // if serde feature, emit the serialized encrypted seed as an event
                 #[cfg(feature = "serde")]
                 {
-                    let Ok(serialized) = Context::Event(Message::Encrypted {
-                        seed: encrypted.clone(),
-                    })
-                    .to_urlsafe() else {
+                    let Ok(serialized) =
+                        serde_json::to_string(&Context::Event(Message::Encrypted {
+                            seed: encrypted.clone(),
+                        }))
+                    else {
                         return self;
                     };
                     wurbo_in::emit(&serialized);
