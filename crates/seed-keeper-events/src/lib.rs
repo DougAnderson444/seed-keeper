@@ -18,6 +18,7 @@ pub enum Context {
 #[serde_as]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
+#[serde(tag = "tag", content = "val")]
 #[non_exhaustive]
 pub enum Message {
     /// The encrypted seed, serialized as base64 to avoid missing TypedArray issued in JavaScript
