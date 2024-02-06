@@ -42,15 +42,13 @@ impl Output {
                 // if serde feature, emit the serialized encrypted seed as an event
                 #[cfg(feature = "serde")]
                 {
-                    // WIT expects variants to be {tag: _, val: _} in lower kebab-case,
-                    // which we can get using serde rename_all, baked into the Context and Messag enums
-                    let Ok(msg) = Message::Encrypted(encrypted.clone()).to_urlsafe() else {
+                    let Ok(serialized) = Context::Event(Message::Encrypted {
+                        seed: encrypted.clone(),
+                    })
+                    .to_urlsafe() else {
                         return self;
                     };
-
-                    let ctx = Context::Event(msg);
-                    let serialized = serde_json::to_string(&ctx).unwrap_or_default();
-                    crate::wurbo_in::emit(&serialized);
+                    wurbo_in::emit(&serialized);
 
                     // // Also emit the Username
                     // let Ok(msg) = Message::Username(self.username.clone()).to_urlsafe() else {
