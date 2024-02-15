@@ -79,9 +79,8 @@ cargo test --workspace --all-targets --exclude seed-keeper-wit-ui
 
 We need to `--exclude` the `seed-keeper-wit-ui` from tests because it's `crate-type` is both `cdylib` (for `cargo component build` step) and `lib` (so that `events` can be exported), however this setup breaks `cargo test`.
 
----
 
-# FUTURE PLANS:
+# Extensibility: Buidl your own wallet
 
 ## Plugins
 
