@@ -1,5 +1,9 @@
 # Seed Keeper Workspace
 
+Image of Architecture:
+
+![architecture](./architecture.png)
+
 - [seed-keeper-core](crates/seed-keeper-core/): Core functionality for Seed generation & encryption.
 - [seed-keeper-wallet](crates/seed-keeper-wallet/): Wasm Interface Type (WIT) Component for using Seed-Keeper-Core in Apps.
 - [seed-keeper-wit-ui](crates/seed-keeper-wit-ui/): A User Interface built on top of Wasm Component Model for the Seed Keeper.
