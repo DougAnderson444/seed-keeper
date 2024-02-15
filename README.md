@@ -8,6 +8,15 @@ Image of Architecture:
 - [seed-keeper-wallet](crates/seed-keeper-wallet/): Wasm Interface Type (WIT) Component for using Seed-Keeper-Core in Apps.
 - [seed-keeper-wit-ui](crates/seed-keeper-wit-ui/): A User Interface built on top of Wasm Component Model for the Seed Keeper.
 
+### Example usage:
+
+To make use of the seed keeper, we need a user that uses the key for something useful, like signing a message. We can compose the seed keeper with a WIT component that can sign messages, and a WIT component that can display the signature.
+
+- [examples/crates/edwards-wit](examples/crates/edwards-wit/): A simple WIT component for signing messages using Edwards25519.
+- [examples/crates/edwards-ui](examples/crates/edwards-ui/): A simple User Interface for the Edwards WIT component.
+- [examples/aggregate-wit-ui](examples/aggregate-wit-ui/): An example of how to compose multiple WIT components into a single WIT component.
+- [examples/sveltekit](examples/sveltekit/): An example of how to use the built Seed Keeper Wasm binary in a SvelteKit app. Any front end can use Wasm, I just really like Svelte and Vite. React would work similarly.
+
 ## Seed Keeper
 
 The Seed Keeper is a tool for generating, encrypting and managing Seeds. It is used to generate, encrypt, decrypt, and view Seeds.
