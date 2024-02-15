@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
-use serde_with::base64::{Base64, Standard};
-use serde_with::formats::Padded;
+use serde_with::base64::{Base64, UrlSafe};
+use serde_with::formats::Unpadded;
 use serde_with::serde_as;
 use wurbo::prelude::Base64JSON;
 
@@ -24,7 +24,7 @@ pub enum Message {
     /// The encrypted seed, serialized as base64 to avoid missing TypedArray issued in JavaScript
     /// with Uint8Array.
     Encrypted {
-        #[serde_as(as = "Base64<Standard, Padded>")]
+        #[serde_as(as = "Base64<UrlSafe, Unpadded>")]
         seed: Vec<u8>,
     },
     /// The username
