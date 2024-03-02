@@ -37,8 +37,7 @@ impl ConfigGuest for Component {
             // before setting the config, decrypt the encrypted seed to ensure it is valid
             // if it is not, return an error
             let key = derive(config.password.clone(), config.username.clone())?;
-            let decrypted = decrypt(key, encrypted).map_err(|e| 
-                // add message about the username and password being wrong for this key
+            let decrypted = decrypt(key, encrypted).map_err(|e|
                 format!("Set config failed. Are the username and password correct for this encrypted seed? {}",
                     e.to_string()))?;
             if decrypted.len() != 32 {
