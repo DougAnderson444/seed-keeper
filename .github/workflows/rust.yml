@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - run: sudo snap install --edge --classic just
       - uses: actions/checkout@v3
 
       - name: Exit if not on master branch
@@ -39,7 +40,7 @@ jobs:
       - name: Install cargo component
         run: echo yes | cargo binstall cargo-component@0.10.0
       - name: Cargo component build workspace
-        run: cargo component build --workspace
+        run: just build
 
       # run the tests
       - name: Run workspace tests

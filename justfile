@@ -5,7 +5,7 @@ build-examples:
     fi \
   done
 
-build:
+build: build-examples
   cargo component build --manifest-path=crates/seed-keeper-wallet/Cargo.toml
   cargo component build --manifest-path=crates/seed-keeper-wit-ui/Cargo.toml
   cargo component build --manifest-path=crates/seed-keeper-wallet/Cargo.toml --release
