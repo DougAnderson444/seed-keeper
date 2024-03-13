@@ -12,8 +12,8 @@ wit-bindgen-rt = { workspace = true }
 ed25519-dalek = "2.1"
 
 [dev-dependencies]
-wasmtime = { version = "17", features = ['component-model'] }
-wasmtime-wasi = "17"
+wasmtime = { version = "18", features = ['component-model'] }
+wasmtime-wasi = "18"
 thiserror = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
