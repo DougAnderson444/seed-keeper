@@ -56,13 +56,17 @@ interface wurbo-in {
 interface wurbo-out {
 
   use wurbo-types.{context};
+  
+  // listen on all or given selectors
+  activate: func(selectors: option<list<string>>);  
 
   // renders the initial Web component with the given data
   // and the target template to use as top level entry point
   render: func(ctx: context) -> result<string, string>;
 
-  // listen on all or given selectors
-  activate: func(selectors: option<list<string>>);
+  // Optionally customize the configuration of the templates used to render the component
+  customize: func(templates: list<tuple<string, string>>) -> result<_, string>;
+
 }
 
 /// An example world for the component to target.

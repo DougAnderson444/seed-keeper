@@ -23,8 +23,16 @@ The Seed Keeper is a tool for generating, encrypting and managing Seeds. It is u
 
 ## Build
 
+A [Justfile](https://just.systems) contains all the build scripts, just run it:
+
 ```bash
-cargo component build --workspace --release
+just build
+```
+
+Or build using [`cargo-component`](https://github.com/bytecodealliance/cargo-component) directly:
+
+```bash
+cargo component build
 ```
 
 ## Compose
@@ -74,11 +82,8 @@ world root {
 Run all tests:
 
 ```bash
-cargo test --workspace --all-targets --exclude seed-keeper-wit-ui
+cargo test --workspace --all-targets
 ```
-
-We need to `--exclude` the `seed-keeper-wit-ui` from tests because it's `crate-type` is both `cdylib` (for `cargo component build` step) and `lib` (so that `events` can be exported), however this setup breaks `cargo test`.
-
 
 # Extensibility: Buidl your own wallet
 

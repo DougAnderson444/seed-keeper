@@ -16,6 +16,7 @@
 //! Each child component takes care of its own inputs/output, so the Router doesn't
 //! need to worry about it.
 //!
+#[allow(warnings)]
 mod bindings;
 
 use crate::bindings::exports::wallet::aggregate_wit_ui::wurbo_out::Guest as WurboGuest;
@@ -24,13 +25,14 @@ use bindings::example::edwards_ui;
 use bindings::exports::wallet::aggregate_wit_ui::aggregation::Guest as AggregationGuest;
 use bindings::seed_keeper::wit_ui;
 
-use minijinja::Environment;
 use wurbo::jinja::{error::RenderError, Entry, Index, Rest, Templates};
 use wurbo::prelude::*;
 
 use std::ops::Deref;
 
 struct Component;
+
+bindings::export!(Component with_types_in bindings);
 
 /// We need to provide the templates for the macro to pull in
 fn get_templates() -> Templates {
@@ -48,11 +50,11 @@ impl WurboGuest for Component {
         let html = match context {
             Context::AllContent(ctx) => {
                 let templates = get_templates();
-                let entry = templates.entry.name;
+                let entry = templates.entry.name.clone();
                 let mut env = Environment::new();
 
                 for (name, template) in templates.into_iter() {
-                    env.add_template(name, template)
+                    env.add_template_owned(name.clone(), template.clone())
                         .expect("template should be added");
                 }
 
@@ -68,7 +70,7 @@ impl WurboGuest for Component {
                     RenderError::from(e)
                 };
 
-                let tmpl = env.get_template(entry).map_err(prnt_err)?;
+                let tmpl = env.get_template(&entry).map_err(prnt_err)?;
                 let rendered = tmpl.render(&struct_ctx).map_err(prnt_err)?;
                 rendered
             }

@@ -8,6 +8,8 @@ use ed25519_dalek::{Signature, Signer, SigningKey};
 
 struct Component;
 
+bindings::export!(Component with_types_in bindings);
+
 impl Guest for Component {
     /// Say hello!
     /// sign: func(message: list<u8>) -> list<u8>;

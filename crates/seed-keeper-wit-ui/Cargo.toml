@@ -7,7 +7,8 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-wit-bindgen = { workspace = true }
+bitflags = { workspace = true }
+wit-bindgen-rt = { workspace = true }
 wurbo = "0.2.0" 
 base64ct = { version = "1.6.0", features = ["alloc"] }
 seed-keeper-events = { path = "../seed-keeper-events" }
@@ -26,4 +27,4 @@ package = "seed-keeper:wit-ui"
 [package.metadata.component.dependencies]
 
 [package.metadata.component.target.dependencies]
-"seed-keeper:wallet" = { path = "../seed-keeper-wallet/wit" } 
+"seed-keeper:wallet" = { path = "wit/deps/wallet" }

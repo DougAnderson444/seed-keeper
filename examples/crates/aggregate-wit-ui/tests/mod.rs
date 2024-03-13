@@ -61,6 +61,13 @@ impl bindgen::example::edwards_ui::wurbo_out::Host for MyCtx {
     fn activate(&mut self, _selectors: Option<Vec<String>>) -> wasmtime::Result<()> {
         Ok(())
     }
+
+    fn customize(
+        &mut self,
+        _templates: Vec<(String, String)>,
+    ) -> wasmtime::Result<Result<(), String>> {
+        Ok(Ok(()))
+    }
 }
 
 impl bindgen::seed_keeper::wit_ui::wurbo_types::Host for MyCtx {}

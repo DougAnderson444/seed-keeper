@@ -1,12 +1,13 @@
 [workspace]
-members = [".", "crates/*", "examples/crates/*"]
+members = ["crates/*", "examples/crates/*"]
 resolver = "2"
 
 [workspace.dependencies]
 seed-keeper-core = { path = "crates/seed-keeper-core" }
 seed-keeper-events = { path = "crates/seed-keeper-events" }
-wit-bindgen = { version = "0.16.0", default-features = false, features = ["realloc"] }
-wurbo = "0.2.0"
+bitflags = "2.4.2"
+wit-bindgen-rt = "0.22.0"
+wurbo = "0.3.0"
 
 [package]
 name = "seed-keeper"
@@ -30,3 +31,7 @@ overflow-checks = false
 panic = 'abort'          # Abort on panic
 rpath = false
 strip = true             # Automatically strip symbols from the binary.
+
+[patch.crates-io]
+# patch with https://github.com/bytecodealliance/wit-bindgen/commit/9c913f6d119739a09b521deed89743b4a001aae1
+wit-bindgen-rt = { git = "https://github.com/bytecodealliance/wit-bindgen.git", rev = "9c913f6" }

@@ -20,6 +20,8 @@ use std::ops::Deref;
 
 struct Component;
 
+bindings::export!(Component with_types_in bindings);
+
 /// We need to provide the templates for the macro to pull in
 fn get_templates() -> Templates {
     let templates = Templates::new(

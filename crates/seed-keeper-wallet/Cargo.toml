@@ -6,7 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-wit-bindgen = { workspace = true }
+bitflags = { workspace = true }
+wit-bindgen-rt = { workspace = true }
 seed-keeper-core = { workspace = true }
 
 [dev-dependencies]

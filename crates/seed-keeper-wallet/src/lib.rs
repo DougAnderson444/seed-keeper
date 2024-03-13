@@ -19,6 +19,8 @@ static CONFIG: LazyLock<Mutex<Option<Credentials>>> = LazyLock::new(|| Mutex::ne
 
 struct Component;
 
+bindings::export!(Component with_types_in bindings);
+
 /// Sets the Config of the Seed-Keeper (username, password, and optionally encrypted seed)
 impl ConfigGuest for Component {
     fn set_config(config: Credentials) -> Result<(), String> {
