@@ -38,7 +38,7 @@ jobs:
       - name: Install binstall
         uses: taiki-e/install-action@cargo-binstall
       - name: Install cargo component
-        run: echo yes | cargo binstall cargo-component@0.10.0
+        run: echo yes | cargo binstall cargo-component@0.10.1
       - name: Cargo component build workspace
         run: just build
 
