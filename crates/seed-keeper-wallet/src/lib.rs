@@ -63,7 +63,7 @@ impl ConfigGuest for Component {
     fn get_seed() -> Result<Vec<u8>, String> {
         let (key, encrypted) = keys_from_config()?;
         let decrypted = decrypt(key, &encrypted).map_err(|e| e.to_string())?;
-        Ok(decrypted)
+        Ok(decrypted.to_vec())
     }
 }
 
