@@ -6,6 +6,7 @@ use std::ops::Deref;
 use crate::error::Error;
 use aes_kw::Kek;
 pub use zeroize::Zeroize;
+use zeroize::Zeroizing;
 
 /// Encrypt data with a key. The key can be any type that derefs to a slice of 32 bytes.
 /// Types should impl [Zeroize] so that the memory is zeroized after use.
@@ -45,15 +46,13 @@ pub fn encrypt(
 pub fn decrypt(
     key: impl Deref<Target = [u8; 32]> + Zeroize,
     data: impl AsRef<[u8]>,
-) -> Result<Vec<u8>, Error> {
+) -> Result<Zeroizing<Vec<u8>>, Error> {
     let kek = Kek::from(*key);
-    Ok(kek.unwrap_vec(data.as_ref())?)
+    Ok(Zeroizing::new(kek.unwrap_vec(data.as_ref())?))
 }
 
 #[cfg(test)]
 mod tests {
-    use zeroize::Zeroizing;
-
     use super::*;
 
     #[test]
