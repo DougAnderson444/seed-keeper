@@ -14,16 +14,16 @@ use zeroize::{ZeroizeOnDrop, Zeroizing};
 /// ```rust
 /// use seed_keeper_core::seed::{rand_seed, Seed};
 ///
-/// let seed: Seed = rand_seed();
+/// let seed = rand_seed();
 /// assert_eq!(seed.len(), 32);
 /// ````
-pub fn rand_seed() -> Seed {
+pub fn rand_seed() -> Zeroizing<[u8; 32]> {
     let mut rng = rand::thread_rng();
     let mut output_key_material = Zeroizing::new([0u8; 32]); // default size is 32 bytes
 
     rng.fill_bytes(&mut *output_key_material);
 
-    Seed::new(Zeroizing::new(*output_key_material))
+    Zeroizing::new(*output_key_material)
 }
 
 /// Seed is a wrapper around [u8; 32] to ensure it is always 32 bytes
@@ -31,13 +31,19 @@ pub fn rand_seed() -> Seed {
 /// To ensure users don't expose bytes to vulnerable memory,
 /// we insist they wrap their bytes in [Zeroizing] when they pass
 /// the bytes to [Seed].
-#[derive(Clone, Default, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Seed(Zeroizing<[u8; 32]>);
 
 impl Seed {
     /// Creates a new [Seed] from a [u8; 32]
     pub fn new(seed: Zeroizing<[u8; 32]>) -> Self {
         Self(seed)
+    }
+}
+
+impl Default for Seed {
+    fn default() -> Self {
+        Self::new(Zeroizing::new([0u8; 32]))
     }
 }
 
