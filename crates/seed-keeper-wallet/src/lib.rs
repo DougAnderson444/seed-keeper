@@ -7,7 +7,7 @@ use bindings::seed_keeper::wallet::types::Credentials;
 
 use seed_keeper_core::seed::rand_seed;
 use seed_keeper_core::wrap::{decrypt, encrypt};
-use seed_keeper_core::{derive_key, ExposeSecret};
+use seed_keeper_core::{derive_key, Zeroizing};
 use std::sync::OnceLock;
 use std::sync::{LazyLock, Mutex};
 
@@ -82,7 +82,7 @@ fn get_config() -> Result<Credentials, String> {
 }
 
 /// Gets and sets the key from config
-fn keys_from_config() -> Result<([u8; 32], Vec<u8>), String> {
+fn keys_from_config() -> Result<(Zeroizing<[u8; 32]>, Vec<u8>), String> {
     // get username and password from config
     let config = get_config()?;
     let username = config.username;
@@ -94,7 +94,7 @@ fn keys_from_config() -> Result<([u8; 32], Vec<u8>), String> {
     let encrypted = STORED_SEED.get_or_init(|| {
         // if config included an encrypted seed, use that. Else, use rand.
         maybe_encrypted.unwrap_or_else(|| {
-            encrypt(key, &rand_seed())
+            encrypt(key.clone(), rand_seed())
                 .map_err(|e| e.to_string())
                 .unwrap()
         })
@@ -104,13 +104,10 @@ fn keys_from_config() -> Result<([u8; 32], Vec<u8>), String> {
 }
 
 /// Derive 32 bytes key from password and username
-fn derive(pwd: Vec<u8>, username: Vec<u8>) -> Result<[u8; 32], String> {
+fn derive(pwd: Vec<u8>, username: Vec<u8>) -> Result<Zeroizing<[u8; 32]>, String> {
     let derived_key = derive_key(pwd, username).map_err(|_| {
         "Failed to derive key from pasword and salt (username). Are they at least 8 bytes long?"
     })?;
-    let key: [u8; 32] = (**derived_key.expose_secret())
-        .try_into()
-        .map_err(|_| "Failed to convert key to seed")?;
 
-    Ok(key)
+    Ok(derived_key)
 }
