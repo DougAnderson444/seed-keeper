@@ -1548,16 +1548,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e86697c916019a8588c99b5fac3cead74ec0b4b819707a682fd4d23fa0ce1ba1"
 
 [[package]]
-name = "secrecy"
-version = "0.8.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9bd1c54ea06cfd2f6b63219704de0b9b4f72dcc2b8fdef820be6cd799780e91e"
-dependencies = [
- "bytes",
- "zeroize",
-]
-
-[[package]]
 name = "seed-keeper"
 version = "0.1.0"
 dependencies = [
@@ -1571,7 +1561,6 @@ dependencies = [
  "aes-kw",
  "argon2",
  "rand",
- "secrecy",
  "thiserror",
  "zeroize",
 ]
