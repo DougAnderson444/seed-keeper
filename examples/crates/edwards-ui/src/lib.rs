@@ -17,6 +17,7 @@ use wurbo::jinja::{Entry, Index, Rest, Templates};
 use wurbo::prelude_bindgen;
 
 use std::ops::Deref;
+use std::sync::OnceLock;
 
 struct Component;
 
