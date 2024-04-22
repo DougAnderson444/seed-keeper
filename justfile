@@ -2,6 +2,7 @@ build-examples:
   for dir in examples/crates/*; do \
     if [ -f $dir/Cargo.toml ]; then \
       cargo component build --manifest-path=$dir/Cargo.toml --workspace; \
+      cargo component build --release --manifest-path=$dir/Cargo.toml --workspace; \
     fi \
   done
 
