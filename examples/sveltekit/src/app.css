@@ -1,3 +1,5 @@
+@import '../../../crates/seed-keeper-wit-ui/output.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
