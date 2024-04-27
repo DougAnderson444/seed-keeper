@@ -1,0 +1,3 @@
+# Build the Tailwind CSS file
+tailwind:
+  npx tailwindcss -i ./input.css -o ./output.css
