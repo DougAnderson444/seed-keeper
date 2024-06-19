@@ -7,8 +7,7 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-bitflags = { workspace = true }
-wit-bindgen-rt = { workspace = true }
+wit-bindgen-rt = { workspace = true, features = ["bitflags"] }
 ed25519-dalek = "2.1"
 
 [dev-dependencies]

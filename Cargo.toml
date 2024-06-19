@@ -10,8 +10,7 @@ description = "Tools for working with crypto seeds."
 [workspace.dependencies]
 seed-keeper-core = { path = "crates/seed-keeper-core" }
 seed-keeper-events = { path = "crates/seed-keeper-events" }
-bitflags = "2.5.0"
-wit-bindgen-rt = "0.24.0"
+wit-bindgen-rt = { version = "0.26.0", features = ["bitflags"] }
 wurbo = "0.3.2"
 
 [package]
