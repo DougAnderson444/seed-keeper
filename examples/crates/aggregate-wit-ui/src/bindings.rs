@@ -831,6 +831,80 @@ pub mod seed_keeper {
                     }
                 }
             }
+            #[allow(unused_unsafe, clippy::all)]
+            /// Optionally customize the configuration of the templates used to render the component
+            pub fn customize(templates: &[(_rt::String, _rt::String)]) -> Result<(), _rt::String> {
+                unsafe {
+                    #[repr(align(4))]
+                    struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
+                    let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                    let vec3 = templates;
+                    let len3 = vec3.len();
+                    let layout3 = _rt::alloc::Layout::from_size_align_unchecked(vec3.len() * 16, 4);
+                    let result3 = if layout3.size() != 0 {
+                        let ptr = _rt::alloc::alloc(layout3).cast::<u8>();
+                        if ptr.is_null() {
+                            _rt::alloc::handle_alloc_error(layout3);
+                        }
+                        ptr
+                    } else {
+                        {
+                            ::core::ptr::null_mut()
+                        }
+                    };
+                    for (i, e) in vec3.into_iter().enumerate() {
+                        let base = result3.add(i * 16);
+                        {
+                            let (t0_0, t0_1) = e;
+                            let vec1 = t0_0;
+                            let ptr1 = vec1.as_ptr().cast::<u8>();
+                            let len1 = vec1.len();
+                            *base.add(4).cast::<usize>() = len1;
+                            *base.add(0).cast::<*mut u8>() = ptr1.cast_mut();
+                            let vec2 = t0_1;
+                            let ptr2 = vec2.as_ptr().cast::<u8>();
+                            let len2 = vec2.len();
+                            *base.add(12).cast::<usize>() = len2;
+                            *base.add(8).cast::<*mut u8>() = ptr2.cast_mut();
+                        }
+                    }
+                    let ptr4 = ret_area.0.as_mut_ptr().cast::<u8>();
+                    #[cfg(target_arch = "wasm32")]
+                    #[link(wasm_import_module = "seed-keeper:wit-ui/wurbo-out@0.1.0")]
+                    extern "C" {
+                        #[link_name = "customize"]
+                        fn wit_import(_: *mut u8, _: usize, _: *mut u8);
+                    }
+
+                    #[cfg(not(target_arch = "wasm32"))]
+                    fn wit_import(_: *mut u8, _: usize, _: *mut u8) {
+                        unreachable!()
+                    }
+                    wit_import(result3, len3, ptr4);
+                    let l5 = i32::from(*ptr4.add(0).cast::<u8>());
+                    if layout3.size() != 0 {
+                        _rt::alloc::dealloc(result3.cast(), layout3);
+                    }
+                    match l5 {
+                        0 => {
+                            let e = ();
+                            Ok(e)
+                        }
+                        1 => {
+                            let e = {
+                                let l6 = *ptr4.add(4).cast::<*mut u8>();
+                                let l7 = *ptr4.add(8).cast::<usize>();
+                                let len8 = l7;
+                                let bytes8 = _rt::Vec::from_raw_parts(l6.cast(), len8, len8);
+
+                                _rt::string_lift(bytes8)
+                            };
+                            Err(e)
+                        }
+                        _ => _rt::invalid_enum_discriminant(),
+                    }
+                }
+            }
         }
     }
 }
@@ -1759,8 +1833,8 @@ pub(crate) use __export_agg_impl as export;
 #[cfg(target_arch = "wasm32")]
 #[link_section = "component-type:wit-bindgen:0.25.0:agg:encoded world"]
 #[doc(hidden)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 1647] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xf5\x0b\x01A\x02\x01\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 1690] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xa0\x0c\x01A\x02\x01\
 A\x16\x01B\x0e\x01r\x02\x08selectors\x02tys\x04\0\x0elisten-details\x03\0\0\x01r\
 \x01\x05titles\x04\0\x04page\x03\0\x02\x01r\x01\x0bplaceholders\x04\0\x05input\x03\
 \0\x04\x01ks\x01r\x04\x05value\x06\x02id\x06\x07message\x06\x09signature\x06\x04\
@@ -1778,26 +1852,27 @@ tles\x04\0\x04page\x03\0\x04\x01ks\x01r\x02\x0bplaceholders\x0eencrypted-seed\x0
 load\x06\x04\0\x07content\x03\0\x0b\x01q\x05\x0ball-content\x01\x0c\0\x08usernam\
 e\x01s\0\x08password\x01s\0\x09encrypted\x01\x01\0\x06submit\0\0\x04\0\x07contex\
 t\x03\0\x0d\x03\x01$seed-keeper:wit-ui/wurbo-types@0.1.0\x05\x03\x02\x03\0\x02\x07\
-context\x01B\x09\x02\x03\x02\x01\x04\x04\0\x07context\x03\0\0\x01j\x01s\x01s\x01\
+context\x01B\x0e\x02\x03\x02\x01\x04\x04\0\x07context\x03\0\0\x01j\x01s\x01s\x01\
 @\x01\x03ctx\x01\0\x02\x04\0\x06render\x01\x03\x01ps\x01k\x04\x01@\x01\x09select\
-ors\x05\x01\0\x04\0\x08activate\x01\x06\x03\x01\"seed-keeper:wit-ui/wurbo-out@0.\
-1.0\x05\x05\x02\x03\0\x01\x07context\x02\x03\0\x03\x07context\x01B\x0c\x02\x03\x02\
-\x01\x06\x04\0\x0fedwards-context\x03\0\0\x02\x03\x02\x01\x07\x04\0\x0cseed-cont\
-ext\x03\0\x02\x01r\x02\x08selectors\x02tys\x04\0\x0elisten-details\x03\0\x04\x01\
-r\x01\x05titles\x04\0\x03app\x03\0\x06\x01r\x03\x03app\x07\x07seed-ui\x03\x0aedw\
-ards-ui\x01\x04\0\x07content\x03\0\x08\x01q\x03\x0ball-content\x01\x09\0\x04seed\
-\x01\x03\0\x07edwards\x01\x01\0\x04\0\x07context\x03\0\x0a\x03\x01)wallet:aggreg\
-ate-wit-ui/wurbo-types@0.1.0\x05\x08\x02\x03\0\x04\x0elisten-details\x01B\x04\x02\
-\x03\x02\x01\x09\x04\0\x0elisten-details\x03\0\0\x01@\x01\x07details\x01\x01\0\x04\
-\0\x10addeventlistener\x01\x02\x03\x01&wallet:aggregate-wit-ui/wurbo-in@0.1.0\x05\
-\x0a\x02\x03\0\x04\x07context\x01B\x09\x02\x03\x02\x01\x0b\x04\0\x07context\x03\0\
-\0\x01j\x01s\x01s\x01@\x01\x03ctx\x01\0\x02\x04\0\x06render\x01\x03\x01ps\x01k\x04\
-\x01@\x01\x09selectors\x05\x01\0\x04\0\x08activate\x01\x06\x04\x01'wallet:aggreg\
-ate-wit-ui/wurbo-out@0.1.0\x05\x0c\x01B\x04\x01ps\x01k\0\x01@\x01\x09selectors\x01\
-\x01\0\x04\0\x09activates\x01\x02\x04\x01)wallet:aggregate-wit-ui/aggregation@0.\
-1.0\x05\x0d\x04\x01!wallet:aggregate-wit-ui/agg@0.1.0\x04\0\x0b\x09\x01\0\x03agg\
-\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.208.1\x10\
-wit-bindgen-rust\x060.25.0";
+ors\x05\x01\0\x04\0\x08activate\x01\x06\x01o\x02ss\x01p\x07\x01j\0\x01s\x01@\x01\
+\x09templates\x08\0\x09\x04\0\x09customize\x01\x0a\x03\x01\"seed-keeper:wit-ui/w\
+urbo-out@0.1.0\x05\x05\x02\x03\0\x01\x07context\x02\x03\0\x03\x07context\x01B\x0c\
+\x02\x03\x02\x01\x06\x04\0\x0fedwards-context\x03\0\0\x02\x03\x02\x01\x07\x04\0\x0c\
+seed-context\x03\0\x02\x01r\x02\x08selectors\x02tys\x04\0\x0elisten-details\x03\0\
+\x04\x01r\x01\x05titles\x04\0\x03app\x03\0\x06\x01r\x03\x03app\x07\x07seed-ui\x03\
+\x0aedwards-ui\x01\x04\0\x07content\x03\0\x08\x01q\x03\x0ball-content\x01\x09\0\x04\
+seed\x01\x03\0\x07edwards\x01\x01\0\x04\0\x07context\x03\0\x0a\x03\x01)wallet:ag\
+gregate-wit-ui/wurbo-types@0.1.0\x05\x08\x02\x03\0\x04\x0elisten-details\x01B\x04\
+\x02\x03\x02\x01\x09\x04\0\x0elisten-details\x03\0\0\x01@\x01\x07details\x01\x01\
+\0\x04\0\x10addeventlistener\x01\x02\x03\x01&wallet:aggregate-wit-ui/wurbo-in@0.\
+1.0\x05\x0a\x02\x03\0\x04\x07context\x01B\x09\x02\x03\x02\x01\x0b\x04\0\x07conte\
+xt\x03\0\0\x01j\x01s\x01s\x01@\x01\x03ctx\x01\0\x02\x04\0\x06render\x01\x03\x01p\
+s\x01k\x04\x01@\x01\x09selectors\x05\x01\0\x04\0\x08activate\x01\x06\x04\x01'wal\
+let:aggregate-wit-ui/wurbo-out@0.1.0\x05\x0c\x01B\x04\x01ps\x01k\0\x01@\x01\x09s\
+electors\x01\x01\0\x04\0\x09activates\x01\x02\x04\x01)wallet:aggregate-wit-ui/ag\
+gregation@0.1.0\x05\x0d\x04\x01!wallet:aggregate-wit-ui/agg@0.1.0\x04\0\x0b\x09\x01\
+\0\x03agg\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.\
+208.1\x10wit-bindgen-rust\x060.25.0";
 
 #[inline(never)]
 #[doc(hidden)]

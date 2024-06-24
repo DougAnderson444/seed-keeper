@@ -10,23 +10,18 @@ pub(super) struct Output {
     pub(crate) log: String,
 }
 
-/// Impleent StructObject for Output so we can use minijina to automagically calculate the length
+/// Impl [Object] for Output so we can use minijina to automagically calculate the length
 /// of the message and button concatenated
-impl StructObject for Output {
-    fn get_field(&self, name: &str) -> Option<Value> {
-        match name {
-            "message" => Some(Value::from_struct_object(self.message.clone())),
-            "signature" => Some(Value::from_struct_object(self.signature.clone())),
+impl Object for Output {
+    fn get_value(self: &std::sync::Arc<Self>, key: &Value) -> Option<Value> {
+        match key.as_str()? {
+            "message" => Some(Value::from_object(self.message.clone())),
+            "signature" => Some(Value::from_object(self.signature.clone())),
             "log" => Some(Value::from(self.log.clone())),
             // if self.id.is_some, use it, otherwise generate a new one
             "id" => Some(Value::from(OUTPUT_ID.get_or_init(|| rand_id()).to_owned())),
             _ => None,
         }
-    }
-
-    /// So that debug will show the values
-    fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["id", "message", "signature", "log"])
     }
 }
 
@@ -34,20 +29,18 @@ impl StructObject for Output {
 #[derive(Debug, Default, Clone)]
 pub(crate) struct Message(Option<String>);
 
-impl StructObject for Message {
-    fn get_field(&self, name: &str) -> Option<Value> {
-        match name {
+impl Object for Message {
+    fn get_value(self: &std::sync::Arc<Self>, key: &Value) -> Option<Value> {
+        match key.as_str()? {
             "value" => Some(Value::from(
                 // Deref self and use value if is_Some, otherwise use ""
-                self.as_ref().map(|v| v.clone()).unwrap_or_default(),
+                self.as_ref()
+                    .as_ref()
+                    .map(|v| v.clone())
+                    .unwrap_or_default(),
             )),
             _ => None,
         }
-    }
-
-    /// So that debug will show the values
-    fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["value"])
     }
 }
 
@@ -94,9 +87,9 @@ impl Signature {
     }
 }
 
-impl StructObject for Signature {
-    fn get_field(&self, name: &str) -> Option<Value> {
-        match name {
+impl Object for Signature {
+    fn get_value(self: &std::sync::Arc<Self>, key: &Value) -> Option<Value> {
+        match key.as_str()? {
             "value" => Some(Value::from(self.0.clone())),
             "hex" => {
                 let literal = format!("{:X?}", self.0.clone());
@@ -106,11 +99,6 @@ impl StructObject for Signature {
             }
             _ => None,
         }
-    }
-
-    /// So that debug will show the values
-    fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["value"])
     }
 }
 

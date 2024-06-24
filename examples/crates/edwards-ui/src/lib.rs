@@ -39,7 +39,7 @@ fn get_templates() -> Templates {
 // Macro builds the Component struct and implements the Guest trait for us, saving copy-and-paste
 prelude_bindgen! {WurboGuest, Component, PageContext, Context, LAST_STATE}
 
-/// PageContext is a struct of other structs that implement [StructObject],
+/// PageContext is a struct of other structs that implement [Object],
 /// which is why it is not a Newtype wrapper like the others are.
 #[derive(Debug, Clone)]
 pub struct PageContext {
@@ -49,18 +49,14 @@ pub struct PageContext {
     target: Option<String>,
 }
 
-impl StructObject for PageContext {
-    fn get_field(&self, name: &str) -> Option<Value> {
-        match name {
-            "page" => Some(Value::from_struct_object(self.page.clone())),
-            "input" => Some(Value::from_struct_object(self.input.clone())),
-            "output" => Some(Value::from_struct_object(self.output.clone())),
+impl Object for PageContext {
+    fn get_value(self: &std::sync::Arc<Self>, key: &Value) -> Option<Value> {
+        match key.as_str()? {
+            "page" => Some(Value::from_object(self.page.clone())),
+            "input" => Some(Value::from_object(self.input.clone())),
+            "output" => Some(Value::from_object(self.output.clone())),
             _ => None,
         }
-    }
-    /// So that debug will show the values
-    fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["page", "input", "output"])
     }
 }
 
@@ -83,7 +79,7 @@ impl From<wurbo_types::Content> for PageContext {
         PageContext {
             page: Page::from(context.page),
             input: Input::from(context.input),
-            // We can use default for Output because the minijinja StructObject impl will
+            // We can use default for Output because the minijinja Object impl will
             // calculate the values from the above inouts for us
             output: Output::default(),
             target: None,

@@ -46,7 +46,6 @@ interface wurbo-in {
 
   // Emit events from this component. Messages should be serialized JSON strings of Event type.
   emit: func(message: string);
-
 }
 
 interface wurbo-out {
@@ -59,6 +58,9 @@ interface wurbo-out {
 
   // listen on all or given selectors
   activate: func(selectors: option<list<string>>);
+  
+  // Optionally customize the configuration of the templates used to render the component
+  customize: func(templates: list<tuple<string, string>>) -> result<_, string>;
 }
 
 /// An example world for the component to target.

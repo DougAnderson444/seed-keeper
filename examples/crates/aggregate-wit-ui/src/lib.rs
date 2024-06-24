@@ -58,7 +58,7 @@ impl WurboGuest for Component {
                         .expect("template should be added");
                 }
 
-                let struct_ctx = Value::from_struct_object(AppContext::from(ctx.clone()));
+                let struct_ctx = Value::from_object(AppContext::from(ctx.clone()));
 
                 let prnt_err = |e| {
                     println!("Could not render template: {:#}", e);
@@ -101,18 +101,14 @@ pub(crate) struct AppContext {
     edwards_ui: Edwards,
 }
 
-impl StructObject for AppContext {
-    fn get_field(&self, name: &str) -> Option<Value> {
-        match name {
-            "app" => Some(Value::from_struct_object(self.app.clone())),
-            "seed_ui" => Some(Value::from_struct_object(self.seed_ui.clone())),
-            "edwards_ui" => Some(Value::from_struct_object(self.edwards_ui.clone())),
+impl Object for AppContext {
+    fn get_value(self: &std::sync::Arc<Self>, key: &Value) -> Option<Value> {
+        match key.as_str()? {
+            "app" => Some(Value::from_object(self.app.clone())),
+            "seed_ui" => Some(Value::from_object(self.seed_ui.clone())),
+            "edwards_ui" => Some(Value::from_object(self.edwards_ui.clone())),
             _ => None,
         }
-    }
-    /// So that debug will show the values
-    fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["app", "seed_ui", "edwards_ui"])
     }
 }
 
@@ -133,17 +129,13 @@ impl From<wurbo_types::Content> for AppContext {
 #[derive(Debug, Clone)]
 pub(crate) struct App(wurbo_types::App);
 
-impl StructObject for App {
-    fn get_field(&self, name: &str) -> Option<Value> {
-        match name {
+impl Object for App {
+    fn get_value(self: &std::sync::Arc<Self>, key: &Value) -> Option<Value> {
+        match key.as_str()? {
             "title" => Some(Value::from(self.title.clone())),
             "id" => Some(Value::from(rand_id())),
             _ => None,
         }
-    }
-    /// So that debug will show the values
-    fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["title", "id"])
     }
 }
 
@@ -161,27 +153,22 @@ impl Deref for App {
     }
 }
 
-/// Wrapper around the seed keeper context so we can implement StructObject on top of it
+/// Wrapper around the seed keeper context so we can implement [Object] on top of it
 #[derive(Debug, Clone)]
 struct SeedUI(wurbo_types::SeedContext);
 
-/// Implement StructObject for SeedKeeper so that we can use it in the template
+/// Implement [Object] for SeedKeeper so that we can use it in the template
 /// The main point of this impl is to call render(ctx) on the SeedKeeperUIContext
 /// and return the HTML string as the Value
-impl StructObject for SeedUI {
+impl Object for SeedUI {
     /// Simply passes through the seed context to the component for rendering
     /// outputs to .html
-    fn get_field(&self, name: &str) -> Option<Value> {
+    fn get_value(self: &std::sync::Arc<Self>, key: &Value) -> Option<Value> {
         let render_result = wit_ui::wurbo_out::render(&self);
-        match (name, render_result) {
+        match (key.as_str()?, render_result) {
             ("html", Ok(html)) => Some(Value::from(html)),
             _ => None,
         }
-    }
-
-    /// So that debug will show the values
-    fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["html"])
     }
 }
 
@@ -202,20 +189,16 @@ impl Deref for SeedUI {
 #[derive(Debug, Clone)]
 struct Edwards(wurbo_types::EdwardsContext);
 
-/// Implement StructObject for Edwards so that we can use it in the template
+/// Implement [Object] for Edwards so that we can use it in the template
 /// The main point of this impl is to call render(ctx) on the EdwardsUIContext
 /// and return the HTML string as the Value
-impl StructObject for Edwards {
-    fn get_field(&self, name: &str) -> Option<Value> {
+impl Object for Edwards {
+    fn get_value(self: &std::sync::Arc<Self>, key: &Value) -> Option<Value> {
         let render_result = edwards_ui::wurbo_out::render(&self);
-        match (name, render_result) {
+        match (key.as_str()?, render_result) {
             ("html", Ok(html)) => Some(Value::from(html)),
             _ => None,
         }
-    }
-    /// So that debug will show the values
-    fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["html"])
     }
 }
 

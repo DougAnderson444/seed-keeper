@@ -80,11 +80,11 @@ impl From<Output> for Credentials {
     }
 }
 
-/// Implement StructObject for Output so we can use minijina to automagically calculate the length
+/// Implement [Object] for Output so we can use minijina to automagically calculate the length
 /// of the username and password concatenated
-impl StructObject for Output {
-    fn get_field(&self, name: &str) -> Option<Value> {
-        match name {
+impl Object for Output {
+    fn get_value(self: &std::sync::Arc<Self>, key: &Value) -> Option<Value> {
+        match key.as_str()? {
             // if self.id.is_some, use it, otherwise generate a new one
             "id" => Some(Value::from(OUTPUT_ID.get_or_init(|| rand_id()).to_owned())),
             "username" => Some(Value::from(self.username.clone())),
@@ -100,11 +100,6 @@ impl StructObject for Output {
             },
             _ => None,
         }
-    }
-
-    /// So that debug will show the values
-    fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["id", "username", "password", "seed"])
     }
 }
 

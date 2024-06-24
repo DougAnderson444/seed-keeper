@@ -4,17 +4,18 @@ use super::*;
 #[derive(Debug, Clone, Default)]
 pub(crate) struct Input(Option<wurbo_types::Input>);
 
-impl StructObject for Input {
-    fn get_field(&self, name: &str) -> Option<Value> {
-        match name {
+impl Object for Input {
+    fn get_value(self: &std::sync::Arc<Self>, key: &Value) -> Option<Value> {
+        match key.as_str()? {
             "id" => Some(Value::from(rand_id())),
             "placeholder" => Some(Value::from(
                 self.as_ref()
+                    .as_ref()
                     .map(|c| c.placeholder.clone())
                     .unwrap_or_default(),
             )),
             // copy encrypted_seed from Input, if any
-            "encrypted_seed" => match self.as_ref() {
+            "encrypted_seed" => match self.as_ref().as_ref() {
                 Some(val) => match &val.encrypted_seed {
                     Some(encrypted) => Some(Value::from(encrypted.clone())),
                     None => None,
@@ -23,10 +24,6 @@ impl StructObject for Input {
             },
             _ => None,
         }
-    }
-    /// So that debug will show the values
-    fn static_fields(&self) -> Option<&'static [&'static str]> {
-        Some(&["id", "placeholder"])
     }
 }
 

@@ -11,7 +11,7 @@ description = "Tools for working with crypto seeds."
 seed-keeper-core = { path = "crates/seed-keeper-core" }
 seed-keeper-events = { path = "crates/seed-keeper-events" }
 wit-bindgen-rt = { version = "0.26.0", features = ["bitflags"] }
-wurbo = "0.3.2"
+wurbo = "0.4.1"
 
 [package]
 name = "seed-keeper"

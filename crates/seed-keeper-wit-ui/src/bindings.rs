@@ -594,32 +594,103 @@ pub mod exports {
                         _ => _rt::invalid_enum_discriminant(),
                     });
                 }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_customize_cabi<T: Guest>(
+                    arg0: *mut u8,
+                    arg1: usize,
+                ) -> *mut u8 {
+                    #[cfg(target_arch = "wasm32")]
+                    _rt::run_ctors_once();
+                    let base6 = arg0;
+                    let len6 = arg1;
+                    let mut result6 = _rt::Vec::with_capacity(len6);
+                    for i in 0..len6 {
+                        let base = base6.add(i * 16);
+                        let e6 = {
+                            let l0 = *base.add(0).cast::<*mut u8>();
+                            let l1 = *base.add(4).cast::<usize>();
+                            let len2 = l1;
+                            let bytes2 = _rt::Vec::from_raw_parts(l0.cast(), len2, len2);
+                            let l3 = *base.add(8).cast::<*mut u8>();
+                            let l4 = *base.add(12).cast::<usize>();
+                            let len5 = l4;
+                            let bytes5 = _rt::Vec::from_raw_parts(l3.cast(), len5, len5);
+
+                            (_rt::string_lift(bytes2), _rt::string_lift(bytes5))
+                        };
+                        result6.push(e6);
+                    }
+                    _rt::cabi_dealloc(base6, len6 * 16, 4);
+                    let result7 = T::customize(result6);
+                    let ptr8 = _RET_AREA.0.as_mut_ptr().cast::<u8>();
+                    match result7 {
+                        Ok(_) => {
+                            *ptr8.add(0).cast::<u8>() = (0i32) as u8;
+                        }
+                        Err(e) => {
+                            *ptr8.add(0).cast::<u8>() = (1i32) as u8;
+                            let vec9 = (e.into_bytes()).into_boxed_slice();
+                            let ptr9 = vec9.as_ptr().cast::<u8>();
+                            let len9 = vec9.len();
+                            ::core::mem::forget(vec9);
+                            *ptr8.add(8).cast::<usize>() = len9;
+                            *ptr8.add(4).cast::<*mut u8>() = ptr9.cast_mut();
+                        }
+                    };
+                    ptr8
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn __post_return_customize<T: Guest>(arg0: *mut u8) {
+                    let l0 = i32::from(*arg0.add(0).cast::<u8>());
+                    match l0 {
+                        0 => (),
+                        _ => {
+                            let l1 = *arg0.add(4).cast::<*mut u8>();
+                            let l2 = *arg0.add(8).cast::<usize>();
+                            _rt::cabi_dealloc(l1, l2, 1);
+                        }
+                    }
+                }
                 pub trait Guest {
                     /// renders the initial Web component with the given data
                     /// and the target template to use as top level entry point
                     fn render(ctx: Context) -> Result<_rt::String, _rt::String>;
                     /// listen on all or given selectors
                     fn activate(selectors: Option<_rt::Vec<_rt::String>>);
+                    /// Optionally customize the configuration of the templates used to render the component
+                    fn customize(
+                        templates: _rt::Vec<(_rt::String, _rt::String)>,
+                    ) -> Result<(), _rt::String>;
                 }
                 #[doc(hidden)]
 
                 macro_rules! __export_seed_keeper_wit_ui_wurbo_out_0_1_0_cabi{
-      ($ty:ident with_types_in $($path_to_types:tt)*) => (const _: () = {
+    ($ty:ident with_types_in $($path_to_types:tt)*) => (const _: () = {
 
-        #[export_name = "seed-keeper:wit-ui/wurbo-out@0.1.0#render"]
-        unsafe extern "C" fn export_render(arg0: i32,arg1: *mut u8,arg2: *mut u8,arg3: usize,arg4: i32,arg5: *mut u8,arg6: usize,arg7: i32,arg8: *mut u8,arg9: usize,arg10: i32,arg11: *mut u8,arg12: usize,) -> *mut u8 {
-          $($path_to_types)*::_export_render_cabi::<$ty>(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
-        }
-        #[export_name = "cabi_post_seed-keeper:wit-ui/wurbo-out@0.1.0#render"]
-        unsafe extern "C" fn _post_return_render(arg0: *mut u8,) {
-          $($path_to_types)*::__post_return_render::<$ty>(arg0)
-        }
-        #[export_name = "seed-keeper:wit-ui/wurbo-out@0.1.0#activate"]
-        unsafe extern "C" fn export_activate(arg0: i32,arg1: *mut u8,arg2: usize,) {
-          $($path_to_types)*::_export_activate_cabi::<$ty>(arg0, arg1, arg2)
-        }
-      };);
-    }
+      #[export_name = "seed-keeper:wit-ui/wurbo-out@0.1.0#render"]
+      unsafe extern "C" fn export_render(arg0: i32,arg1: *mut u8,arg2: *mut u8,arg3: usize,arg4: i32,arg5: *mut u8,arg6: usize,arg7: i32,arg8: *mut u8,arg9: usize,arg10: i32,arg11: *mut u8,arg12: usize,) -> *mut u8 {
+        $($path_to_types)*::_export_render_cabi::<$ty>(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
+      }
+      #[export_name = "cabi_post_seed-keeper:wit-ui/wurbo-out@0.1.0#render"]
+      unsafe extern "C" fn _post_return_render(arg0: *mut u8,) {
+        $($path_to_types)*::__post_return_render::<$ty>(arg0)
+      }
+      #[export_name = "seed-keeper:wit-ui/wurbo-out@0.1.0#activate"]
+      unsafe extern "C" fn export_activate(arg0: i32,arg1: *mut u8,arg2: usize,) {
+        $($path_to_types)*::_export_activate_cabi::<$ty>(arg0, arg1, arg2)
+      }
+      #[export_name = "seed-keeper:wit-ui/wurbo-out@0.1.0#customize"]
+      unsafe extern "C" fn export_customize(arg0: *mut u8,arg1: usize,) -> *mut u8 {
+        $($path_to_types)*::_export_customize_cabi::<$ty>(arg0, arg1)
+      }
+      #[export_name = "cabi_post_seed-keeper:wit-ui/wurbo-out@0.1.0#customize"]
+      unsafe extern "C" fn _post_return_customize(arg0: *mut u8,) {
+        $($path_to_types)*::__post_return_customize::<$ty>(arg0)
+      }
+    };);
+  }
                 #[doc(hidden)]
                 pub(crate) use __export_seed_keeper_wit_ui_wurbo_out_0_1_0_cabi;
                 #[repr(align(4))]
@@ -693,8 +764,8 @@ pub(crate) use __export_seedworld_impl as export;
 #[cfg(target_arch = "wasm32")]
 #[link_section = "component-type:wit-bindgen:0.25.0:seedworld:encoded world"]
 #[doc(hidden)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 982] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xd6\x06\x01A\x02\x01\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 1025] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\x81\x07\x01A\x02\x01\
 A\x0d\x01B\x04\x01p}\x01k\0\x01r\x03\x08username\0\x08password\0\x09encrypted\x01\
 \x04\0\x0bcredentials\x03\0\x02\x03\x01\x1eseed-keeper:wallet/types@0.1.0\x05\0\x02\
 \x03\0\0\x0bcredentials\x01B\x0a\x02\x03\x02\x01\x01\x04\0\x0bcredentials\x03\0\0\
@@ -710,12 +781,13 @@ nput\x0a\x04load\x06\x04\0\x07content\x03\0\x0b\x01q\x05\x0ball-content\x01\x0c\
 \0\x02\x0elisten-details\x01B\x06\x02\x03\x02\x01\x04\x04\0\x0elisten-details\x03\
 \0\0\x01@\x01\x07details\x01\x01\0\x04\0\x10addeventlistener\x01\x02\x01@\x01\x07\
 messages\x01\0\x04\0\x04emit\x01\x03\x03\x01!seed-keeper:wit-ui/wurbo-in@0.1.0\x05\
-\x05\x02\x03\0\x02\x07context\x01B\x09\x02\x03\x02\x01\x06\x04\0\x07context\x03\0\
+\x05\x02\x03\0\x02\x07context\x01B\x0e\x02\x03\x02\x01\x06\x04\0\x07context\x03\0\
 \0\x01j\x01s\x01s\x01@\x01\x03ctx\x01\0\x02\x04\0\x06render\x01\x03\x01ps\x01k\x04\
-\x01@\x01\x09selectors\x05\x01\0\x04\0\x08activate\x01\x06\x04\x01\"seed-keeper:\
-wit-ui/wurbo-out@0.1.0\x05\x07\x04\x01\"seed-keeper:wit-ui/seedworld@0.1.0\x04\0\
-\x0b\x0f\x01\0\x09seedworld\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dw\
-it-component\x070.208.1\x10wit-bindgen-rust\x060.25.0";
+\x01@\x01\x09selectors\x05\x01\0\x04\0\x08activate\x01\x06\x01o\x02ss\x01p\x07\x01\
+j\0\x01s\x01@\x01\x09templates\x08\0\x09\x04\0\x09customize\x01\x0a\x04\x01\"see\
+d-keeper:wit-ui/wurbo-out@0.1.0\x05\x07\x04\x01\"seed-keeper:wit-ui/seedworld@0.\
+1.0\x04\0\x0b\x0f\x01\0\x09seedworld\x03\0\0\0G\x09producers\x01\x0cprocessed-by\
+\x02\x0dwit-component\x070.208.1\x10wit-bindgen-rust\x060.25.0";
 
 #[inline(never)]
 #[doc(hidden)]
