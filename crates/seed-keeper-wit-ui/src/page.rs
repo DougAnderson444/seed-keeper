@@ -21,15 +21,15 @@ impl Object for Page {
     }
 }
 
-impl From<wurbo_types::Page> for Page {
-    fn from(context: wurbo_types::Page) -> Self {
-        Page(Some(context))
+impl From<&wurbo_types::Page> for Page {
+    fn from(context: &wurbo_types::Page) -> Self {
+        Page(Some(context.clone()))
     }
 }
 
-impl From<Option<wurbo_types::Page>> for Page {
-    fn from(context: Option<wurbo_types::Page>) -> Self {
-        Page(context)
+impl From<&Option<wurbo_types::Page>> for Page {
+    fn from(context: &Option<wurbo_types::Page>) -> Self {
+        Page(context.clone())
     }
 }
 

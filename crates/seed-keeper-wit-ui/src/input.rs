@@ -33,12 +33,56 @@ impl From<wurbo_types::Input> for Input {
     }
 }
 
+impl From<&wurbo_types::Content> for Input {
+    fn from(content: &wurbo_types::Content) -> Self {
+        // if context.load.encrypted is Some, use it,
+        // the rest of Input is taken from context.input
+        println!("context.load: {:?}", content.load);
+        let encrypted = match &content.load {
+            Some(loaded_str) => {
+                println!("loaded_str: {:?}", loaded_str);
+                // try to parse the JSON
+                let v: serde_json::Value =
+                    serde_json::from_str(&loaded_str).unwrap_or(serde_json::Value::Null);
+
+                println!("v: {:?}", v);
+                println!("v[\"encrypted\"]: {:?}", v["encrypted"]);
+
+                match &v["encrypted"] {
+                    serde_json::Value::Array(encrypted) => {
+                        println!("encrypted: {:?}", encrypted);
+                        Some(
+                            // encrypted into Vec<u8>
+                            encrypted
+                                .iter()
+                                .map(|v| v.as_u64().unwrap_or_default() as u8)
+                                .collect::<Vec<u8>>(),
+                        )
+                    }
+                    _ => None,
+                }
+            }
+            None => None,
+        };
+
+        let encrypted: Encrypted = encrypted.into();
+
+        Input(Some(wurbo_types::Input {
+            placeholder: content
+                .input
+                .as_ref()
+                .map(|c| c.placeholder.clone())
+                .unwrap_or_default(),
+            encrypted_seed: encrypted.to_string().into(),
+        }))
+    }
+}
+
 impl From<Option<wurbo_types::Input>> for Input {
     fn from(context: Option<wurbo_types::Input>) -> Self {
         Input(context)
     }
 }
-
 impl Deref for Input {
     type Target = Option<wurbo_types::Input>;
 

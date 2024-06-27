@@ -103,9 +103,16 @@ impl Object for Output {
     }
 }
 
-/// [Encrypted] is the encrypted seed passed from the User, if any.
+/// [Encrypted] [Output] is the encrypted seed passed from the User, if any.
 #[derive(Debug, Clone, Default)]
 pub(super) struct Encrypted(Option<Vec<u8>>);
+
+/// impl From Option<Vec<u8>> for Encrypted
+impl From<Option<Vec<u8>>> for Encrypted {
+    fn from(context: Option<Vec<u8>>) -> Self {
+        Encrypted(context)
+    }
+}
 
 impl ToString for Encrypted {
     fn to_string(&self) -> String {

@@ -63,6 +63,9 @@
 							// 	119, 144, 218, 99
 							// ])
 						},
+						load: JSON.stringify({
+							encrypted: [42, 69, 69]
+						}),
 						output: null
 					}
 				},
@@ -107,7 +110,7 @@
 
 <svelte:head>
 	<title>Seed Keeper</title>
-	<script src="https://cdn.tailwindcss.com"></script>
+	<!-- <script src="https://cdn.tailwindcss.com"></script> -->
 </svelte:head>
 <div>
 	<h1>Aggregate User Interfaces</h1>

@@ -104,10 +104,10 @@ impl From<&wurbo_types::Context> for StructContext {
 
 /// We have all the content, convert it to PageContext
 impl From<wurbo_types::Content> for StructContext {
-    fn from(context: wurbo_types::Content) -> Self {
+    fn from(content: wurbo_types::Content) -> Self {
         StructContext {
-            page: Page::from(context.page),
-            input: Input::from(context.input),
+            page: Page::from(&content.page),
+            input: Input::from(&content),
             // We can use default for Output because the minijinja Object impl will
             // calculate the values from the above inouts for us
             output: Output::default(),
