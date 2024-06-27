@@ -5,6 +5,7 @@ mod bindings;
 mod input;
 mod output;
 mod page;
+mod utils;
 
 use input::Input;
 use output::Output;
@@ -22,7 +23,7 @@ use bindings::seed_keeper::wit_ui::wurbo_types::{self, Context};
 use wurbo::jinja::{Entry, Index, Rest, Templates};
 use wurbo::prelude_bindgen;
 
-use crate::output::Encrypted;
+use crate::utils::Encrypted;
 
 const INDEX_HTML: &str = "index.html";
 const INPUT_HTML: &str = "input.html";
@@ -110,7 +111,7 @@ impl From<wurbo_types::Content> for StructContext {
             input: Input::from(&content),
             // We can use default for Output because the minijinja Object impl will
             // calculate the values from the above inouts for us
-            output: Output::default(),
+            output: Output::from(&content),
             target: None,
         }
     }

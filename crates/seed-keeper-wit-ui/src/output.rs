@@ -1,6 +1,5 @@
 use super::*;
 
-use base64ct::{Base64UrlUnpadded, Encoding};
 /// Event types which can can emitted from this UI and listened by others
 use seed_keeper_events::{Context, Message};
 
@@ -36,7 +35,7 @@ impl Output {
             Ok(encrypted) => {
                 // if self.encrypted_seed is None, set it to the encrypted seed
                 if self.encrypted_seed.is_none() {
-                    self.encrypted_seed = Encrypted(Some(encrypted.clone()));
+                    self.encrypted_seed = Encrypted::from(Some(encrypted.clone()));
                 }
 
                 // if serde feature, emit the serialized encrypted seed as an event
@@ -80,6 +79,37 @@ impl From<Output> for Credentials {
     }
 }
 
+// impl From<&Content> for Output {
+impl From<&wurbo_types::Content> for Output {
+    fn from(content: &wurbo_types::Content) -> Self {
+        let encrypted = Encrypted::from(content);
+
+        let username: String = content.load.as_ref().map_or_else(
+            || "".to_string(),
+            |loaded_str| {
+                let v: serde_json::Value =
+                    serde_json::from_str(&loaded_str).unwrap_or(serde_json::Value::Null);
+
+                match &v["username"] {
+                    serde_json::Value::String(username) => username.clone(),
+                    _ => "".to_string(),
+                }
+            },
+        );
+
+        Output {
+            username,
+            password: content
+                .input
+                .as_ref()
+                .map(|c| c.placeholder.clone())
+                .unwrap_or_default(),
+            encrypted_seed: encrypted,
+            error_message: None,
+        }
+    }
+}
+
 /// Implement [Object] for Output so we can use minijina to automagically calculate the length
 /// of the username and password concatenated
 impl Object for Output {
@@ -91,7 +121,7 @@ impl Object for Output {
             "password" => Some(Value::from(self.password.clone())),
             // Show encrypted Vec as base64 string
             "encrypted_seed" => match get_encrypted() {
-                Ok(encrypted) => Some(Value::from(Encrypted(Some(encrypted)).to_string())),
+                Ok(encrypted) => Some(Value::from(Encrypted::from(Some(encrypted)).to_string())),
                 _ => None,
             },
             "error_message" => match &self.error_message {
@@ -100,40 +130,5 @@ impl Object for Output {
             },
             _ => None,
         }
-    }
-}
-
-/// [Encrypted] [Output] is the encrypted seed passed from the User, if any.
-#[derive(Debug, Clone, Default)]
-pub(super) struct Encrypted(Option<Vec<u8>>);
-
-/// impl From Option<Vec<u8>> for Encrypted
-impl From<Option<Vec<u8>>> for Encrypted {
-    fn from(context: Option<Vec<u8>>) -> Self {
-        Encrypted(context)
-    }
-}
-
-impl ToString for Encrypted {
-    fn to_string(&self) -> String {
-        // encode to base64
-        Base64UrlUnpadded::encode_string(&self.as_ref().unwrap_or(&vec![]))
-    }
-}
-
-/// Decode from base64 into bytes
-impl From<&String> for Encrypted {
-    fn from(context: &String) -> Self {
-        Encrypted(Some(
-            Base64UrlUnpadded::decode_vec(context).unwrap_or_default(),
-        ))
-    }
-}
-
-impl Deref for Encrypted {
-    type Target = Option<Vec<u8>>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
     }
 }

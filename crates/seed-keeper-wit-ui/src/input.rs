@@ -35,46 +35,7 @@ impl From<wurbo_types::Input> for Input {
 
 impl From<&wurbo_types::Content> for Input {
     fn from(content: &wurbo_types::Content) -> Self {
-        // if context.load.encrypted is Some, use it,
-        // the rest of Input is taken from context.input
-        println!("context.load: {:?}", content.load);
-        let encrypted = match &content.load {
-            Some(loaded_str) => {
-                println!("loaded_str: {:?}", loaded_str);
-                // try to parse the JSON
-                let v: serde_json::Value =
-                    serde_json::from_str(&loaded_str).unwrap_or(serde_json::Value::Null);
-
-                println!("v: {:?}", v);
-                println!("v[\"encrypted\"]: {:?}", v["encrypted"]);
-
-                match &v["encrypted"] {
-                    serde_json::Value::Array(encrypted) => {
-                        println!("encrypted array: {:?}", encrypted);
-                        Some(
-                            // encrypted into Vec<u8>
-                            encrypted
-                                .iter()
-                                .map(|v| v.as_u64().unwrap_or_default() as u8)
-                                .collect::<Vec<u8>>(),
-                        )
-                    }
-                    // or it could be astring of numbers, likw 1,2,3,4,5...
-                    serde_json::Value::String(encrypted) => {
-                        println!("encrypted string: {:?}", encrypted);
-                        let encrypted = encrypted
-                            .split(',')
-                            .map(|v| v.parse::<u8>().unwrap_or_default())
-                            .collect::<Vec<u8>>();
-                        Some(encrypted)
-                    }
-                    _ => None,
-                }
-            }
-            None => None,
-        };
-
-        let encrypted: Encrypted = encrypted.into();
+        let encrypted = Encrypted::from(content);
 
         Input(Some(wurbo_types::Input {
             placeholder: content
