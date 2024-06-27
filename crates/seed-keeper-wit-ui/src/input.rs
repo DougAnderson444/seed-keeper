@@ -50,7 +50,7 @@ impl From<&wurbo_types::Content> for Input {
 
                 match &v["encrypted"] {
                     serde_json::Value::Array(encrypted) => {
-                        println!("encrypted: {:?}", encrypted);
+                        println!("encrypted array: {:?}", encrypted);
                         Some(
                             // encrypted into Vec<u8>
                             encrypted
@@ -58,6 +58,15 @@ impl From<&wurbo_types::Content> for Input {
                                 .map(|v| v.as_u64().unwrap_or_default() as u8)
                                 .collect::<Vec<u8>>(),
                         )
+                    }
+                    // or it could be astring of numbers, likw 1,2,3,4,5...
+                    serde_json::Value::String(encrypted) => {
+                        println!("encrypted string: {:?}", encrypted);
+                        let encrypted = encrypted
+                            .split(',')
+                            .map(|v| v.parse::<u8>().unwrap_or_default())
+                            .collect::<Vec<u8>>();
+                        Some(encrypted)
                     }
                     _ => None,
                 }
