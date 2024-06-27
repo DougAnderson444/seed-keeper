@@ -1,5 +1,3 @@
-#![feature(lazy_cell)]
-
 mod bindings;
 
 use crate::bindings::exports::seed_keeper::wallet::config::Guest as ConfigGuest;
