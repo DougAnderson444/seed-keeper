@@ -1,6 +1,6 @@
 [package]
 authors = ["Doug Anderson <douganderson444@peerpiper.io>"]
-categories = ["cryptography", "security"]
+categories = ["cryptography"]
 description = "Generate and encrypt crypto seeds using Argon2 and AES Key Encryption Keys"
 documentation = "https://docs.rs/seed-keeper-core"
 edition = "2021"
