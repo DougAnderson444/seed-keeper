@@ -3,7 +3,8 @@
 	import * as wurbo from 'wurbo';
 
 	// Import wasm component bytes as a url
-	import wasmURL from '../../../edwards-only.wasm?url';
+	// TODO: Compose seed keepe rand edwards only into one component:
+	// import wasmURL from '../../../edwards-only.wasm?url';
 
 	// get imports from +page.svelte
 	export let importables;

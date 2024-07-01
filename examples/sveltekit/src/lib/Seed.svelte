@@ -3,7 +3,7 @@
 	import * as wurbo from 'wurbo';
 
 	// Import wasm component bytes as a url
-	import wasmURL from '../../../composed-wallet.wasm?url';
+	// import wasmURL from '../../../composed-wallet.wasm?url';
 
 	// get imports from +page.svelte
 	export let importables;
@@ -51,7 +51,8 @@
 			tag: 'all-content',
 			val: {
 				page: { title: "Let's generate a seed, and encrypt it with a username and password." },
-				input: { placeholder: 'Enter a Username here' }
+				input: { placeholder: 'Enter a Username here' },
+				load: { encrypted: 'SomeEncryptedBase64String' }
 			}
 		};
 		renderedHTML = mod.wurboOut.render(data);

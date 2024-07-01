@@ -63,9 +63,7 @@
 							// 	119, 144, 218, 99
 							// ])
 						},
-						load: JSON.stringify({
-							encrypted: [42, 69, 69]
-						}),
+						load: null,
 						output: null
 					}
 				},
