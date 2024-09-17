@@ -1,6 +1,6 @@
 use std::{marker::PhantomData, ops::Deref};
 
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use zeroize::{Zeroize, ZeroizeOnDrop, Zeroizing};
 
 use crate::{
@@ -32,11 +32,29 @@ impl Credentials {
     }
 }
 
-#[derive(Serialize, Deserialize, Default, Debug, Zeroize, ZeroizeOnDrop)]
+#[derive(Default, Debug, Zeroize, ZeroizeOnDrop)]
 pub struct MinString<const N: usize> {
     #[zeroize]
     value: String,
     _marker: PhantomData<()>,
+}
+
+impl<const N: usize> Serialize for MinString<N> {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_str(&self.value)
+    }
+}
+impl<'de, const N: usize> Deserialize<'de> for MinString<N> {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        MinString::new(&value).map_err(serde::de::Error::custom)
+    }
 }
 
 impl<const N: usize> MinString<N> {
@@ -146,6 +164,36 @@ mod tests {
 
         // Should match
         assert_eq!(encrypted_seed, encrypted_seed_2);
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_json_credentials_roundtrip() -> Result<(), error::Error> {
+        let credentials = Credentials {
+            username: MinString::new("username")?,
+            password: MinString::new("password")?,
+            encrypted_seed: None,
+        };
+
+        let json = serde_json::to_string(&credentials).map_err(|e| e.to_string())?;
+
+        let credentials: Credentials = serde_json::from_str(&json).map_err(|e| e.to_string())?;
+
+        assert_eq!(credentials.username.value(), "username");
+        assert_eq!(credentials.password.value(), "password");
+
+        Ok(())
+    }
+
+    #[test]
+    fn it_fails_too_short() -> Result<(), String> {
+        let json = r#"{"username":"user","password":"pass","encrypted_seed":null}"#;
+
+        // it should deserialize the json
+        let credentialss: Result<Credentials, _> = serde_json::from_str(json);
+
+        assert!(credentialss.is_err());
 
         Ok(())
     }
