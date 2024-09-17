@@ -120,8 +120,8 @@ mod tests {
         // Create a new wallet
         // [Credentials] supports Deserialization, so you can use it with serde_json from JavaScript
         let credentials = Credentials {
-            username: MinString::new("username")?,
-            password: MinString::new("password")?,
+            username: MinString::<8>::new("username")?,
+            password: MinString::<8>::new("password")?,
             encrypted_seed: None,
         };
 
