@@ -1,6 +1,10 @@
 // include readme
 #![doc = include_str!("../README.md")]
 
+// Test the README.md code snippets
+#[cfg(doctest)]
+pub struct ReadmeDoctests;
+
 pub mod credentials;
 pub mod error;
 pub mod seed;
