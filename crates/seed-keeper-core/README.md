@@ -41,3 +41,46 @@ let encrypted = encrypt(key.clone(), seed.clone()).unwrap();
 let decrypted = decrypt(key.clone(), &encrypted).unwrap();
 assert_eq!(*seed, *decrypted.as_slice());
 ```
+
+## Full Credentials and Storage
+
+The inputs for Aegon2 must be at least 8 characters long strings, so seed-keeper exports helpers to help ensure that your users input the minimum length bytes, and give helpful errors when they don't. To use these helpers, just use the `credentials` module.
+
+```rust 
+use seed_keeper_core::error;
+use seed_keeper_core::credentials::{MinString, Credentials, Wallet};
+
+fn it_works() -> Result<(), error::Error> {
+    // Create a new wallet
+    // [Credentials] supports Deserialization, so you can use it with serde_json from JavaScript
+    let credentials = Credentials {
+        username: MinString::new("username")?,
+        password: MinString::new("password")?,
+        encrypted_seed: None,
+    };
+
+    let wallet = Wallet::new(credentials)?;
+
+    // Encrypt the seed
+    let encrypted_seed = wallet.encrypted_seed()?;
+
+    // Create a new wallet with the encrypted seed
+    let credentials = Credentials {
+        username: MinString::new("username")?,
+        password: MinString::new("password")?,
+        encrypted_seed: Some(encrypted_seed.clone()),
+    };
+
+    let wallet = Wallet::new(credentials)?;
+
+    // Encrypt the seed
+    let encrypted_seed_2 = wallet.encrypted_seed()?;
+
+    assert!(!encrypted_seed_2.is_empty());
+
+    // Should match
+    assert_eq!(encrypted_seed, encrypted_seed_2);
+
+    Ok(())
+}
+```

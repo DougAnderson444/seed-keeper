@@ -1531,6 +1531,7 @@ dependencies = [
  "aes-kw",
  "argon2",
  "rand",
+ "serde",
  "thiserror",
  "zeroize",
 ]
