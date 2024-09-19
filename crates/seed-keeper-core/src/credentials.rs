@@ -127,6 +127,11 @@ impl Wallet {
 
         encrypt(key, self.seed.clone())
     }
+
+    /// Returns the seed, decrypted
+    pub fn seed(&self) -> &[u8] {
+        &self.seed
+    }
 }
 
 #[cfg(test)]
@@ -154,6 +159,8 @@ mod tests {
             password: MinString::new("password")?,
             encrypted_seed: Some(encrypted_seed.clone()),
         };
+
+        println!("{:?}", credentials);
 
         let wallet = Wallet::new(credentials)?;
 
@@ -194,6 +201,32 @@ mod tests {
         let credentialss: Result<Credentials, _> = serde_json::from_str(json);
 
         assert!(credentialss.is_err());
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_works_long_enough() -> Result<(), error::Error> {
+        let json = r#"{"username":"username","password":"password","encrypted_seed":null}"#;
+
+        // it should deserialize the json
+        let credentials: Credentials = serde_json::from_str(json).map_err(|e| e.to_string())?;
+
+        assert_eq!(credentials.username.value(), "username");
+        assert_eq!(credentials.password.value(), "password");
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_works_with_seed() -> Result<(), error::Error> {
+        let json = r#"{"username":"username","password":"password","encrypted_seed":[46,236,62,136,201,70,17,15,212,216,99,70,0,242,150,190,15,58,71,131,148,196,18,158,104,110,121,170,241,22,47,63,211,192,118,233,214,196,223,34]}"#;
+
+        // it should deserialize the json
+        let credentials: Credentials = serde_json::from_str(json).map_err(|e| e.to_string())?;
+
+        assert_eq!(credentials.username.value(), "username");
+        assert_eq!(credentials.password.value(), "password");
 
         Ok(())
     }
