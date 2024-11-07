@@ -32,7 +32,7 @@ impl Credentials {
     }
 }
 
-#[derive(Default, Debug, Zeroize, ZeroizeOnDrop)]
+#[derive(Debug, Zeroize, ZeroizeOnDrop)]
 pub struct MinString<const N: usize> {
     #[zeroize]
     value: String,
@@ -54,6 +54,16 @@ impl<'de, const N: usize> Deserialize<'de> for MinString<N> {
     {
         let value = String::deserialize(deserializer)?;
         MinString::new(&value).map_err(serde::de::Error::custom)
+    }
+}
+
+impl Default for MinString<8> {
+    fn default() -> Self {
+        MinString {
+            // a string 8 characters long
+            value: String::from(" ".repeat(8)),
+            _marker: PhantomData,
+        }
     }
 }
 
@@ -227,6 +237,25 @@ mod tests {
 
         assert_eq!(credentials.username.value(), "username");
         assert_eq!(credentials.password.value(), "password");
+
+        Ok(())
+    }
+
+    // test default MinString
+    #[test]
+    fn test_default_credentials() -> Result<(), error::Error> {
+        let len = 8;
+
+        let username = MinString::<8>::default();
+        let password = MinString::<8>::default();
+
+        assert_eq!(username.len(), len);
+        assert_eq!(password.len(), len);
+
+        let cred = Credentials::default();
+
+        assert_eq!(cred.username.len(), len);
+        assert_eq!(cred.password.len(), len);
 
         Ok(())
     }
