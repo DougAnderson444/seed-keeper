@@ -39,6 +39,25 @@ pub struct MinString<const N: usize> {
     _marker: PhantomData<()>,
 }
 
+// MinString can be referenced as a string and str
+impl<const N: usize> AsRef<str> for MinString<N> {
+    fn as_ref(&self) -> &str {
+        &self.value
+    }
+}
+
+impl<const N: usize> AsRef<String> for MinString<N> {
+    fn as_ref(&self) -> &String {
+        &self.value
+    }
+}
+
+impl<const N: usize> std::fmt::Display for MinString<N> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.value.fmt(f)
+    }
+}
+
 impl<const N: usize> Serialize for MinString<N> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
