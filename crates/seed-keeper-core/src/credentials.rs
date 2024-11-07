@@ -52,6 +52,18 @@ impl<const N: usize> AsRef<String> for MinString<N> {
     }
 }
 
+impl<const N: usize> AsMut<str> for MinString<N> {
+    fn as_mut(&mut self) -> &mut str {
+        &mut self.value
+    }
+}
+
+impl<const N: usize> AsMut<String> for MinString<N> {
+    fn as_mut(&mut self) -> &mut String {
+        &mut self.value
+    }
+}
+
 impl<const N: usize> std::fmt::Display for MinString<N> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         self.value.fmt(f)
