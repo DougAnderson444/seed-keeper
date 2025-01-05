@@ -115,10 +115,9 @@ mod edwards_example_wit_tests {
 
     #[test]
     fn test_roundtrip_sign_and_verify() -> wasmtime::Result<(), TestError> {
-        // get the target/wasm32-wasi/debug/CARGO_PKG_NAME.wasm file
         let pkg_name = std::env::var("CARGO_PKG_NAME")?.replace('-', "_");
         let workspace = workspace_dir();
-        let wasm_path = format!("target/wasm32-wasi/debug/{}.wasm", pkg_name);
+        let wasm_path = format!("target/wasm32-wasip1/debug/{}.wasm", pkg_name);
         let wasm_path = workspace.join(wasm_path);
 
         let mut config = Config::new();

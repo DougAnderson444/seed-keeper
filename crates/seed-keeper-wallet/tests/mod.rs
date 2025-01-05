@@ -89,10 +89,10 @@ mod wit_tests {
 
     #[test]
     fn test_random() -> wasmtime::Result<(), TestError> {
-        // get the target/wasm32-wasi/debug/CARGO_PKG_NAME.wasm file
+        // get the target file
         let pkg_name = std::env::var("CARGO_PKG_NAME")?.replace('-', "_");
         let workspace = workspace_dir();
-        let wasm_path = format!("target/wasm32-wasi/debug/{}.wasm", pkg_name);
+        let wasm_path = format!("target/wasm32-wasip1/debug/{}.wasm", pkg_name);
         let wasm_path = workspace.join(wasm_path);
 
         let mut config = Config::new();
@@ -165,10 +165,10 @@ mod wit_tests {
         // set ENCRYPTED_KEY to the encrypted key from the fixtures
         let encr = ENCRYPTED_KEY.get_or_init(|| fixtures.encrypted.clone());
 
-        // get the target/wasm32-wasi/debug/CARGO_PKG_NAME.wasm file
+        // get the target file
         let pkg_name = std::env::var("CARGO_PKG_NAME").unwrap().replace('-', "_");
         let workspace = workspace_dir();
-        let wasm_path = format!("target/wasm32-wasi/debug/{}.wasm", pkg_name);
+        let wasm_path = format!("target/wasm32-wasip1/debug/{}.wasm", pkg_name);
         let wasm_path = workspace.join(wasm_path);
 
         let mut config = Config::new();

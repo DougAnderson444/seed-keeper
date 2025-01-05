@@ -40,7 +40,7 @@ cargo component build
 Compose the `seed-keeper-wallet`, `seed-keeper-wit-ui`, and the seed consumers of your choice into a single Wasm component for use in an App using [`wasm-tools compose`](https://component-model.bytecodealliance.org/creating-and-consuming/composing.html):
 
 ```bash
-wasm-tools compose ./target/wasm32-wasi/release/seed_keeper_wit_ui.wasm -d ./target/wasm32-wasi/release/seed_keeper_wit.wasm -o examples/composed-wallet.wasm
+wasm-tools compose ./target/wasm32-wasip1/release/seed_keeper_wit_ui.wasm -d ./target/wasm32-wasip1/release/seed_keeper_wit.wasm -o examples/composed-wallet.wasm
 ```
 
 ## Examples
@@ -51,7 +51,7 @@ First we need to composed the Edwards Signer backend with the Edwards "input mes
 
 ```bash
 cargo component build --workspace --release
-wasm-tools compose ./target/wasm32-wasi/release/edwards_ui.wasm -d ./target/wasm32-wasi/release/edwards_wit.wasm -o examples/edwards-only.wasm
+wasm-tools compose ./target/wasm32-wasip1/release/edwards_ui.wasm -d ./target/wasm32-wasip1/release/edwards_wit.wasm -o examples/edwards-only.wasm
 ```
 
 Then we can load this edwards only composed component into our Svelte app, using a simple seed provider import.

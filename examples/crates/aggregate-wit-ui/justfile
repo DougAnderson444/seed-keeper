@@ -2,7 +2,7 @@ build:
   cargo component build --workspace --release
 
 compose:
-  wasm-tools compose -c config.yml -o ../../aggregate.wasm ../../../target/wasm32-wasi/release/aggregate_wit_ui.wasm 
+  wasm-tools compose -c config.yml -o ../../aggregate.wasm ../../../target/wasm32-wasip1/release/aggregate_wit_ui.wasm 
 
 run: build compose
 

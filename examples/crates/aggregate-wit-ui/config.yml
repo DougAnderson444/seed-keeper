@@ -1,12 +1,12 @@
 # https://github.com/bytecodealliance/wasm-tools/blob/main/crates/wasm-compose/CONFIG.md
 search-paths:
-  - ../../../target/wasm32-wasi/release
+  - ../../../target/wasm32-wasip1/release
 
 dependencies:
-  seed-keeper:wit-ui/wurbo-out@0.1.0: ../../../target/wasm32-wasi/release/seed_keeper_wit_ui.wasm
-  seed-keeper:wallet/config@0.1.0: ../../../target/wasm32-wasi/release/seed_keeper_wallet.wasm
-  example:edwards-ui/wurbo-out@0.1.0: ../../../target/wasm32-wasi/release/edwards_ui.wasm
-  seed-keeper:edwards-wit/operations@0.1.0: ../../../target/wasm32-wasi/release/edwards_wit.wasm
+  seed-keeper:wit-ui/wurbo-out@0.1.0: ../../../target/wasm32-wasip1/release/seed_keeper_wit_ui.wasm
+  seed-keeper:wallet/config@0.1.0: ../../../target/wasm32-wasip1/release/seed_keeper_wallet.wasm
+  example:edwards-ui/wurbo-out@0.1.0: ../../../target/wasm32-wasip1/release/edwards_ui.wasm
+  seed-keeper:edwards-wit/operations@0.1.0: ../../../target/wasm32-wasip1/release/edwards_wit.wasm
 # instantiations:
 #   root:
 #     arguments:

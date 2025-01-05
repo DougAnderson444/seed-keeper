@@ -1,8 +1,8 @@
 search-paths:
-  - ../../../target/wasm32-wasi/release
+  - ../../../target/wasm32-wasip1/release
 
 dependencies:
-  component:math/addition@0.1.0: ../../../target/wasm32-wasi/release/math.wasm
+  component:math/addition@0.1.0: ../../../target/wasm32-wasip1/release/math.wasm
 
 instantiations:
   root:
