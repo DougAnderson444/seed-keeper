@@ -1,5 +1,7 @@
 //! This User Interface allows a user to generate a seed or load it from storage.
 //!
+#![allow(static_mut_refs)] // bindings always use static mut static_mut_refs
+
 mod bindings;
 
 mod input;

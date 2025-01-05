@@ -16,6 +16,7 @@
 //! Each child component takes care of its own inputs/output, so the Router doesn't
 //! need to worry about it.
 //!
+#![allow(static_mut_refs)] // bindings always use static mut static_mut_refs
 #[allow(warnings)]
 mod bindings;
 

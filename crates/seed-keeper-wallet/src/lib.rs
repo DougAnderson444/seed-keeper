@@ -1,3 +1,5 @@
+#![allow(static_mut_refs)] // bindings always use static mut static_mut_refs
+
 mod bindings;
 
 use crate::bindings::exports::seed_keeper::wallet::config::Guest as ConfigGuest;

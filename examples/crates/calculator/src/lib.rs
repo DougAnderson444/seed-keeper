@@ -1,3 +1,4 @@
+#![allow(static_mut_refs)] // bindings always use static mut static_mut_refs
 mod bindings;
 
 use bindings::exports::example::calculator::calculate::Guest;

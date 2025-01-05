@@ -1693,6 +1693,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "seed-keeper-rdx"
+version = "0.4.0"
+dependencies = [
+ "wit-bindgen-rt",
+]
+
+[[package]]
 name = "seed-keeper-wallet"
 version = "0.4.0"
 dependencies = [
@@ -2770,9 +2777,9 @@ dependencies = [
 
 [[package]]
 name = "wit-bindgen-rt"
-version = "0.26.0"
+version = "0.35.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "29c7526379ace8709ee9ab9f2bb50f112d95581063a59ef3097d9c10153886c9"
+checksum = "605d5562e971a823cf5a550a9d69cb7144e9b4969a810043127175517a4e1865"
 dependencies = [
  "bitflags",
 ]
